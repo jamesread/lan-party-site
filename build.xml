@@ -1,0 +1,103 @@
+<?xml version = "1.0" ?> 
+
+<project name = "lan-party-site" default = "package">
+	<property file = "build.properties" />
+
+	<target name = "phpcs">
+		<exec executable = "phpcs">
+			<arg value = "src/main/php/" />
+			<arg value = "--extensions=php" />
+			<arg value = "--report-file=doc/phpcs.xml" />
+			<arg value = "--report=xml" />
+			<arg value = "--standard=jwrCsStandards" />
+		</exec>
+
+		<xslt style = "var/phpcsReports.xslt" in = "doc/phpcs.xml" out = "doc/phpcs.html" />
+	</target>
+
+	<target name = "phpunit" depends = "mysql-restore">
+		<exec executable = "phpunit" failonerror = "true">
+			<arg value = "--no-globals-backup" />
+			<!--<arg value = " - -coverage-html=doc/codeCoverage" />-->
+			<arg value = "src/test/php/" />
+		</exec>
+	</target>
+
+	<target name = "filesWithoutLicense">
+		<fileset dir = "src/main/php/" includes = "**/*.php" id = "filesWithoutLicense">
+				<contains text = "GNU" />
+		</fileset>
+
+		<pathconvert pathsep="${line.separator}" property="fl" refid="filesWithoutLicense"/>
+		<echo>${fl}</echo>
+	</target>
+	
+	<target name = "package" depends = "phpunit">
+		<mkdir dir = "pkg" />
+
+		<delete>
+			<fileset file = "pkg/*" />
+		</delete>
+			
+		<zip file = "pkg/lps-${version}.zip"> 
+			<zipfileset dir = "src/main/php/" prefix = "public/">
+				<patternset>
+					<include name = "**" />
+					
+					<exclude name = "includes/config.php" />
+
+					<exclude name = "resources/images/galleries/**" />
+					<exclude name = "resources/images/wiki/**" />
+					<exclude name = "resources/images/avatars/**" />
+				</patternset>
+			</zipfileset>
+			<zipfileset dir = "var/setup/" prefix = "setup/" /> 
+		</zip>
+	</target>
+
+	<target name = "pdepend">
+		<exec executable = "pdepend">
+			<arg value = "--summary-xml=doc/pdepend.xml" />
+			<arg value = "./src/main/php/" />
+		</exec>
+
+		<xslt style = "var/pdependReports.xslt" in = "doc/pdepend.xml" out = "doc/pdepend.html" />
+	</target>
+
+	<target name = "phpmd">
+		<exec executable = "phpmd">
+			<arg value = "./src/main/php/" />
+			<arg value = "text" />
+			<arg value = "codesize,design,unusedcode" />
+		</exec>
+	</target>
+
+	<target name = "mysql-schema-update">
+		<exec executable = "mysqldump" outputproperty = "schema" failonerror="true">
+			<arg value = "-u${db_user}" />
+			<arg value = "-p${db_pass}" />
+			<arg value = "-d" />
+			<arg value = "${db_name}" />
+			<arg value = "--no-data" />
+		</exec>
+
+		<echo file = "./var/setup/databases/schema.sql" message = "${schema}" />
+		<replaceregexp file = "./var/setup/databases/schema.sql" match = "AUTO_INCREMENT=\d+" replace = "AUTO_INCREMENT=0" byline = "true" />
+
+		<echo>DB ${db_name} schema dumped to schema.sql</echo>
+	</target>
+
+	<target name = "mysql-restore">
+		<exec executable = "mysql" input = "./var/setup/databases/schema.sql" failonerror = "true">
+			<arg value = "-u${db_user}" />
+			<arg value = "-p${db_pass}" />
+			<arg value = "${db_name}" />
+		</exec>
+
+		<exec executable = "mysql" input = "./var/setup/databases/initialData.sql">
+			<arg value = "-u${db_user}" />
+			<arg value = "-p${db_pass}" />
+			<arg value = "${db_name}" />
+		</exec>
+	</target>
+</project>
