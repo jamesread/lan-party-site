@@ -40,7 +40,7 @@ class Events {
 	public static function nextEvent() {
 		global $db;
 
-		$sql = 'SELECT e.id, e.name, e.date, e.duration, v.name as venue FROM events e, venues v WHERE e.date > now() AND e.venue = v.id ORDER BY date ASC LIMIT 1';
+		$sql = 'SELECT e.id, e.name, e.date, e.duration, v.name as venue FROM events e, venues v WHERE e.date > now() AND e.venue = v.id AND e.published = 1 ORDER BY date ASC LIMIT 1';
 		$result = $db->query($sql);
 
 		if ($result->numRows() == 0) {
