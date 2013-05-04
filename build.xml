@@ -2,6 +2,7 @@
 
 <project name = "lan-party-site" default = "package">
 	<property file = "build.properties" />
+	<xmlproperty file = "pom.xml" keeproot = "false" prefix = "maven" />
 
 	<target name = "phpcs">
 		<exec executable = "phpcs">
@@ -39,7 +40,7 @@
 			<fileset file = "pkg/*" />
 		</delete>
 			
-		<zip file = "pkg/lps-${version}.zip"> 
+		<zip file = "pkg/lps-${maven.version}.zip"> 
 			<zipfileset dir = "src/main/php/" prefix = "public/">
 				<patternset>
 					<include name = "**" />
