@@ -1,5 +1,7 @@
 <?php
 
+require_once 'includes/classes/DatabaseItem.php';
+
 use \libAllure\DatabaseFactory;
 use \libAllure\Session;
 
