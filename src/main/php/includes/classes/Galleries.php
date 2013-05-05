@@ -1,5 +1,7 @@
 <?php
 
+require_once 'includes/classes/ItemGallery.php';
+
 use \libAllure\Session;
 
 class Galleries {

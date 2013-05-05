@@ -4,6 +4,7 @@ require_once 'includes/common.php';
 
 require_once 'includes/widgets/header.php';
 require_once 'includes/widgets/sidebar.php';
+require_once 'includes/classes/FormSeatingPlanMoveUser.php';
 
 use \libAllure\DatabaseFactory;
 use \libAllure\Sanitizer;

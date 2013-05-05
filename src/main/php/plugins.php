@@ -77,9 +77,11 @@ default:
 	require_once 'includes/widgets/sidebar.php';
 
 	$sql = 'SELECT id, title, enabled FROM plugins';
-	$result = $db->query($sql);
+	$stmt = $db->prepare($sql);
+	$stmt->execute();
+	$listPlugins = $stmt->fetchAll();
 
-	$tpl->assign('listPlugins', $result->fetchAll());
+	$tpl->assign('listPlugins', $listPlugins);
 	$tpl->display('listPlugins.tpl');
 }
 

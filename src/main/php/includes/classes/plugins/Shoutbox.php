@@ -34,7 +34,7 @@ class Shoutbox implements Plugin {
 			$tpl->assignForm($f);
 			$tpl->assign('excludeBox', true);
 			$tpl->display('form.tpl');
-			$tpl->clear_assign('form');
+//			$tpl->clearAssign('form');
 		}
 
 		stopbox('Shout Box');

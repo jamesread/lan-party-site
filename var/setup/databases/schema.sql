@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.61, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.31, for Linux (x86_64)
 --
--- Host: localhost    Database: lps_test
+-- Host: localhost    Database: lps
 -- ------------------------------------------------------
--- Server version	5.1.61-0+squeeze1
+-- Server version	5.5.31
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -27,7 +27,25 @@ CREATE TABLE `additional_menu_items` (
   `title` varchar(64) DEFAULT NULL,
   `url` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `authenticated_machines`
+--
+
+DROP TABLE IF EXISTS `authenticated_machines`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `authenticated_machines` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mac` varchar(32) DEFAULT NULL,
+  `ip` varchar(32) DEFAULT NULL,
+  `seat` int(11) DEFAULT NULL,
+  `user` int(11) DEFAULT NULL,
+  `event` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +61,7 @@ CREATE TABLE `basket_items` (
   `user` int(11) DEFAULT NULL,
   `basketOwner` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,7 +79,7 @@ CREATE TABLE `event_schedule` (
   `event` int(11) NOT NULL,
   `icon` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,11 +101,11 @@ CREATE TABLE `events` (
   `priceOnDoor` decimal(10,2) unsigned DEFAULT NULL,
   `signups` enum('off','punters','staff') NOT NULL DEFAULT 'off',
   `total_seats` tinyint(4) NOT NULL DEFAULT '64',
-  `published` tinyint(4) NOT NULL default 0,
-  `seatingPlan` tinyint(4) NOT NULL default 0, 
-  `comment` varchar(128) NOT NULL default 0, 
+  `published` tinyint(4) NOT NULL DEFAULT '0',
+  `seatingPlan` tinyint(4) NOT NULL DEFAULT '0',
+  `comment` varchar(128) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +120,7 @@ CREATE TABLE `finance_account_allocations` (
   `account` int(11) DEFAULT NULL,
   `identifier` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,7 +135,7 @@ CREATE TABLE `finance_accounts` (
   `title` varchar(32) DEFAULT NULL,
   `assigned_to` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -135,7 +153,7 @@ CREATE TABLE `finance_transactions` (
   `description` varchar(1024) DEFAULT NULL,
   `account` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,7 +172,7 @@ CREATE TABLE `galleries` (
   `ordinal` int(11) NOT NULL,
   `description` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -169,7 +187,7 @@ CREATE TABLE `group_memberships` (
   `user` int(11) NOT NULL,
   `group` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -202,11 +220,11 @@ CREATE TABLE `images` (
   `filename` varchar(255) DEFAULT NULL,
   `gallery` int(11) DEFAULT NULL,
   `user_uploaded` int(11) DEFAULT NULL,
-  `published` tinyint DEFAULT 1,
+  `published` tinyint(4) DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `gallery` (`gallery`),
   CONSTRAINT `images_ibfk_1` FOREIGN KEY (`gallery`) REFERENCES `galleries` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -223,7 +241,7 @@ CREATE TABLE `log` (
   `message` varchar(1024) NOT NULL,
   `ipAddress` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -240,7 +258,7 @@ CREATE TABLE `news` (
   `date` date DEFAULT NULL,
   `author` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,7 +276,7 @@ CREATE TABLE `page_content` (
   `updatedBy` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `page` (`page`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -288,7 +306,7 @@ CREATE TABLE `plugin_regulars` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -303,7 +321,7 @@ CREATE TABLE `plugin_shoutbox` (
   `user` int(10) unsigned DEFAULT NULL,
   `content` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -320,7 +338,7 @@ CREATE TABLE `plugins` (
   `mobileNo` varchar(32) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -369,7 +387,7 @@ CREATE TABLE `seatingplan_objects` (
   `w` int(11) DEFAULT NULL,
   `h` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -385,7 +403,7 @@ CREATE TABLE `seatingplan_seats` (
   `y` int(11) DEFAULT NULL,
   `user` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -433,7 +451,7 @@ CREATE TABLE `signups` (
   `ticketCost` float(10,2) DEFAULT '0.00',
   PRIMARY KEY (`id`),
   UNIQUE KEY `event` (`event`,`user`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -448,7 +466,7 @@ CREATE TABLE `survey_options` (
   `survey` int(10) unsigned NOT NULL,
   `value` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -463,7 +481,7 @@ CREATE TABLE `survey_votes` (
   `user` int(10) unsigned NOT NULL,
   `opt` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -479,7 +497,7 @@ CREATE TABLE `surveys` (
   `active` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `count` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -507,7 +525,7 @@ CREATE TABLE `users` (
   `passwordResetSecret` varchar(128) DEFAULT NULL,
   `dateFormat` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -533,4 +551,4 @@ CREATE TABLE `venues` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-05-07 14:44:42
+-- Dump completed on 2013-05-05 11:12:20

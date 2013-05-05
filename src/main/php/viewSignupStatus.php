@@ -10,4 +10,6 @@ $signupStats = $db->query($sql);
 $tpl->assign('signupStats', $signupStats);
 $tpl->display('signupStats.tpl');
 
+require_once 'includes/widgets/footer.php';
+
 ?>
