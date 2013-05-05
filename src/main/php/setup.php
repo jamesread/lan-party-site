@@ -11,7 +11,8 @@ $db = DatabaseFactory::getInstance();
 $sql = 'SELECT count(u.id) AS count FROM users u';
 $stmt = $db->prepare($sql);
 $stmt->execute();
-$countUsers = $stmt->fetchRow()['count'];
+$countUsers = $stmt->fetchRow();
+$countUsers = $countUsers['count'];
 
 $setupLinks = new HtmlLinksCollection();
 if ($countUsers == 1 || isset($_REQUEST['recreate'])) {
