@@ -1,8 +1,8 @@
 <div id = "torso">
 
-<div id = "sidebarStruct">
-<div id = "sidebar">
 <?php
+
+ob_start();
 
 $filename = 'sidebar.' . basename($_SERVER['PHP_SELF']);
 
@@ -14,9 +14,29 @@ foreach (getPlugins() as $plugin) {
 	$plugin->renderSidebar();
 }
 
+$sidebar = ob_get_contents();
+
+ob_end_clean();
+
+if (strlen($sidebar) > 0) {
+
+?>
+
+<div id = "sidebarStruct">
+<div id = "sidebar">
+
+<?php
+
+echo $sidebar;
+
 ?>
 </div>
 </div>
-
 <div id = "contentStruct">
 <div id = "content">
+<?php } else { ?>
+<div id = "contentStruct">
+<div id = "content" style = "margin-left: 0;">
+<?php
+} 
+?>
