@@ -29,7 +29,7 @@ class FormEventUpdate extends Form {
 
 		$this->addSection('When and where?');
 		$this->addElement($this->getElementVenues($event['venueId']));
-		$this->addElement(new ElementDate('dateStart', 'Start', $event['start']));
+		$this->addElement(new ElementDate('dateStart', 'Start', formatDt($event['start'])));
 		$this->addElement(new ElementNumeric('duration', 'Duration', $event['duration']));
 
 		$this->addSection('Tickets');
