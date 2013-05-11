@@ -91,9 +91,9 @@ class FormEventUpdate extends Form {
 
 	private function getElementSignups($status) {
 		$el = new ElementSelect('signups', 'Signups', $status);
-		$el->addOption('off - nobody can signup');
-		$el->addOption('punters - anyone can signup and add tickets to the basket');
-		$el->addOption('staff - only staff can sign up', 'staff');
+		$el->addOption('off', 'off - nobody can signup');
+		$el->addOption('punters', 'punters - anyone can signup and add tickets to the basket');
+		$el->addOption('staff', 'staff - only staff can sign up', 'staff');
 		$el->setValue($status);
 
 		return $el;
