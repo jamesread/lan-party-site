@@ -29,7 +29,7 @@ class FormEventUpdate extends Form {
 
 		$this->addSection('When and where?');
 		$this->addElement($this->getElementVenues($event['venueId']));
-		$this->addElement(new ElementDate('dateStart', 'Start', formatDt($event['start'])));
+		$this->addElement(new ElementDate('dateStart', 'Start', $event['start']));
 		$this->addElement(new ElementNumeric('duration', 'Duration', $event['duration']));
 
 		$this->addSection('Tickets');
@@ -94,6 +94,7 @@ class FormEventUpdate extends Form {
 		$el->addOption('off - nobody can signup');
 		$el->addOption('punters - anyone can signup and add tickets to the basket');
 		$el->addOption('staff - only staff can sign up', 'staff');
+		$el->setValue($status);
 
 		return $el;
 	}

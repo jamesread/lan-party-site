@@ -39,7 +39,7 @@
 						{/if}
 					</td>
 
-					{if $IS_LOGGED_IN}
+					{if $IS_LOGGED_IN && isset($signup.actions)}
 					<td>{$signup.actions}</td>
 					{/if}
 				</tr>
