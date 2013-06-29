@@ -415,6 +415,8 @@ function formatDt(DateTime $date, $format = null) {
 	if ($dateFormat == "opus") {
 		return formatDtOpus($date);
 	}
+   
+  $dateTime = empty($dateTime) ? 'Y-m-d H:i' : $dateFormat;
 
 	return $date->format($dateFormat);
 }
