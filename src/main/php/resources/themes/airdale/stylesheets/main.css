@@ -68,7 +68,7 @@ h1 {
 
 .box  {
 	border: 1px solid gray;
-	background-color: #efefef;
+	background-color: #fff;
 	margin: 1em;
 	margin-top: 0;
 	padding: 1em;
@@ -186,9 +186,6 @@ a:hover, .dummyLink:hover {
 	color: red; 	
 }
 
-a:focus {
-	background-color: powderblue;
-}
 
 table {
 	width: 100%;

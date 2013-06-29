@@ -161,6 +161,7 @@ function getSiteSetting($key, $default = '') {
 	global $settings;
 	global $db;
 
+	try {
 	if (empty($settings)) {
 		$sql = 'SELECT s.`key`, s.value FROM settings s';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -169,6 +170,9 @@ function getSiteSetting($key, $default = '') {
 		foreach ($stmt->fetchAll() as $row) {
 			$settings[$row['key']] = $row['value'];
 		}
+	}
+	} catch (Exception $e) {
+
 	}
 
 

@@ -3,6 +3,8 @@
 define('INSTALLATION_IN_PROGRESS', true);
 
 require_once 'includes/widgets/header.minimal.php';
+require_once 'includes/classes/Installer.php';
+require_once 'includes/classes/FormInstallationQuestions.php';
 
 if (file_exists('includes/config.php')) {
 	redirect('index.php', 'LPS is already installed.');
