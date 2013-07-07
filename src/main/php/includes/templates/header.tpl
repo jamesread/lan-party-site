@@ -69,7 +69,7 @@
 		</li>
 
 		{if $additionalLinks->hasLinks()}
-			{foreach from = "$additionalLinks" item = "link"}
+			{foreach from = $additionalLinks item = link}
 				<li><a href = "{$link.url}">{$link.title}</a></li>
 			{/foreach}
 		{/if}
