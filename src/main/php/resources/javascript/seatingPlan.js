@@ -35,7 +35,7 @@ function renderSeatChange(seatChange) {
 	if (seatChange.type == "delete") {
 		seat.attr('title', '');
 		seat.css('background-color', 'orange');
-		seatLebel.html('');
+		seatLabel.html('');
 	} else {
 
 		if (seatChange.username == "self") {

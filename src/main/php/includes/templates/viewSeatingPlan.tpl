@@ -72,7 +72,7 @@ div.seatingContainer {
 				{if empty($itemSeatingPlan.event)}
 				<span class = "spBlock spSeat">{$itemObject.index}</span>
 				{else}
-				<a id = "seat{$itemObject.index}" href = "#selectSeat" onclick = "selectSeat({$itemSeatingPlan.event},{$itemObject.index})" class = "spBlock spSeat">{$itemObject.index}</a>
+				<a id = "seat{$itemObject.index|intval}" href = "#selectSeat" onclick = "selectSeat({$itemSeatingPlan.event},{$itemObject.index})" class = "spBlock spSeat">{$itemObject.index}</a>
 				{/if}
 			{elseif $itemObject.type == "block"}
 				<span class = "spBlock">&nbsp;</span>
