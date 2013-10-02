@@ -11,6 +11,7 @@
 
 	<link rel = "shortcut icon" href = "resources/themes/{$theme}/images/favicon.gif" type = "image/gif" />
 	<link rel = "stylesheet" href = "resources/themes/{$theme}/stylesheets/main.css" type = "text/css" />
+	<link rel = "stylesheet" href = "resources/javascript/jquery-ui.css" type = "text/css" />
 
 	<script type = "text/javascript" src = "resources/javascript/jquery.js"></script>
 	<script type = "text/javascript" src = "resources/javascript/jquery-ui.js"></script>

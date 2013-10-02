@@ -49,7 +49,7 @@ class FormUpdateProfile extends Form {
 
 		$now = date_create();
 		$elementDateFormat = $this->addElement(new ElementSelect('dateFormat', 'Date format', $user->getData('dateFormat')));
-		$elementDateFormat->addOption('ISO date format (recommended): ' . formatDt($now, 'Y-m-d'), 'Y-m-d h:i');
+		$elementDateFormat->addOption('ISO date format (recommended): ' . formatDt($now, 'Y-m-d'), 'Y-m-d H:i');
 		$elementDateFormat->addOption('UK, numeric date format: ' . formatDt($now, 'd-m-Y'), 'd-m-Y');
 		$elementDateFormat->addOption('UK, long date format: ' . formatDt($now, 'jS M Y'), 'jS M Y');
 		$elementDateFormat->addOption('USA, numeric date format: ' . formatDt($now, 'm-d-Y'), 'm-d-Y');
