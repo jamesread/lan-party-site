@@ -274,7 +274,7 @@ class Events {
 	public static function getAllPreviousEvents() {
 		global $db;
 
-		$sql = 'SELECT name, id, published FROM events WHERE date <= curdate() ORDER BY date ASC';
+		$sql = 'SELECT name, id, published FROM events WHERE date <= curdate() ORDER BY date DESC';
 
 		$result = $db->query($sql);
 		$result->execute();
