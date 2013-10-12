@@ -240,6 +240,10 @@ div.photoGallery {
 	margin-bottom: 1em;   
 }
 
+div.photoGalleryImageContainer {
+	text-align: center;
+}
+
 div.photoGallery a img {
 	border: 1px solid black; 
 	width: 100px;

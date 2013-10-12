@@ -233,8 +233,11 @@ div.photoList {
 
 div.photoGallery {
 	text-align: center; 
-	display: inline-block;  
 	margin-bottom: 1em;   
+}
+
+div.photoGalleryImageContainer {
+	text-align: center;
 }
 
 div.photoGallery a img {

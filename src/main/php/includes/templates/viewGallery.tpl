@@ -5,7 +5,7 @@
 	<p>These are the gallery images from <strong><a href = "viewEvent.php?id={$event.id}">{$event.name}</a></strong>, which was on <strong>{$event.date}</strong>.</p>
 	{/if}
 
-	<div class = "photoGallery">
+	<div class = "photoGalleryImageContainer">
 	{if empty($gallery.description)}
 		<p>{$gallery.description}<p>
 	{/if}
