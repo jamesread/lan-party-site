@@ -416,6 +416,7 @@ DROP TABLE IF EXISTS `seatingplans`;
 CREATE TABLE `seatingplans` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
+  `seatCount` int(11) NOT NULL default 0,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;

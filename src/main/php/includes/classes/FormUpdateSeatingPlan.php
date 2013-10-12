@@ -2,7 +2,7 @@
 
 use \libAllure\Form;
 use \libAllure\ElementHidden;
-use \libAllure\ElementInput;
+use \libAllure\ElementNumeric;
 use \libAllure\ElementTextbox;
 
 use \libAllure\Sanitizer;
@@ -15,7 +15,7 @@ class FormUpdateSeatingPlan extends Form {
 
 		$id = Sanitizer::getInstance()->filterUint('id');
 
-		$sql = 'SELECT sp.id, sp.layout FROM seatingplans sp WHERE sp.id = :id';
+		$sql = 'SELECT sp.id, sp.layout, sp.seatCount FROM seatingplans sp WHERE sp.id = :id';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->bindValue(':id', $id);
 		$stmt->execute();
@@ -25,13 +25,16 @@ class FormUpdateSeatingPlan extends Form {
 		$this->addElement(new ElementTextbox('layout', 'Layout', $seatingPlan['layout']));
 		$this->getElement('layout')->classes = "codeEditor";
 
+		$this->addElement(new ElementNumeric('seatCount', 'Seat Count', $seatingPlan['seatCount']));
+
 		$this->addDefaultButtons();
 	}
 
 	public function process() {
-		$sql = 'UPDATE seatingplans SET layout = :layout WHERE id = :id';
+		$sql = 'UPDATE seatingplans SET layout = :layout, seatCount = :seatCount WHERE id = :id';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->bindValue(':layout', $this->getElementValue('layout'));
+		$stmt->bindValue(':seatCount', $this->getElementValue('seatCount'));
 		$stmt->bindValue(':id', $this->getElementValue('id'));
 		$stmt->execute();
 	}

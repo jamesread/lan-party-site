@@ -101,7 +101,7 @@ div.seatingContainer {
 <div class = "box" style = "columns: 100px 3; -webkit-columns: 100px 3; -o-columns: 100px 3; -moz-columns: 100px 3">
 	<h2>List of people</h2>
 
-	{section name = "seatLabel" loop = 50}
+	{section name = "seatLabel" loop = $itemSeatingPlan.seatCount}
 		<p>Seat {$smarty.section.seatLabel.iteration}: <span id = "seat{$smarty.section.seatLabel.iteration}label">empty</span></p>
 	{/section}
 </div>

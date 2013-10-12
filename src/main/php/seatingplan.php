@@ -25,7 +25,7 @@ if (empty($event['seatingPlan'])) {
 	$tpl->error('Seating plan not enabled.');
 }
 
-$sql = 'SELECT sp.layout, sp.name, e.id AS event, e.name AS eventName FROM events e JOIN seatingplans sp ON e.seatingPlan = sp.id WHERE e.id = :event';
+$sql = 'SELECT sp.seatCount, sp.layout, sp.name, e.id AS event, e.name AS eventName FROM events e JOIN seatingplans sp ON e.seatingPlan = sp.id WHERE e.id = :event';
 $stmt = DatabaseFactory::getInstance()->prepare($sql);
 $stmt->bindValue(':event', $event['id']);
 $stmt->execute();
