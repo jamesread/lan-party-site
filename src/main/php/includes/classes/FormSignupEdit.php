@@ -43,6 +43,7 @@ class FormSignupEdit extends Form {
 		$el->addOption('CASH_IN_POST');
 		$el->addOption('BACS_WAITING');
 		$el->addOption('PAID');
+		$el->addOption('CONFIRMED - Can select seat even if not paid', 'CONFIRMED');
 		$el->addOption('DELETE');
 
 		return $el;

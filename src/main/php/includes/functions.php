@@ -356,7 +356,8 @@ function signupLinks($eventId, $eventSignupStatus, $signupId, $userSignupStatus 
 				}
 			}
 
-			break;http://tydus.net/MumPI/viewer/
+			break;
+		case 'CONFIRMED':
 		case 'PAID':
 			$signupLinks[] = '<a href = "signup.php?&amp;user=' . $userId . '&amp;event=' . $eventId . '&amp;status=cancelled">Cancel</a>';
 			$signupLinks[] = '<a href = "seatingplan.php?event=' . $eventId . '">Seating plan</a>';
