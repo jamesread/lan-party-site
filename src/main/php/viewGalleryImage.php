@@ -22,7 +22,7 @@ $tpl->assign('image', $image);
 $tpl->assign('gallery', $gallery);
 
 if (strpos($image['filename'], '.jpg') != null) {
-	$tpl->assign('exifData', \libAllure\array_flatten(exif_read_data($gallery['fullPath'] . $image['filename'])));
+	$tpl->assign('exifData', \libAllure\array_flatten(@exif_read_data($gallery['fullPath'] . $image['filename'])));
 } else {
 	$tpl->assign('exifData', null);
 }
