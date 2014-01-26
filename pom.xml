@@ -5,6 +5,12 @@
 	<groupId>lps</groupId>
 	<artifactId>lps</artifactId>
 	<version>0.3.0</version>
+
+     <properties>                                                                  
+         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>          
+         <releaseVersion>${project.version}</releaseVersion>                         
+     </properties>    
+
 	<packaging>php</packaging>
 
 	<build>
