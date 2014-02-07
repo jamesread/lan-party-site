@@ -47,7 +47,7 @@ class FormEventUpdate extends Form {
 		$el = new ElementSelect('seatingPlan', 'Seating Plan');
 		$el->addOption('(none)', null);
 
-		$sql = 'SELECT sp.id, sp.name FROM seatingplans sp';
+		$sql = 'SELECT sp.id, sp.name FROM seatingplans sp ORDER BY sp.name ASC';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->execute();
 
