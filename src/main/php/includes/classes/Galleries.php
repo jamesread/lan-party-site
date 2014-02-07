@@ -17,12 +17,12 @@ class Galleries {
 			$stmt->execute();
 
 			foreach ($stmt->fetchAll() as $image) {
-				self::$randomImageCache[] = 'resources/images/galleries/' . $image['folderName'] . '/full/'. $image['filename'];
+				self::enrichImage($image);
+				self::$randomImageCache[$image['filename']] = $image;
 			}
 		}
 
 		if (count(self::$usedRandomImages) == count(self::$randomImageCache)) {
-			echo 'Out of random images!';
 			// we ran out of random images!
 			return array_rand(self::$usedRandomImages);
 		} else {
@@ -70,11 +70,15 @@ class Galleries {
 			return false;
 		} else {
 			$image = $stmt->fetchRow();
-			$image['fullPath'] = 'resources/images/galleries/' . $image['folderName'] . '/full/' . $filename;
-			$image['thumbPath'] = 'resources/images/galleries/' . $image['folderName'] . '/thumb/' . $filename;
+			$image = $selfenrichImage($image);
 
 			return $image;
 		}
+	}
+
+	private static function enrichImage(&$image) {
+		$image['fullPath'] = 'resources/images/galleries/' . $image['folderName'] . '/full/' . $image['filename'];
+		$image['thumbPath'] = 'resources/images/galleries/' . $image['folderName'] . '/thumb/' . $image['filename'];
 	}
 
 	public static function getAll() {

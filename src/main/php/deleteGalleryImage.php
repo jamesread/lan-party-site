@@ -6,7 +6,7 @@ use \libAllure\Session;
 use \libAllure\Sanitizer;
 use \libAllure\DatabaseFactory;
 
-Session::requirePriv('DELETE_GALLERY_IMAGE');
+Session::requirePriv('GALLERY_DELETE_IMAGE');
 
 $filename = Sanitizer::getInstance()->filterString('filename');
 $gallery = Sanitizer::getInstance()->filterUint('gallery');

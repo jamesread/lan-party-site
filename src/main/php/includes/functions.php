@@ -480,10 +480,6 @@ function wikify($content) {
     $content = preg_replace('#\\[\\[([\w ]+);([\w ]+)?\\]\\]#', '<a href = "wpage.php?title=$1">$2</a>', $content);
     $content = preg_replace('#\\[\\[([\w ]+)\\]\\]#', '<a href = "wpage.php?title=$1">$1</a>', $content);
 
-    while (strpos($content, '[promoImage]') !== FALSE) {
-        $content = preg_replace('#\[promoImage\]#', Galleries::getRandomImageThumbUrl(), $content, 1);
-    }
-
     $matches = array(
 	'#\\[\\*([\w\. ]+);(http\\:\\/\\/[\\w\\/\\.]+)\\*\\]#',
 	'#\\[email:([\w\. ]+);([\\w\\@\\.]+)\\]#',
@@ -529,6 +525,13 @@ function wikify($content) {
     );
 
     $content = preg_replace($matches, $replacements, $content);
+
+    while (strpos($content, 'imgPromo') !== FALSE) {
+	$img = Galleries::getRandomImage();
+        $rep = '<a href = "viewGalleryImage.php?filename=' . $img['filename'] . '&amp;galleryId=' . $img['galleryId'] . '"><img src = "' . $img['fullPath'] . '" width = "$1" alt = "unknown"></a>';
+
+        $content = preg_replace('#\[imgPromo\.(\d+)\]#', $rep, $content, 1);
+    }
 
     return $content;
 }
