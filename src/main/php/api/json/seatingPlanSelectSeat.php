@@ -77,6 +77,12 @@ if (!Session::isLoggedIn()) {
 	jsonError('You are not logged in!');
 }
 
+$status = getSignupStatus($event['id'], Session::getUser()->getId());
+
+if ($status != 'CONFIRMED' || $status != 'PAID') {
+	jsonError("You haven't paid for a ticket!");
+}
+
 if (getUserInSeat($event['id'], $seat)) {
 	jsonError("That seat is already occupied!");
 }

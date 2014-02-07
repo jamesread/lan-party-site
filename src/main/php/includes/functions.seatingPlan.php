@@ -4,7 +4,7 @@ use \libAllure\Session;
 use \libAllure\DatabaseFactory;
 
 function getJsonSeatChange($type, $seatId, $username = null) {
-	if ($username == Session::getUser()->getUsername()) {
+	if (Session::isLoggedIn() &&  $username == Session::getUser()->getUsername()) {
 		$username = 'self';
 	}
 	
