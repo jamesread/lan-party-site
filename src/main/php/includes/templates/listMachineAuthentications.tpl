@@ -1,7 +1,7 @@
 <div class = "box">
 	<h2>Machine Authentications</h2>
 
-<table class = "sortable">
+<table id = "machineAuth">
 	<thead>
 		<th>IP Address</th>
 		<th>MAC</th>
@@ -14,10 +14,19 @@
 		<tr>
 			<td>{$itemAuthentication.ip}</td>
 			<td>{$itemAuthentication.mac}</td>
-			<td>{$itemAuthentication.eventName}<br /><small>{$itemAuthentication.seat}</td>
+			<td>ID: {$itemAuthentication.eventId} - {$itemAuthentication.eventName}<br /><small>Seat Description: {$itemAuthentication.seat}</td>
 			<td><a href = "profile.php?id={$itemAuthentication.userId}">{$itemAuthentication.username}</a></td>
 		</tr>
 		{/foreach}
 	</tbody>
 </table>
+<script type = "text/javascript">
+{literal}
+$('#machineAuth').dataTable({
+	'aaSorting': [[2, "desc"]],
+	'sDom': 'flpitpil',
+	'iDisplayLength': 100,
+});
+{/literal}
+</script>
 </div>

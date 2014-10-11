@@ -4,7 +4,7 @@
 	{$galleryIntro}
 
 	<div class = "photoList">
-		{foreach from = $listGalleries item = "itemGallery"}
+		{foreach from = "$listGalleries" item = "itemGallery"}
 		<div class = "photoGallery">
 			<a {if $itemGallery.status != "Open"}class = "unpublished"{/if} href = "viewGallery.php?id={$itemGallery.id}">
 				{if empty($itemGallery.coverImage)}

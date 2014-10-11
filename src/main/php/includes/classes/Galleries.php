@@ -8,11 +8,11 @@ class Galleries {
 	private static $randomImageCache = array();
 	private static $usedRandomImages = array();
 
-	public static function getRandomImageThumbUrl() {
+	public static function getRandomImage() {
 		if (empty(self::$randomImageCache)) {
 			global $db;
 
-			$sql = 'SELECT i.filename, g.id, g.folderName FROM images i, galleries g WHERE i.promo = 1 AND i.gallery = g.id ORDER BY rand() ';
+			$sql = 'SELECT i.filename, g.id AS galleryId, g.folderName FROM images i, galleries g WHERE i.promo = 1 AND i.gallery = g.id ORDER BY rand() ';
 			$stmt = $db->query($sql);
 			$stmt->execute();
 
@@ -70,7 +70,7 @@ class Galleries {
 			return false;
 		} else {
 			$image = $stmt->fetchRow();
-			$image = $selfenrichImage($image);
+			self::enrichImage($image);
 
 			return $image;
 		}

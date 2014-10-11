@@ -94,6 +94,7 @@ div.seatingContainer {
 		<p><span style = "display: inline-block" class = "spBlock spSeat spSelected">&nbsp;</span>Selected by someone else</p>
 		<p><span style = "display: inline-block" class = "spBlock spSeat spSelf">&nbsp;</span>You!</p>
 		<p><span style = "display: inline-block" class = "spBlock">&nbsp;</span>Something else (eg: projectors, servers)</p>
+		<p><span style = "display: inline-block; background-color: maroon !important" class = "spBlock">&nbsp;</span>Staff</p>
 	</div>
 </div>
 

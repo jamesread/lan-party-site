@@ -16,7 +16,7 @@
 			</thead>
 
 			<tbody>
-				{foreach from = $basketItems item = "product"}
+				{foreach from = "$basketItems" item = "product"}
 				<tr>
 					<td><a href = "viewEvent.php?id={$product.eventId}">{$product.title}</td>
 					<td>{$product.username}</td>
@@ -44,14 +44,14 @@
 	{else}
 		<div style = "float: left; width: 40%;">
 		{if $addToBasketHasEvents}
-			{include file = "form.tpl" form = $addToBasketform elements = $addToBasketelements excludeBox = "yes"}
+			{include file = "form.tpl" form = "$addToBasketform" elements = "$addToBasketelements" excludeBox = "yes"}
 		{else}
 			<p>There are no events to add to your basket.</p>	
 		{/if}
 		</div>
 
 		<div style = "float: left; width: 40%;">
-		{include file = "form.tpl" form = $payForFriendform elements = $payForFriendelements excludeBox = "yes"}
+		{include file = "form.tpl" form = "$payForFriendform" elements = "$payForFriendelements" excludeBox = "yes"}
 		</div>
 
 		<div class = "clearer" />

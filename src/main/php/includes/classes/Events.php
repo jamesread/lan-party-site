@@ -40,7 +40,7 @@ class Events {
 	public static function nextEvent() {
 		global $db;
 
-		$sql = 'SELECT e.id, e.name, e.date, e.duration, v.name as venue FROM events e, venues v WHERE e.date > now() AND e.venue = v.id AND e.published = 1 ORDER BY date ASC LIMIT 1';
+		$sql = 'SELECT e.id, e.name, e.date, e.duration, v.name as venue, e.seatingPlan FROM events e, venues v WHERE date_add(e.date, INTERVAL 72 HOUR) > now() AND e.venue = v.id AND e.published = 1 ORDER BY date ASC LIMIT 1';
 		$result = $db->query($sql);
 
 		if ($result->numRows() == 0) {
@@ -67,8 +67,7 @@ class Events {
 
 	public static function getSignupsForEvent($id, $currentUserSignupStatus = null) {
 		global $db;
-
-
+		
 		// Get the signup info.
 		$sql = sprintf('SELECT s.id, sum(s2.status = "CANCELLED") as countCancelled, sum(s2.status = "STAFF" OR s2.status = "ATTENDED") as countAttended, s.comments, s.status, s.user, u.username, u.real_name AS userRealName, s.event, s.ticketCost, g.css AS userGroupCss FROM signups s LEFT JOIN signups s2 ON s.user = s2.user LEFT JOIN users u ON s.user = u.id LEFT JOIN `groups` g ON u.group = g.id WHERE s.event = :id GROUP BY u.id ORDER BY status ASC, u.username ASC');
 		$stmt = $db->prepare($sql);
@@ -111,8 +110,8 @@ class Events {
 			$username = 'system';
 		}
 
-		if (empty($comment)) { // null, or something else
-			$comment = '';
+		if (empty($comment)) {
+			$comment = '(no comment)';
 		}
 
 		$sql = 'SELECT s.id FROM signups s WHERE s.user = :user AND s.event = :event';
@@ -183,7 +182,7 @@ class Events {
 
 			$event = Events::getById($eventId);
 
-			$sql = 'INSERT INTO signups (user, event, status, ticketCost, comments) VALUES (:user, :event, :status, :cost, concat(now(), " Signup created. ")) ';
+			$sql = 'INSERT INTO signups (user, event, status, ticketCost, comments) VALUES (:user, :event, :status, :cost, concat(now(), " Signup created.")) ';
 			$stmt = $db->prepare($sql);
 			$stmt->bindValue(':user', $userId);
 			$stmt->bindValue(':event', $eventId);
@@ -195,7 +194,7 @@ class Events {
 	public static function getSignupableEvents() {
 		global $db;
 
-		$sql = 'SELECT id, name, priceInAdv FROM events WHERE date > curdate() AND signups = "punters" ';
+		$sql = 'SELECT id, name, priceInAdv FROM events WHERE date > curdate() AND signups = "punters" OR signups = "waitinglist" ';
 		$result = $db->query($sql);
 
 		if ($result->numRows() == 0) {
@@ -248,10 +247,14 @@ class Events {
 		return (strtotime(formatDtIso($event['finish'])) < time());
 	}
 
-	public static function getAllEvents() {
+	public static function getAllEvents($publishedOnly = true) {
 		global $db;
 
-		$sql = 'SELECT e.id, e.name, e.date, e.duration, e.signups, v.name AS "venue" FROM events AS e, venues AS v';
+		if ($publishedOnly) {
+			$sql = 'SELECT e.id, e.name, e.date, e.duration, e.signups, v.name AS "venue", e.total_seats,priceInAdv, COUNT(s.id) AS signups FROM events AS e LEFT JOIN signups s ON e.id = s.event LEFT JOIN venues v ON e.venue = v.id WHERE e.published = 1 GROUP BY e.id ORDER BY id ASC';
+		} else {
+			$sql = 'SELECT e.id, e.name, e.date, e.duration, e.signups, v.name AS "venue", e.total_seats,priceInAdv, COUNT(s.id) AS signups FROM events AS e LEFT JOIN signups s ON e.id = s.event LEFT JOIN venues v ON e.venue = v.id GROUP BY e.id ORDER BY id ASC';
+		}
 		$result = $db->query($sql);
 
 		return $result;

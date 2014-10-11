@@ -16,7 +16,7 @@
 		<tr>
 			<td>Cash</td>
 			<td>{$cost|doubleToGbp}</td>
-			<td>If you know any of the Staff, you can pay cash for your ticket when you see them.</td>
+			<td>If you know any of the westlan Staff, you can pay cash for your ticket when you see them.</td>
 			<td><a href = "?action=cash">Cash</a></td>
 		</tr>
 

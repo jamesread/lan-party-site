@@ -35,6 +35,6 @@ class FormSeatingPlanMoveUser extends Form {
 		$seatId = $this->getElementValue('seat');
 
 		setSeatForUser($eventId, $userId, $seatId);
-		logActivity('Moved user' . $this->userId . ' to seat ' . $seatId);
+		logActivity('Moved user ' . $this->getElementValue('username') . ' to seat ' . $seatId);
 	}
 } 

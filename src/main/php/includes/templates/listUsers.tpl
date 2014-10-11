@@ -15,7 +15,7 @@
 		</thead>
 
 		<tbody>
-			{foreach from = $listUsers item = "itemUser"}
+			{foreach from = "$listUsers" item = "itemUser"}
 			<tr>
 				<td>{$itemUser.id}</td>
 				<td><a href = "profile.php?id={$itemUser.id}" style = "{$itemUser.css}">{$itemUser.username}</a></td>

@@ -14,7 +14,7 @@ class FormForceSignup extends Form {
 		$this->addElement(new ElementHidden('id', null, $eventId));
 
 		$this->addButtons(Form::BTN_SUBMIT);
-		$this->getElement('submit')->setCaption('Force user signup');
+		$this->getElement('submit')->setCaption('Force signup');
 	}
 
 	public function process() {

@@ -1,13 +1,19 @@
 <?php
 
 require_once 'includes/common.php';
+require_once 'libAllure/Form.php';
+require_once 'libAllure/Session.php';
+
 require_once 'includes/classes/FormLogin.php';
+
+$loginForm = new FormLogin();
 
 use \libAllure\Session;
 
 // In case of redirect...
 ob_start(); 
 global $db;
+
 
 if (Session::isLoggedIn()) {
 	if (isset($_REQUEST['redirect'])) {
@@ -19,7 +25,6 @@ if (Session::isLoggedIn()) {
 	require_once 'includes/widgets/footer.php';
 }
 
-$loginForm = new FormLogin();
 
 if (isset($_REQUEST['username'])) {
 	$loginForm->getElement('username')->setValue(filter_var($_REQUEST['username'], FILTER_SANITIZE_STRING));
@@ -31,6 +36,7 @@ if ($loginForm->validate()) {
 
 	try {
 		Session::checkCredentials($username, $password);
+		applyAchievements();
 
 		redirect('index.php', 'You have sucessfully logged in.');
 	} catch (\libAllure\UserNotFoundException $e) {

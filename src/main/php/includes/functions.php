@@ -7,6 +7,7 @@ use \libAllure\Inflector;
 require_once 'includes/classes/plugins/Mumble.php';
 require_once 'includes/classes/Galleries.php';
 
+function applyAchievements() {}
 function getPaypalCommission($cost) {
 	$comp = getSiteSetting('paypalCommission') . ';';
 	$retComp = 0;
@@ -204,10 +205,13 @@ function getSignupStatistics($signups) {
 				$ret['signups']++;
 				$ret['paid']++;
 				break;	
+			case 'CONFIRMED':
 			case 'PAID':
 				$ret['paid']++;
 				$ret['signups']++;
 				break;
+			case 'WAITING_LIST':
+			case 'WAITINGLIST': // old style
 			case 'BACS_WAITING':
 			case 'PAYPAL_WAITING':
 			case 'CASH_IN_POST':
@@ -314,7 +318,7 @@ function doubleToGbp($value) {
 function isSignupPossibleFromSignupStatus($signupStatus) {
 	if ($signupStatus == 'staff' && Session::hasPriv('STAFF_SIGNUP')) {
 		return true;
-	} elseif ($signupStatus == 'punters') {
+	} elseif ($signupStatus == 'punters' || $signupStatus == 'waitinglist') {
 		return true;
 	} else if (!Session::hasPriv('SIGNUPS_MODIFY')) {
 		return false;
@@ -357,19 +361,21 @@ function signupLinks($eventId, $eventSignupStatus, $signupId, $userSignupStatus 
 			}
 
 			break;
+		case 'PAYPAL_WAITING':
+			$signupLinks[] = 'Processing payment';
 		case 'CONFIRMED':
 		case 'PAID':
 			$signupLinks[] = '<a href = "signup.php?&amp;user=' . $userId . '&amp;event=' . $eventId . '&amp;status=cancelled">Cancel</a>';
 			$signupLinks[] = '<a href = "seatingplan.php?event=' . $eventId . '">Seating plan</a>';
 			break;
-		case 'PAYPAL_WAITING':
 		case 'CASH_IN_POST':
 		case 'CHEQUE_IN_POST':
 		case 'BACS_WAITING':
 			$signupLinks[] = 'Processing payment';
 			break;
 
-		case 'WAITINGLIST':
+		case 'WAITINGLIST': // old style
+		case 'WAITING_LIST':
 		case 'PAID_CANTATTEND':
 		case 'PAID_NOSHOW';
 		case 'CANCELLED':
@@ -378,7 +384,7 @@ function signupLinks($eventId, $eventSignupStatus, $signupId, $userSignupStatus 
 		case 'NOSHOW':
 			break;
 		default:
-			throw new Exception('Unhandled SUS: ' . $userSignupStatus);
+			throw new Exception('Unhandled singup status while working out signup links: ' . $userSignupStatus);
 	}
 
 	if (Session::hasPriv('SIGNUPS_MODIFY') && !empty($signupId)) {
@@ -432,7 +438,7 @@ function getSignupStatus($userId, $eventId) {
 	$sql = 'SELECT status FROM signups WHERE user = :userId AND event = :eventId LIMIT 1';
 	$stmt = $db->prepare($sql);
 	$stmt->bindValue(':userId', $userId);
-	$stmt->bindvalue('eventId', $eventId);
+	$stmt->bindvalue(':eventId', $eventId);
 	$stmt->execute();
 
 	if ($stmt->numRows() == 0) {
@@ -481,7 +487,7 @@ function wikify($content) {
     $content = preg_replace('#\\[\\[([\w ]+)\\]\\]#', '<a href = "wpage.php?title=$1">$1</a>', $content);
 
     $matches = array(
-	'#\\[\\*([\w\. ]+);(http\\:\\/\\/[\\w\\/\\.]+)\\*\\]#',
+	'#\\[url\\=(http://.*?)\\](.*?)\\[/url\\]#',
 	'#\\[email:([\w\. ]+);([\\w\\@\\.]+)\\]#',
         '#funcFullArticle\\(([\\w ]+)\\)#',
         '#\\_([\w ]+)\\_#',
@@ -499,11 +505,12 @@ function wikify($content) {
         '#\n-([\w \p{P}]+)#',
     	'#\[center\]#',
     	'#\[\/center\]#',
+		'#\\[space\\]#',
 	'#\[br\]#',
     );
 
     $replacements = array(
-        '<a href = "$2" class = "external" title = "This is an external link.">$1</a>',
+        '<a href = "$1" class = "external" title = "This is an external link.">$2</a>',
         '<a href = "mailto:$2" class = "external" title = "This is an email address.">$1</a>',
         '<span class = "subtle">The following is a snippit, there is a full article available: <a href = "wiki.php?title=$1">$1</a>.</span><br />',
         '<em>$1</em>',
@@ -521,6 +528,7 @@ function wikify($content) {
         '<li>\1</li>',
     	'<div class = "centered">',
     	'</div>',
+		'&nbsp;',
 	'<br />',
     );
 
@@ -629,13 +637,15 @@ function flushOutputBuffers($leave = 0) {
 	}
 }
 
-function htmlify($content, $paragraphs = true) {
+function htmlify($content, $lineSpacing = 1) {
 	$content = strip_tags($content);
 	$content = htmlentities($content);
 	$content = stripslashes($content);
 
-	if ($paragraphs) {
-		$content = nl2p($content);
+	switch ($lineSpacing) {
+	case 0:	break;
+	case 1:	$content = nl2p($content); break;
+	case 2: $content = nl2br($content); break;
 	}
 
 	return $content;
@@ -878,6 +888,35 @@ function connectDatabase() {
 	}
 
 	return $db;
+}
+
+function addQuotes(&$i) { 
+	$i = '"' . $i . '"';
+}
+
+function getSingleUserSignupsWithStatuses($statuses, $user = null) {
+	if ($user == null) {
+		$user = Session::getUser()->getId();
+	}
+
+	array_walk($statuses, array(DatabaseFactory::getInstance(), 'quote'));
+	array_walk($statuses, 'addQuotes');
+	$statusString = implode(", ", $statuses);
+
+	$sql = 'SELECT s.id, e.id AS eventId, e.name, s.status FROM signups s LEFT JOIN events e ON s.event = e.id WHERE s.user = :user AND s.status IN (' . $statusString . ')';
+	$stmt = DatabaseFactory::getInstance()->prepare($sql);
+	$stmt->bindValue(':user', $user);
+	$stmt->execute();
+
+	return $stmt->fetchAll();
+}
+
+function checkNotificationNotGuarenteedSeats(&$notifications) {
+	foreach (getSingleUserSignupsWithStatuses(array('SIGNEDUP', 'WAITING_LIST')) as $waitingSignup) {
+		$list = str_replace('_LIST', '', $waitingSignup['status']);
+
+		$notifications[] = 'You are on the <strong>' . $list . ' LIST</strong> for <a href = "viewEvent.php?id=' . $waitingSignup['eventId'] . '">' . $waitingSignup['name'] . '</a>. This means you are <strong>not guarenteed a seat</strong> until you are <strong>PAID</strong> or are <strong>CONFIRMED</strong>.';
+	}
 }
 
 ?>

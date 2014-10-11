@@ -77,9 +77,9 @@ if (!Session::isLoggedIn()) {
 	jsonError('You are not logged in!');
 }
 
-$status = getSignupStatus($event['id'], Session::getUser()->getId());
+$status = getSignupStatus(Session::getUser()->getId(), $event['id']);
 
-if ($status != 'CONFIRMED' || $status != 'PAID') {
+if ($status != 'PAID' && $status != 'CONFIRMED' && $status != 'PAYPAL_WAITING' && $status != 'STAFF') {
 	jsonError("You haven't paid for a ticket!");
 }
 
@@ -92,7 +92,7 @@ $seatChanges = array();
 $currentSeats = getSeatForUser($event['id']);
 
 foreach ($currentSeats as $itemCurrentSeat) {
-	$seatChanges[] = getJsonSeatChange('delete', $itemCurrentSeat['seat']);
+	$seatChanges[] = getJsonSeatChange('delete', $itemCurrentSeat['seat'], Session::getUser()->getUsername());
 }
 
 deleteSeatsForUser($event['id']);

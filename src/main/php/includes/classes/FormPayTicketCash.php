@@ -19,16 +19,9 @@ class FormPayTicketCash extends Form {
 		$sql = 'SELECT a.id, u.username FROM finance_account_allocations al JOIN finance_accounts a ON al.account = a.id JOIN users u ON a.assigned_to = u.id ';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->execute();
-
-		$adminsWithAccounts = $stmt->fetchAll();
-
-		if (count($adminsWithAccounts) == 0) {
-			global $tpl;
-			$tpl->error('Sorry, you cannot pay by cash because there are no admins with finance accounts setup on the site!');		
-		} else {
-				foreach ($adminsWithAccounts as $account) {
-					$el->addOption($account['username'], $account['id']);
-				}
+		
+		foreach ($stmt->fetchAll() as $account) {
+			$el->addOption($account['username'], $account['id']);
 		}
 
 		return $el;

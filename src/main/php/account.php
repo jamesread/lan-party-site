@@ -17,7 +17,7 @@ if (!Session::isLoggedIn()) {
 }
 
 $notifications = array();
-if (Session::hasPriv('APPROVE_GALLERY_IMAGE')) {
+if (Session::hasPriv('GALLERY_APPROVE_IMAGE')) {
 	$sql = 'SELECT i.filename, g.id AS gallery, g.title AS galleryTitle FROM images i LEFT JOIN galleries g ON i.gallery = g.id WHERE i.user_uploaded != 0 AND i.published = 0 ';
 	$stmt = DatabaseFactory::getInstance()->prepare($sql);
 	$stmt->execute();
@@ -28,6 +28,9 @@ if (Session::hasPriv('APPROVE_GALLERY_IMAGE')) {
 		$notifications[] = 'Image <a href = "viewGalleryImage.php?filename=' . $image['filename'] . '&gallery=' . $image['gallery'] . '">' . $image['filename'] . '</a> in gallery ' . $image['galleryTitle'] . ', uploaded by a user, is unpublished. Please publish or delete.';
 	}
 }
+
+checkNotificationNotGuarenteedSeats($notifications);
+
 $tpl->assign('notifications', $notifications);
 
 $tpl->assign('emailFlagged', Session::getUser()->getData('emailFlagged'));
@@ -43,6 +46,7 @@ $tpl->assign('standardLinks', $standardLinks);
 $privilegedLinks = new HtmlLinksCollection();
 $privilegedLinks->addIfPriv('ADMIN_USERS', 'users.php', 'Users', 'users');
 $privilegedLinks->addIfPriv('ADMIN_GROUPS', 'listGroups.php', 'Groups');
+$privilegedLinks->addIfPriv('ADMIN_USERS', 'formFlagEmail.php', 'Flag bad emails', 'users');
 $privilegedLinks->addIfPriv('VIEW_PRIVS', 'listPermissions.php', 'Permissions');
 $privilegedLinks->addIfPriv('VIEW_VENUES', 'listVenues.php', 'Venues');
 $privilegedLinks->addIfPriv('EDIT_CONTENT', 'listContent.php', 'Content blocks', 'contentBlocks');

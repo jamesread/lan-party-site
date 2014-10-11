@@ -1,9 +1,9 @@
 <?php
 
-require_once 'includes/classes/DatabaseItem.php';
-
 use \libAllure\DatabaseFactory;
 use \libAllure\Session;
+
+require_once 'DatabaseItem.php';
 
 class ItemGallery extends DatabaseItem {
 	private $id;

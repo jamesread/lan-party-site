@@ -1,7 +1,6 @@
 <?php
 
 require_once 'includes/common.php';
-require_once 'includes/classes/FormEventUpdate.php';
 
 use \libAllure\Sanitizer;
 
@@ -10,7 +9,7 @@ try {
 
 	$f = new FormEventUpdate($id);
 } catch (Exception $e) {
-	$tpl->error('Event not found:' . $e->getMessage());
+	$tpl->error('Event not found.');
 }
 
 if ($f->validate()) {

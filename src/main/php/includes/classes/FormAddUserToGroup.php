@@ -15,9 +15,7 @@ class FormAddUserToGroup extends Form {
 		$this->addElement(new ElementHidden('id', 'User', $userId));
 		$elGroup = $this->getGroupSelection();
 		$this->addElement($elGroup);
-
 		$this->addDefaultButtons();
-		$this->getElement('submit')->setCaption('Add user to group');
 	}
 
 	private function getGroupSelection() {

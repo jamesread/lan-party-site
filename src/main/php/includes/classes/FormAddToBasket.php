@@ -28,7 +28,7 @@ class FormAddToBasket extends \libAllure\Form {
 
 		$this->addElement($this->eventsSel);
 		$this->addElement(new ElementHidden('action', null, 'add'));
-		$this->addDefaultButtons('Add to basket');
+		$this->addDefaultButtons('Add ticket for myself to basket');
 	}
 
 	private function removeEventsAlreadyInBasket($events) {

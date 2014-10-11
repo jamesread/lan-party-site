@@ -12,7 +12,7 @@ $id = Sanitizer::getInstance()->filterUint('id');
 try {
 	$event = Events::getById($id);
 } catch (Exception $e) {
-	$tpl->error('Could not get event: ' . $e->getMessage());
+	$tpl->error('Could not get event');
 }
 
 $event['priceInAdvWithCurrency'] = doubleToGbp($event['priceInAdv']);
@@ -35,8 +35,13 @@ if (!Session::hasPriv('VIEW_SIGNUP_COMMENTS')) {
 	require_once 'includes/widgets/sidebar.php';
 }
 
-$signups = Events::getSignupsForEvent($id, $event['signups']);
+if (Session::isLoggedIn()) {
+	$notifications = array();
+	checkNotificationNotGuarenteedSeats($notifications);
+	$tpl->assign('notifications', $notifications);
+}
 
+$signups = Events::getSignupsForEvent($id, $event['signups']);
 
 $tpl->assign('event', $event);
 $tpl->assign('signups', $signups);

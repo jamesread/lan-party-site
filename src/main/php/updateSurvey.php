@@ -1,8 +1,6 @@
 <?php
 
 require_once 'includes/common.php';
-require_once 'includes/classes/FormSurveyEdit.php';
-require_once 'includes/classes/FormSurveyAddOption.php';
 
 use \libAllure\DatabaseFactory;
 use \libAllure\Database;

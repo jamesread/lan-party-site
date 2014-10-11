@@ -15,7 +15,7 @@
 			</thead>
 
 			<tbody>
-				{foreach from = $usergroups item = "group"}
+				{foreach from = "$usergroups" item = "group"}
 				<tr>
 					<td>{$group.id}</td>
 					<td><a href = "group.php?action=view&amp;id={$group.id}&amp;" style = "{$group.css}">{$group.title}</a></td>

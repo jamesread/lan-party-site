@@ -13,8 +13,9 @@ $eventId = Sanitizer::getInstance()->filterUint('event');
 $seatChanges = array();
 
 foreach (getSeats($eventId) as $seatSelection) {
-	$seatChanges[] = getJsonSeatChange('set', $seatSelection['seat'], $seatSelection['username']);
+	$seatChanges[] = getJsonSeatChange('set', $seatSelection['seat'], $seatSelection['username'], $seatSelection['usernameCss'], $seatSelection['seatCss']);
 }
 
+header('Content-Type: application/json');
 echo json_encode($seatChanges);
 ?> 

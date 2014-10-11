@@ -9,7 +9,7 @@
 	<meta name = "description" content = "{$siteDescription}" />
 
 
-	<link rel = "shortcut icon" href = "resources/themes/{$theme}/images/favicon.gif" type = "image/gif" />
+	<link rel = "shortcut icon" href = "resources/images/westlanFavicon.png" type = "image/png" />
 	<link rel = "stylesheet" href = "resources/themes/{$theme}/stylesheets/main.css" type = "text/css" />
 	<link rel = "stylesheet" href = "resources/javascript/jquery-ui.css" type = "text/css" />
 

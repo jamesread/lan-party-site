@@ -4,13 +4,14 @@ use \libAllure\Form;
 use \libAllure\ElementHtml;
 use \libAllure\ElementInput;
 use \libAllure\ElementPassword;
+use \libAllure\ElementCheckbox;
 use \libAllure\User;
 
 class FormLogin extends Form {
 	public function __construct() {
 		parent::__construct('login', 'Login');
 
-		$this->addElement(new ElementHtml('loginPasswordSecurity', null, getContent('loginPasswordSecurity')));
+		$this->addElement(new ElementHtml('loginPasswordSecurity', null));
 		$this->addElement(new ElementInput('username', 'Username'));
 
 		$this->addElement(new ElementPassword('password', 'Password'));

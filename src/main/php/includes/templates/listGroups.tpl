@@ -11,7 +11,7 @@
 		</thead>
 
 		<tbody>
-		{foreach from = $listGroups item = "itemGroup"}
+		{foreach from = "$listGroups" item = "itemGroup"}
 			<tr>
 				<td>{$itemGroup.id}</td>
 				<td><a href = "group.php?action=view&amp;id={$itemGroup.id}" style = "{$itemGroup.css}">{$itemGroup.title}</a></td>

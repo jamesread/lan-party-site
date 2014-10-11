@@ -21,7 +21,7 @@
 		</thead>
 
 		<tbody>
-			{foreach from = $listTransactions item = "itemTransaction"}
+			{foreach from = "$listTransactions" item = "itemTransaction"}
 			<tr>
 				<td>{$itemTransaction.id}</td>
 				<td>{$itemTransaction.amount}</td>

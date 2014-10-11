@@ -16,13 +16,13 @@
 			<input type="hidden" name="amount_1" value = "{$costPaypal}" />
 			<input type="hidden" name="item_name_1" value = "Paypal Commission" />
 
-			{foreach from = $listBasketContents item = "itemProduct" key = "ordinal"}
+			{foreach from = "$listBasketContents" item = "itemProduct" key = "ordinal"}
 				{math equation = "$ordinal + 2" assign = "ordinalUsable"}
 				<input type="hidden" name="amount_{$ordinalUsable}" value = "{$itemProduct.cost}" />
 				<input type="hidden" name="item_name_{$ordinalUsable}" value = "{$itemProduct.title} - {$itemProduct.username}" />
 			{/foreach}
 
-			<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_buynow_LG.gif" name="submit" alt="PayPal. The safer, easier way to pay online." style = "width: 107px; height: 26px; border: 0; min-width: 107px;"/>
+			<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_buynow_LG.gif" name="submit" alt="PayPal. The safer, easier way to pay online." style = "width: 107px; height: 26px; border: 0;"/>
 		</form>
 	</td>
 </tr>

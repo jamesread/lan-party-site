@@ -3,9 +3,10 @@
 <html>
 
 <head>
-	<title>{$siteTitle}</title>
+	<title>WestLAN - The South West Lan Party</title>
 
-	<link rel = "shortcut icon" href = "resources/themes/{$theme}/images/favicon.gif" type = "image/gif" />
+	<link rel = "shortcut icon" href = "resources/images/westlanFavicon.png" type = "image/png" />
+
 	<link rel = "stylesheet" href = "resources/themes/{$theme}/stylesheets/main.css" type = "text/css" />
 
 	{if !empty($redirect)}

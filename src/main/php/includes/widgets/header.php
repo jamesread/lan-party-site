@@ -45,9 +45,4 @@ $tpl->assign('siteTitle', getSiteSetting('siteTitle'));
 $tpl->assign('siteDescription', getSiteSetting('siteDescription'));
 $tpl->display('header.tpl');
 
-if (file_exists('setup.php') && basename($_SERVER['PHP_SELF']) != 'setup.php')  {
-		$tpl->assign('message', 'If the site is installed, delete <a href = "setup.php">setup.php</a>!');
-		$tpl->display('notification.tpl');
-}
-
 ?>

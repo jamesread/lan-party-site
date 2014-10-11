@@ -13,7 +13,7 @@
 		</thead>
 
 		<tbody>
-			{foreach from = $permissionsList item = "permission"}
+			{foreach from = "$permissionsList" item = "permission"}
 			<tr>
 				<td><a href = "updatePermission.php?id={$permission.key}">{$permission.priv}</a></td>
 				<td>{$permission.description|default:"???"}</td>

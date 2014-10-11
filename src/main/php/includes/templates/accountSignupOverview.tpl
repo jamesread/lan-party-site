@@ -14,7 +14,7 @@
 		</thead>
 
 		<tbody>
-		{foreach name = "eventSignups" from = $userEventSignups item = "signup"}
+		{foreach name = "eventSignups" from = "$userEventSignups" item = "signup"}
 			<tr>
 				<td><a href = "viewEvent.php?id={$signup.eventId}">{$signup.eventName}</a></td>
 				<td>{$signup.date}</td>

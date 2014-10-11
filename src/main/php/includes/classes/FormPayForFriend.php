@@ -5,6 +5,9 @@ use \libAllure\ElementInput;
 use \libAllure\ElementHidden;
 use \libAllure\ElementButton;
 use \libAllure\ElementSelect;
+use \libAllure\User;
+use \libAllure\DatabaseFactory;
+use \libAllure\Session;
 
 class FormPayForFriend extends Form {
 	public function __construct($events) {
@@ -23,9 +26,10 @@ class FormPayForFriend extends Form {
 
 		$this->addElement(new ElementHidden('action', null, 'add'));
 		$this->addDefaultButtons('Add friends ticket to basket');
+
 	}
 
-	protected function validateExtended() {
+	function validateExtended() {
 		$this->validateUsername();
 	}
 
@@ -39,7 +43,7 @@ class FormPayForFriend extends Form {
 
 		try {
 			$this->user = User::getUser($this->getElementValue('username'));
-		} catch (UserNotFoundException $e) {
+		} catch (\libAllure\UserNotFoundException $e) {
 			$this->setElementError('username', 'User not found');
 			return;
 		}
@@ -55,7 +59,7 @@ class FormPayForFriend extends Form {
 			return;
 		}
 
-		$sql = 'SELECT status FROM signups WHERE user = :user AND event = :event';
+		$sql = 'SELECT status FROM signups WHERE user = :user AND event = :event AND status != "SIGNEDUP" ';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->bindValue(':user', $this->user->getId());
 		$stmt->bindValue(':event', $this->getElementValue('event'));

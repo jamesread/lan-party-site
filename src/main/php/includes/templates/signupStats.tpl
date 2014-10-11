@@ -17,7 +17,7 @@
 
 			<tbody>
 				{assign var = "eid" value = ""}
-				{foreach from = $signupStats item = "signup" key = "k" name = "sus"} 
+				{foreach from = "$signupStats" item = "signup" key = "k" name = "sus"} 
 				<tr>
 					<td><a href = "viewEvent.php?id={$signup.event_id}">{$signup.event_name}</a></td>
 					<td>{$signup.date}</td>

@@ -26,6 +26,11 @@ class NextEventCountdown implements Plugin {
 
 		$event = Events::nextEvent();
 
+		if ($event['seatingPlan']) {
+			echo '<p>The seating plan is now live! Pay, then choose your seat!</p><div style = "text-align: center">';
+			echo '<a href = "seatingplan.php?event=' . $event['id'] . '"><img src = "resources/images/seatingPlan.png" alt = "seating plan" /></a></div>';
+		}
+
 		if (empty($event)) {
 			echo '<p>No events planned!</p>';
 		} else {

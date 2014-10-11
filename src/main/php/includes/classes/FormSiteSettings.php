@@ -22,11 +22,11 @@ class FormSiteSettings extends Form {
 		$this->addElement(new ElementInput('masterConnectionUrl', 'Master connection URL', $this->settings['masterConnectionUrl'], 'When the site is in LAN mode, where is the master site?'));
 		$this->addElement(new ElementInput('baseUrl', 'Base URL', $this->settings['baseUrl']));
 		$this->addElement(new ElementInput('siteTitle', 'Site title', $this->settings['siteTitle']));
-		$this->addElement(new ElementInput('siteDescription', 'Site description (for META tags)', $this->settings['siteDescription']));
+		$this->addElement(new ElementInput('siteDescription', 'Site description (for META tags)', &$this->settings['siteDescription']));
 		$this->addElement(new ElementAlphaNumeric('copyright', 'Copyright', $this->settings['copyright']));
 		$this->addElement($this->getElementSiteTheme($this->settings['theme']));
 		$this->addElement(new ElementInput('globalAnnouncement', 'Global Announcement', $this->settings['globalAnnouncement'], 'An announcement displayed on every page of the site'))->setMinMaxLengths(0, 256);
-		$this->addElement(new ElementInput('cookieDomain', 'Cookie Domain', $this->settings['cookieDomain']));
+		$this->addElement(new ElementInput('cookieDomain', 'Cookie Domain', &$this->settings['cookieDomain']));
 
 		$this->addSection('Enabled site features');
 		$this->addElement(new ElementCheckbox('newsFeature', 'News feature', $this->settings['newsFeature']));

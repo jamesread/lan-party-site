@@ -15,7 +15,7 @@
 		</thead>
 
 		<tbody>
-		{foreach from = $listLogs item = "itemLog"}
+		{foreach from = "$listLogs" item = "itemLog"}
 		<tr>
 			<td><nobr>{$itemLog.date}</nobr><br /><small>{$itemLog.id}</small></td>
 			<td>

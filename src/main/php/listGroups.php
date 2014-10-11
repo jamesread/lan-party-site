@@ -18,6 +18,4 @@ $stmt->execute();
 $tpl->assign('listGroups', $stmt->fetchAll());
 $tpl->display('listGroups.tpl');
 
-require_once 'includes/widgets/footer.php';
-
 ?>

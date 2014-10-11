@@ -22,7 +22,17 @@
 							<a href = "profile.php?id={$signup.user}" style = "{$signup.userGroupCss}">{$signup.username}</a>
 						{/if}
 						{if $privViewAttendance}
-							<br /><small>{$signup.countAttended}</small>
+							<br />
+							<small>
+							{if $signup.countAttended == 0 and $signup.countCancelled == 0}
+									<strong class = "good">newbie!</strong>
+							{else}
+								<a href = "viewAttendance.php?user={$signup.user}">
+								{$signup.countAttended}
+								<strong>{section name = countCancelled start = 0 step = 1 loop=$signup.countCancelled}C{/section}</strong>
+							{/if}
+							</a>
+							</small>
 						{/if}
 					</td>
 					<td>{$signup.userRealName}</td>
@@ -33,13 +43,13 @@
 								- {$signup.ticketCost|doubleToGbp}<br />
 
 								{if not empty($signup.comments)}
-								<small>{$signup.comments|htmlify:false}</small>
+								<small>{$signup.comments|htmlify:2}</small>
 								{/if}
 							{/if}
 						{/if}
 					</td>
 
-					{if $IS_LOGGED_IN && isset($signup.actions)}
+					{if $IS_LOGGED_IN}
 					<td>{$signup.actions}</td>
 					{/if}
 				</tr>
@@ -50,9 +60,9 @@
 
 		<div style = "margin-top: 1em;">
 		<div style = "width: 40%; display: inline-block; vertical-align: top;">
-
+		
 		{if isset($form)}
-			{include file = "form.tpl" excludeBox = "yes"}
+			{include file = "form.tpl" excludeBox = "no"}
 		{/if}
 
 

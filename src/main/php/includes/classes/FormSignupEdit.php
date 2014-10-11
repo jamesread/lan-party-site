@@ -43,8 +43,9 @@ class FormSignupEdit extends Form {
 		$el->addOption('CASH_IN_POST');
 		$el->addOption('BACS_WAITING');
 		$el->addOption('PAID');
+		$el->addOption('WAITING_LIST - Used for when the event has run out of seats.', 'WAITING_LIST');
 		$el->addOption('CONFIRMED - Can select seat even if not paid', 'CONFIRMED');
-		$el->addOption('DELETE');
+		$el->addOption('DELETE - Only delete testing singups. Dont delete cancellations!', 'DELETE');
 
 		return $el;
 	}

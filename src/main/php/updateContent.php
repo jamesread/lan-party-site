@@ -1,7 +1,6 @@
 <?php
 
 require_once 'includes/common.php';
-require_once 'includes/classes/FormContentEdit.php';
 
 use \libAllure\Session;
 
