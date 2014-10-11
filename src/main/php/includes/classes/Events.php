@@ -111,6 +111,10 @@ class Events {
 			$username = 'system';
 		}
 
+		if (empty($comment)) { // null, or something else
+			$comment = '';
+		}
+
 		$sql = 'SELECT s.id FROM signups s WHERE s.user = :user AND s.event = :event';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->bindValue(':user', $userId);
@@ -179,7 +183,7 @@ class Events {
 
 			$event = Events::getById($eventId);
 
-			$sql = 'INSERT INTO signups (user, event, status, ticketCost) VALUES (:user, :event, :status, :cost) ';
+			$sql = 'INSERT INTO signups (user, event, status, ticketCost, comments) VALUES (:user, :event, :status, :cost, concat(now(), " Signup created. ")) ';
 			$stmt = $db->prepare($sql);
 			$stmt->bindValue(':user', $userId);
 			$stmt->bindValue(':event', $eventId);
