@@ -30,7 +30,7 @@
 			</thead>
 
 			<tbody>
-				{foreach from = "$installationTests" key = "testName" item = "testResult"}
+				{foreach from = $installationTests key = "testName" item = "testResult"}
 				<tr>
 					<td>{$testName}</td>
 					{if $testResult}
