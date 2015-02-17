@@ -57,4 +57,17 @@ function setSeatForUser($eventId, $userId, $seatId) {
 	$stmt->execute();
 }
 
+function removeSeat($eventId, $userId) {
+	$signupStatus = getSignupStatus($userId, $eventId);
+
+	if ($signupStatus != 'CANCELLED') {
+		throw new Exception('Cannot remove seat from a user, as they have not cancelled.');
+	}
+
+	$sql = 'DELETE FROM seatingplan_seat_selections WHERE event = :event AND user = :user';
+	$stmt = DatabaseFactory()->getInstance()->prepare($sql);
+	$stmt->bindValue(':event', $eventId);
+	$stmt->bindValue(':user', $userId);
+	$stmt->execute();
+}
 ?>
