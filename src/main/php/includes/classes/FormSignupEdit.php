@@ -126,6 +126,10 @@ class FormSignupEdit extends Form {
 
 		$this->signup = $this->getSignup();
 
+		if ($this->getElementValue('status') == 'CANCELLED') {
+			removeSeat($this->signup['event'], $this->signup['userId']);
+		}
+
 		$sql = 'SELECT e.id FROM events e WHERE e.id = :eventId LIMIT 1';
 		$stmt = $db->prepare($sql);
 		$stmt->bindValue(':eventId', $this->signup['event']);
