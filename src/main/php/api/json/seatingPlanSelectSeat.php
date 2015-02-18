@@ -43,7 +43,10 @@ function setUserInSeat($eventId, $seatId, $userId = null) {
 		$userId = Session::getUser()->getId();
 	}
 
-	logActivity(Session::getUser()->getUsername() . ' selected seat ' . $seatId . ' for event ' . $eventId);
+	logActivity('_u_' . ' selected seat ' . $seatId . ' for event _e_', null, array(
+		'user' => $userId,
+		'event' => $eventId
+	));
 
 	$sql = 'INSERT INTO seatingplan_seat_selections (seat, event, user) VALUES (:seat, :event, :user1) ON DUPLICATE KEY UPDATE user = :user2';
 	$stmt = DatabaseFactory::getInstance()->prepare($sql);
