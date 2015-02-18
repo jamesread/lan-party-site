@@ -12,20 +12,6 @@ $seat = Sanitizer::getInstance()->filterUint('seat');
 $event = Sanitizer::getInstance()->filterUint('event');
 $event = Events::getById($event);
 
-function getSeatForUser($eventId, $userId = null) {
-	if (empty($userId)) {
-		$userId = Session::getUser()->getId();
-	}
-
-	$sql = 'SELECT s.seat FROM seatingplan_seat_selections s WHERE s.event = :event AND s.user = :user';
-	$stmt = DatabaseFactory::getInstance()->prepare($sql);
-	$stmt->bindValue(':event', $eventId);
-	$stmt->bindValue(':user', $userId);
-	$stmt->execute();
-
-	return $stmt->fetchAll();
-}
-
 function deleteSeatsForUser($eventId, $userId = null) {
 	if (empty($userId)) {
 		$userId = Session::getUser()->getId();
@@ -35,25 +21,6 @@ function deleteSeatsForUser($eventId, $userId = null) {
 	$stmt = DatabaseFactory::getInstance()->prepare($sql);
 	$stmt->bindValue(':event', $eventId);
 	$stmt->bindValue(':user', $userId);
-	$stmt->execute();
-}
-
-function setUserInSeat($eventId, $seatId, $userId = null) {
-	if (empty($userId)) {
-		$userId = Session::getUser()->getId();
-	}
-
-	logActivity('_u_' . ' selected seat ' . $seatId . ' for event _e_', null, array(
-		'user' => $userId,
-		'event' => $eventId
-	));
-
-	$sql = 'INSERT INTO seatingplan_seat_selections (seat, event, user) VALUES (:seat, :event, :user1) ON DUPLICATE KEY UPDATE user = :user2';
-	$stmt = DatabaseFactory::getInstance()->prepare($sql);
-	$stmt->bindValue(':seat', $seatId);
-	$stmt->bindValue(':event', $eventId);
-	$stmt->bindValue(':user1', $userId);
-	$stmt->bindValue(':user2', $userId);
 	$stmt->execute();
 }
 

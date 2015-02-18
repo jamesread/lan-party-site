@@ -5,16 +5,23 @@ require_once 'includes/common.php';
 require_once 'includes/widgets/header.php';
 require_once 'includes/widgets/sidebar.php';
 require_once 'includes/classes/FormSeatingPlanMoveUser.php';
+require_once 'includes/classes/FormSwapSeats.php';
 
 use \libAllure\DatabaseFactory;
 use \libAllure\Sanitizer;
 use \libAllure\Session;
 
 if (Session::hasPriv('SEATING_PLAN_MOVE_USERS')) {
-	$f = new FormSeatingPlanMoveUser();
+	$formMoveUsers = new FormSeatingPlanMoveUser();
 	
-	if ($f->validate()) {
-		$f->process();
+	if ($formMoveUsers->validate()) {
+		$formMoveUsers->process();
+	}
+
+	$formSwapUsers = new FormSwapSeats();
+
+	if ($formSwapUsers->validate()) {
+		$formSwapUsers->process();
 	}
 }
 
@@ -37,10 +44,16 @@ $tpl->assign('listSeatingPlanObjects', $structSp);
 $tpl->assign('itemSeatingPlan', $seatingPlan);
 $tpl->display('viewSeatingPlan.tpl');
 
-if (isset($f)) {
-	$tpl->assignForm($f);
+if (isset($formMoveUsers)) {
+	$tpl->assignForm($formMoveUsers);
 	$tpl->display('form.tpl'); 
 }
+
+if (isset($formSwapUsers)) {
+	$tpl->assignForm($formSwapUsers);
+	$tpl->display('form.tpl'); 
+}
+
 
 require_once 'includes/widgets/footer.php';
 
