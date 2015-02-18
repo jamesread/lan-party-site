@@ -65,7 +65,7 @@ function removeSeat($eventId, $userId) {
 	}
 
 	$sql = 'DELETE FROM seatingplan_seat_selections WHERE event = :event AND user = :user';
-	$stmt = DatabaseFactory()->getInstance()->prepare($sql);
+	$stmt = DatabaseFactory::getInstance()->prepare($sql);
 	$stmt->bindValue(':event', $eventId);
 	$stmt->bindValue(':user', $userId);
 	$stmt->execute();

@@ -127,6 +127,7 @@ class FormSignupEdit extends Form {
 		$this->signup = $this->getSignup();
 
 		if ($this->getElementValue('status') == 'CANCELLED') {
+			require_once 'includes/functions.seatingPlan.php';
 			removeSeat($this->signup['event'], $this->signup['userId']);
 		}
 
