@@ -70,6 +70,9 @@ function removeSeat($eventId, $userId) {
 	$stmt->bindValue(':user', $userId);
 	$stmt->execute();
 
-	logActivity('Removed seat for user:' . $userId . ' at event: ' . $eventId);
+	logActivity('Removed seat for _u_ at _e_', null, array(
+		'user' => $userId,
+		'event' => $eventId
+	));
 }
 ?>
