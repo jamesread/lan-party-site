@@ -40,7 +40,7 @@ class Events {
 	public static function nextEvent() {
 		global $db;
 
-		$sql = 'SELECT e.id, e.name, e.date, e.duration, v.name as venue, e.seatingPlan FROM events e, venues v WHERE date_add(e.date, INTERVAL 72 HOUR) > now() AND e.venue = v.id AND e.published = 1 ORDER BY date ASC LIMIT 1';
+		$sql = 'SELECT e.id, e.name, e.date, e.duration, v.name as venue, e.seatingPlan FROM events e, venues v WHERE date_add(e.date, INTERVAL 24 HOUR) > now() AND e.venue = v.id AND e.published = 1 ORDER BY date ASC LIMIT 1';
 		$result = $db->query($sql);
 
 		if ($result->numRows() == 0) {
@@ -69,9 +69,9 @@ class Events {
 		global $db;
 		
 		// Get the signup info.
-		$sql = sprintf('SELECT s.id, sum(s2.status = "CANCELLED") as countCancelled, sum(s2.status = "STAFF" OR s2.status = "ATTENDED") as countAttended, s.comments, s.status, s.user, u.username, u.real_name AS userRealName, s.event, s.ticketCost, g.css AS userGroupCss FROM signups s LEFT JOIN signups s2 ON s.user = s2.user LEFT JOIN users u ON s.user = u.id LEFT JOIN `groups` g ON u.group = g.id WHERE s.event = :id GROUP BY u.id ORDER BY status ASC, u.username ASC');
+		$sql = sprintf('SELECT s.id, sum(s2.status = "CANCELLED") as countCancelled, sum(s2.status = "STAFF" OR s2.status = "ATTENDED") as countAttended, sp.seat AS selectedSeat, s.comments, s.status, s.user, u.username, u.real_name AS userRealName, s.event, s.ticketCost, g.css AS userGroupCss FROM signups s LEFT JOIN signups s2 ON s.user = s2.user LEFT JOIN users u ON s.user = u.id LEFT JOIN `groups` g ON u.group = g.id LEFT JOIN seatingplan_seat_selections sp ON s.event = sp.event AND sp.user = u.id WHERE s.event = :eventId GROUP BY u.id ORDER BY status ASC, u.username ASC');
 		$stmt = $db->prepare($sql);
-		$stmt->bindValue(':id', $id, Database::PARAM_INT);
+		$stmt->bindValue(':eventId', $id, Database::PARAM_INT);
 		$stmt->execute();
 
 		$signups = $stmt->fetchAll();
