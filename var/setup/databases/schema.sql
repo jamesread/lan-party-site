@@ -240,6 +240,8 @@ CREATE TABLE `log` (
   `date` datetime NOT NULL,
   `message` varchar(1024) NOT NULL,
   `ipAddress` varchar(256) DEFAULT NULL,
+  `associatedUser` int(11) DEFAULT NULL,
+  `associatedEvent` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
