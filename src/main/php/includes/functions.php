@@ -7,7 +7,61 @@ use \libAllure\Inflector;
 require_once 'includes/classes/plugins/Mumble.php';
 require_once 'includes/classes/Galleries.php';
 
-function applyAchievements() {}
+
+function getAcheivements() {
+	$sql = 'SELECT a.id, u.username, a.title, a.description FROM acheivments_earnt e LEFT JOIN achievements a ON e.acheiv = a.id LEFT JOIN users u ON e.user = u.id WHERE u.id = :userId ';
+	$stmt = DatabaseFactory::getInstance()->prepare($sql);
+	$stmt->bindValue(':userId', Session::getUser()->getId());
+	$stmt->execute();
+
+	$acheivs = $stmt->fetchAll();
+
+	applyAcheivIcons($acheivs);
+
+	return $acheivs;
+}
+
+function applyAcheivIcons(&$acheivs) {
+	for ($i = 0; $i < sizeof($acheivs); $i++) {
+		$acheivs[$i]['icon'] = 'resources/images/acheivs/' . $acheivs[$i] . '.png';
+
+		if (!file_exists($acheivs[$i]['icon'])) {
+			$acheivs[$i]['icon'] = 'resources/images/westlanFavicon.png';
+		}
+	}
+}
+
+function applyAchievements() {
+	$stmt = DatabaseFactory::getInstance()->prepare("SELECT a.* FROM achievements a");
+	$stmt->execute();
+
+	$signups = getSingleUserSignupsWithStatuses(array('ATTENDED', 'SIGNEDUP', 'PAID', 'CANCELLED', 'STAFF'));
+	$signupStatistics = getSignupStatistics($signups);
+
+	foreach ($stmt->fetchAll() as $acheiv) {
+		if ($signupStatistics['attended'] < $acheiv['eventsAttended']) {
+			continue;
+		}
+
+		if ($signupStatistics['cancels'] < $acheiv['eventsCancelled']) {
+			continue;
+		}
+
+		giveAcheiv(Session::getUser()->getId(), $acheiv['id']);
+	}
+
+}
+
+function giveAcheiv($userId, $acheiv) {
+	$sql = 'INSERT IGNORE INTO acheivments_earnt (user, acheiv) VALUES (:user, :acheiv) ';
+	$stmt = DatabaseFactory::getInstance()->prepare($sql);
+
+	$stmt->bindValue(':user', $userId);
+	$stmt->bindValue(':acheiv', $acheiv);
+	$stmt->execute();
+}
+
+
 function getPaypalCommission($cost) {
 	$comp = getSiteSetting('paypalCommission') . ';';
 	$retComp = 0;
