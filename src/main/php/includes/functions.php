@@ -7,7 +7,6 @@ use \libAllure\Inflector;
 require_once 'includes/classes/plugins/Mumble.php';
 require_once 'includes/classes/Galleries.php';
 
-
 function getAcheivements() {
 	$sql = 'SELECT a.id, u.username, a.title, a.description FROM acheivments_earnt e LEFT JOIN achievements a ON e.acheiv = a.id LEFT JOIN users u ON e.user = u.id WHERE u.id = :userId ';
 	$stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -60,7 +59,6 @@ function giveAcheiv($userId, $acheiv) {
 	$stmt->bindValue(':acheiv', $acheiv);
 	$stmt->execute();
 }
-
 
 function getPaypalCommission($cost) {
 	$comp = getSiteSetting('paypalCommission') . ';';
@@ -185,7 +183,7 @@ function getUserSignups($id = null) {
 		$id = Session::getUser()->getId();
 	}
 
-	$sql = 'SELECT s.id, s.status, e.name AS eventName, e.id AS eventId, e.date, e.priceOnDoor, s.comments FROM signups s, events e WHERE s.event = e.id AND s.user = :userId ORDER BY date DESC';
+	$sql = 'SELECT s.id, s.status, s.ticketCost AS actualTicketPrice, e.name AS eventName, e.id AS eventId, e.date, e.priceOnDoor, s.comments FROM signups s, events e WHERE s.event = e.id AND s.user = :userId ORDER BY date DESC';
 	$stmt = $db->prepare($sql);
 	$stmt->bindValue(':userId', $id);
 	$stmt->execute();
@@ -518,20 +516,30 @@ function logAndRedirect($url, $message) {
 	redirect($url, $message);
 }
 
-function logActivity($message, $userId = null) {
+function logActivity($message, $userId = null, $metadata = array()) {
 	global $db;
 
 	if ($userId == null) {
 		$userId = Session::getUser()->getId();
 	}
 
+	if (!isset($metadata['user'])) {
+		$metadata['user'] = null;
+	}
+
+	if (!isset($metadata['event'])) {
+		$metadata['event'] = null;
+	}
+
 	$clientIp = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'UNKNOWN';
 
-	$sql = 'INSERT INTO log (message, user, date, ipaddress) VALUES (:message, :user, now(), :ipaddress)';
+	$sql = 'INSERT INTO log (message, user, date, ipaddress, associatedUser, associatedEvent) VALUES (:message, :user, now(), :ipaddress, :associatedUser, :associatedEvent)';
 	$stmt = $db->prepare($sql);
 	$stmt->bindValue(':message', $message);
 	$stmt->bindValue(':user', $userId);
 	$stmt->bindValue(':ipaddress', $clientIp);
+	$stmt->bindValue(':associatedUser', $metadata['user']);
+	$stmt->bindValue(':associatedEvent', $metadata['event']);
 	$stmt->execute();
 }
 

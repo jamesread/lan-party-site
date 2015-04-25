@@ -127,6 +127,7 @@ class FormSignupEdit extends Form {
 		$this->signup = $this->getSignup();
 
 		if ($this->getElementValue('status') == 'CANCELLED') {
+			require_once 'includes/functions.seatingPlan.php';
 			removeSeat($this->signup['event'], $this->signup['userId']);
 		}
 
@@ -135,7 +136,10 @@ class FormSignupEdit extends Form {
 		$stmt->bindValue(':eventId', $this->signup['event']);
 		$stmt->execute();
 
-		logActivity('Signup updated for ' . $this->signup['username'] . ' to event ' . $this->signup['eventTitle'] . '. ' . $this->getElementValue('comments') . '. ' . $this->getChangeMetadata());
+		logActivity('Signup updated for _u_ to event _e_ ' . $this->getElementValue('comments') . '. ' . $this->getChangeMetadata(), null, array(
+			'user' => $this->signup['user'],
+			'event' => $this->signup['event']
+		));
 
 		redirect('viewEvent.php?id=' . $this->signup['event'], 'Signup edited.');
 	}

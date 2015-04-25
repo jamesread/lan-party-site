@@ -14,7 +14,7 @@
 		<tr>
 			<td>{$itemAuthentication.ip}</td>
 			<td>{$itemAuthentication.mac}</td>
-			<td>ID: {$itemAuthentication.eventId} - {$itemAuthentication.eventName}<br /><small>Seat Description: {$itemAuthentication.seat}</td>
+			<td>ID: {$itemAuthentication.eventId} - <a href = "viewEvent.php?id={$itemAuthentication.eventId}">{$itemAuthentication.eventName}</a> - <a href = "seatingplan.php?event={$itemAuthentication.eventId}">seating plan</a><br /><small>Seat Description: {$itemAuthentication.seat}</td>
 			<td><a href = "profile.php?id={$itemAuthentication.userId}">{$itemAuthentication.username}</a></td>
 		</tr>
 		{/foreach}

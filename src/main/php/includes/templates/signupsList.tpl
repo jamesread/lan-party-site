@@ -16,7 +16,7 @@
 			{foreach from = $signups item = "signup"}
 				<tr>
 					<td>
-						{if $privViewSignupComments and $signup.status == "SIGNEDUP"}
+						{if $privViewSignupComments and ($signup.status == "SIGNEDUP" OR $signup.status == "CANCELLED")}
 							<a class = "unpublished" href = "profile.php?id={$signup.user}" style = "{$signup.userGroupCss}">{$signup.username}</a>
 						{else}
 							<a href = "profile.php?id={$signup.user}" style = "{$signup.userGroupCss}">{$signup.username}</a>
@@ -32,6 +32,10 @@
 								<strong>{section name = countCancelled start = 0 step = 1 loop=$signup.countCancelled}C{/section}</strong>
 							{/if}
 							</a>
+							<br /><br />
+							{if $signup.status == "PAID" or $signup.status == "STAFF" or $signup.status == "ATTENDED"}
+							<a href = "seatingplan.php?event={$signup.event}">{if $signup.selectedSeat == null}<em class = "bad">no seat selected!</em>{else}Seat {$signup.selectedSeat}{/if}</a>
+							{/if}
 							</small>
 						{/if}
 					</td>
