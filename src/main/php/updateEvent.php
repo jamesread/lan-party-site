@@ -2,6 +2,8 @@
 
 require_once 'includes/common.php';
 
+require_once 'includes/classes/FormEventUpdate.php';
+
 use \libAllure\Sanitizer;
 
 try {
