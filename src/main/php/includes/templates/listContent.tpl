@@ -15,7 +15,7 @@
 		</thead>
 
 		<tbody>
-		{foreach from = "$listContent" item = "itemContent"}
+		{foreach from = $listContent item = "itemContent"}
 			<tr>
 				<td>{$itemContent.id}</td>
 				<td><a href = "updateContent.php?id={$itemContent.id}">{$itemContent.page}</a></td>

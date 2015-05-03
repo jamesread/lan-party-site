@@ -14,7 +14,7 @@
 			{/if}
 		</tr>
 
-		{foreach from = "$schedule" item = "event"}
+		{foreach from = $schedule item = "event"}
 		<tr>
 			<td>{$event.start}</td>
 			<td width = "1%">

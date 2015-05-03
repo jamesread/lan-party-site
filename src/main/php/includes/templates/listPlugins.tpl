@@ -17,7 +17,7 @@
 		</thead>
 
 		<tbody>
-		{foreach from = "$listPlugins" item = "itemPlugin"}
+		{foreach from = $listPlugins item = "itemPlugin"}
 			</tr>
 				<td>{$itemPlugin.id}</td>
 				<td>{$itemPlugin.title}</td>

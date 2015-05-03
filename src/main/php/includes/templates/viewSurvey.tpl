@@ -10,7 +10,7 @@
 	</thead>
 
 	<tbody>
-		{foreach from = "$listOptions" item = "itemOption"}
+		{foreach from = $listOptions item = "itemOption"}
 			<tr>
 				<td>{$itemOption.value}</td>
 				<td>{$itemOption.voteCount} vote(s)</td>

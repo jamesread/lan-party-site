@@ -9,7 +9,7 @@
 		</thead>
 
 		<tbody>
-			{foreach from = "$listStatistics" item = "itemStat"}
+			{foreach from = $listStatistics item = "itemStat"}
 				<tr>
 					<td>{$itemStat.title}</td>
 					<td><strong>{$itemStat.value}</strong></td>

@@ -12,7 +12,7 @@
 		<pubDate>{$lastBuildDate}</pubDate>
 		<ttl>1800</ttl>
 
-		{foreach from = "$listArticles" item = "article"}
+		{foreach from = $listArticles item = "article"}
 
 		<item>
 			<title>{$article.title}</title>

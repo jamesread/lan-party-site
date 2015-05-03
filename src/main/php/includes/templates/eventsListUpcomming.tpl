@@ -11,7 +11,7 @@
 			<th>Venue</th>
 		</tr>
 
-		{foreach from = "$events" item = "event"}
+		{foreach from = $events item = "event"}
             {if not $event.published}
                 {if $privViewUnpublishedEvents}
 		<tr>

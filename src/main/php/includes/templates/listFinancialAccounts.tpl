@@ -14,7 +14,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{foreach from = "$listAccounts" item = "account"}
+			{foreach from = $listAccounts item = "account"}
 			<tr>
 				<td>{$account.id}</td>
 				<td><a href = "viewFinanceAccount.php?id={$account.id}">{$account.title}</a></td>

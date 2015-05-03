@@ -17,7 +17,7 @@
 		</thead>
 
 		<tbody>
-			{foreach from = "$groupPrivilegesList" item = "permission"}
+			{foreach from = $groupPrivilegesList item = "permission"}
 			<tr>
 				<td><span class = "good">{$permission.key}</span></td>
 				<td>{$permission.description|default:"???"}</td>
@@ -42,7 +42,7 @@
 		</thead>
 
 		<tbody>
-			{foreach from = "$groupMembers" item = "member"}
+			{foreach from = $groupMembers item = "member"}
 			<tr>
 				<td>{$member.id}</td>
 				<td><a style = "{$member.groupCss}" href = "profile.php?id={$member.id}">{$member.username}</a></td>

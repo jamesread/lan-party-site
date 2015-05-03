@@ -11,7 +11,7 @@
 		</thead>
 
 		<tbody>
-		{foreach from = "$listPermissions" item = "itemPermission"}
+		{foreach from = $listPermissions item = "itemPermission"}
 			<tr>
 				<td><span class = "good">{$itemPermission.key}</span></td>
 				<td>{$itemPermission.source}</td>

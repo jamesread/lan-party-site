@@ -9,7 +9,7 @@
 	</thead>
 
 	<tbody>
-		{foreach from = "$listOptions" item = "itemOption"}
+		{foreach from = $listOptions item = "itemOption"}
 		<tr>
 			<td>{$itemOption.username}</td>
 			<td>{$itemOption.value}</td>

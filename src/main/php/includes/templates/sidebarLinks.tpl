@@ -5,7 +5,7 @@
 		<div>
 		{if $links->hasLinks()}
 			<dl>
-			{foreach from = "$links" item = "link"}
+			{foreach from = $links item = "link"}
 				<dt class = "{$link.containerClass}"><a href = "{$link.url}">{$link.title}</a></dt>
 			{/foreach}
 			</dl>

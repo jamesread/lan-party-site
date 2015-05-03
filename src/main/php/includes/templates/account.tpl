@@ -12,7 +12,7 @@
     <p>Below are a list of things you can do with your account.</p>
 
     <dl>
-    {foreach from = "$standardLinks" item = "link"}
+    {foreach from = $standardLinks item = "link"}
        <dt class = "{$link.iconUrl}"><a href = "{$link.url}">{$link.title}</a></dt>
     {/foreach}
         <dt class = "profile"><a href = "profile.php">View my profile</a></dt>
@@ -25,7 +25,7 @@
     <p>Most of the admin functionality is built inline with the content. For everything else, there's mastercard... Oh, I mean this menu.</p>
 
     <dl>
-    {foreach from = "$privilegedLinks" item = "link"}
+    {foreach from = $privilegedLinks item = "link"}
         <dt class = "{$link.iconUrl}"><a href = "{$link.url}">{$link.title}</a></dt>
     {/foreach}
     </dl>
