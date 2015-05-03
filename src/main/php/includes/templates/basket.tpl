@@ -37,21 +37,21 @@
 </div>
 
 <div class = "box">
-	<h2>Buy more stuff</h2>
-
 	{if $signupableEvents|@count eq 0}
 		{getContent title = "nothingToSignupTo"}
 	{else}
-		<div style = "float: left; width: 40%;">
+		<div style = "float: left; width: 40%; margin-right: 3em;">
+		<h2>Pay for yourself</h2>
 		{if $addToBasketHasEvents}
-			{include file = "form.tpl" form = "$addToBasketform" elements = "$addToBasketelements" excludeBox = "yes"}
+			{include file = "form.tpl" form = $addToBasketform elements = $addToBasketelements excludeBox = "yes"}
 		{else}
 			<p>There are no events to add to your basket.</p>	
 		{/if}
 		</div>
 
 		<div style = "float: left; width: 40%;">
-		{include file = "form.tpl" form = "$payForFriendform" elements = "$payForFriendelements" excludeBox = "yes"}
+		<h2>Pay for a friend</h2>
+		{include file = "form.tpl" form = $payForFriendform elements = $payForFriendelements excludeBox = "yes"}
 		</div>
 
 		<div class = "clearer" />
