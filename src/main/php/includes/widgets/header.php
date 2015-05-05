@@ -40,7 +40,7 @@ $tpl->assign('newsFeatureEnabled', getSiteSetting('newsFeature'));
 $tpl->assign('galleryFeatureEnabled', getSiteSetting('galleryFeature'));
 $tpl->assign('notification', SessionBasedNotifications::getInstance()->pop());
 $tpl->assign('isMobileBrowser', isMobileBrowser());
-$tpl->assign('theme', getSiteSetting('theme'));
+$tpl->assign('theme', getThemeDirectory());
 $tpl->assign('siteTitle', getSiteSetting('siteTitle'));
 $tpl->assign('siteDescription', getSiteSetting('siteDescription'));
 $tpl->display('header.tpl');

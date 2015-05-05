@@ -34,7 +34,7 @@ require_once 'includes/functions.php';
 
 require_once 'libAllure/Template.php';
 
-$tpl = new \libAllure\Template((defined('CFG_DIR_TEMPLATE_CACHE') ? CFG_DIR_TEMPLATE_CACHE : 'lps'));
+$tpl = new \libAllure\Template((defined('CFG_DIR_TEMPLATE_CACHE') ? CFG_DIR_TEMPLATE_CACHE : 'lps'), getThemeDirectory() . '/templates');
 $tpl->addAutoClearVar('excludeBox');
 $tpl->registerFunction('hasPriv', '\libAllure\Session::hasPriv');
 $tpl->registerFunction('getContent', 'tplGetContent');
@@ -55,6 +55,7 @@ if ((@include 'includes/config.php') !== false) {
 	\libAllure\Session::setCookieLifetimeInSeconds(604800);
 	\libAllure\Session::start();
 
+	$tpl->template_dir = getThemeDirectory() . '/templates';
 } else if (!defined('INSTALLATION_IN_PROGRESS')) {
 	redirect('installer.php', 'No config file found, assuming installation.');
 }

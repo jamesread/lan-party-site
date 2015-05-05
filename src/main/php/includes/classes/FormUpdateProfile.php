@@ -14,6 +14,8 @@ use \libAllure\ElementSelect;
 use \libAllure\User;
 use \libAllure\AuthBackend;
 
+require_once 'includes/classes/FormSiteSettings.php';
+
 class FormUpdateProfile extends Form {
 	public function __construct($userId = null) {	
 		parent::__construct('formUpdateProfile', 'Update profile');	
@@ -54,6 +56,9 @@ class FormUpdateProfile extends Form {
 		$elementDateFormat->addOption('UK, long date format: ' . formatDt($now, 'jS M Y'), 'jS M Y');
 		$elementDateFormat->addOption('USA, numeric date format: ' . formatDt($now, 'm-d-Y'), 'm-d-Y');
 		$elementDateFormat->addOption('Opus date format: ' . formatDtOpus($now), 'opus');
+
+		$elementTheme = FormSiteSettings::getElementSiteTheme($user->getData('theme'));
+		$this->addElement($elementTheme);
 
 		$this->addSection('Change password');
 
@@ -132,7 +137,7 @@ class FormUpdateProfile extends Form {
 		global $db;
 
 
-		$sql = 'UPDATE users SET dateFormat = :dateFormat, email = :email, real_name = :realName, location = :location, mobileNo = :mobileNo, emailFlagged = 0, mailingList = :mailingList WHERE id = :id LIMIT 1';
+		$sql = 'UPDATE users SET dateFormat = :dateFormat, email = :email, real_name = :realName, location = :location, mobileNo = :mobileNo, emailFlagged = 0, mailingList = :mailingList, theme = :theme WHERE id = :id LIMIT 1';
 		$stmt = $db->prepare($sql);
 		$stmt->bindValue(':dateFormat', $this->getElementValue('dateFormat'));
 		$stmt->bindValue(':email', $this->getElementValue('email'));
@@ -140,6 +145,7 @@ class FormUpdateProfile extends Form {
 		$stmt->bindValue(':location', $this->getElementValue('location'));
 		$stmt->bindValue(':mobileNo', $this->getElementValue('mobileNo'));
 		$stmt->bindValue(':mailingList', $this->getElementValue('mailingList'));
+		$stmt->bindValue(':theme', $this->getElementValue('theme'));
 		$this->bindUser($stmt);
 
 		$stmt->execute();

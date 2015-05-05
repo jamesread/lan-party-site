@@ -981,4 +981,18 @@ function checkNotificationNotGuarenteedSeats(&$notifications) {
 	}
 }
 
+function getThemeDirectory() {
+	$installedThemes = 'resources/themes/';
+
+	if (Session::isLoggedIn()) {
+		$theme = Session::getUser()->getData('theme');
+
+		if (is_dir($installedThemes . $theme)) {
+			return $installedThemes . $theme;
+		}
+	}
+
+	return $installedThemes . getSiteSetting('theme', 'airdale');
+}
+
 ?>
