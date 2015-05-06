@@ -10,7 +10,7 @@
 
 
 	<link rel = "shortcut icon" href = "resources/images/westlanFavicon.png" type = "image/png" />
-	<link rel = "stylesheet" href = "resources/themes/{$theme}/stylesheets/main.css" type = "text/css" />
+	<link rel = "stylesheet" href = "{$theme}/stylesheets/main.css" type = "text/css" />
 	<link rel = "stylesheet" href = "resources/javascript/jquery-ui.css" type = "text/css" />
 
 	<script type = "text/javascript" src = "resources/javascript/jquery.js"></script>
