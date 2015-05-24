@@ -465,7 +465,7 @@ function formatDt(DateTime $date, $format = null) {
 		if (Session::isLoggedIn()) {
 			$dateFormat = Session::getUser()->getData('dateFormat');
 		} else {
-			$dateFormat = 'Y-m-d H:i';
+			$dateFormat = 'jS M Y';
 		}
 	} else {
 		$dateFormat = $format;
