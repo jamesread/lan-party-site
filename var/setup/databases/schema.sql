@@ -1,6 +1,6 @@
 -- MySQL dump 10.15  Distrib 10.0.17-MariaDB, for Linux (x86_64)
 --
--- Host: localhost    Database: lps
+-- Host: localhost    Database: lps_test
 -- ------------------------------------------------------
 -- Server version	10.0.17-MariaDB
 
@@ -108,7 +108,7 @@ CREATE TABLE `basket_items` (
   `user` int(11) DEFAULT NULL,
   `basketOwner` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -579,6 +579,7 @@ CREATE TABLE `users` (
   `bannedReason` varchar(256) DEFAULT NULL,
   `passwordResetSecret` varchar(128) DEFAULT NULL,
   `dateFormat` varchar(24) NOT NULL DEFAULT 'Y-m-d',
+  `theme` varchar(255) DEFAULT 'airdale',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -606,4 +607,4 @@ CREATE TABLE `venues` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-05-24 14:06:45
+-- Dump completed on 2015-05-24 14:22:23
