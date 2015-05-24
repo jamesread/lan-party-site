@@ -1,46 +1,89 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+-- MySQL dump 10.15  Distrib 10.0.17-MariaDB, for Linux (x86_64)
+--
+-- Host: localhost    Database: lps
+-- ------------------------------------------------------
+-- Server version	10.0.17-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `acheivments_earnt`
+--
 
 DROP TABLE IF EXISTS `acheivments_earnt`;
-CREATE TABLE IF NOT EXISTS `acheivments_earnt` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `acheivments_earnt` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` int(11) NOT NULL,
   `acheiv` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user` (`user`,`acheiv`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `achievements`
+--
 
 DROP TABLE IF EXISTS `achievements`;
-CREATE TABLE IF NOT EXISTS `achievements` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `achievements` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(32) DEFAULT NULL,
   `eventsAttended` int(11) NOT NULL,
   `eventsCancelled` int(11) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `additional_menu_items`
+--
 
 DROP TABLE IF EXISTS `additional_menu_items`;
-CREATE TABLE IF NOT EXISTS `additional_menu_items` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `additional_menu_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(64) DEFAULT NULL,
   `url` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `apc`
+--
 
 DROP TABLE IF EXISTS `apc`;
-CREATE TABLE IF NOT EXISTS `apc` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `apc` (
   `postdata` text NOT NULL,
   `response` tinytext NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `authenticated_machines`
+--
 
 DROP TABLE IF EXISTS `authenticated_machines`;
-CREATE TABLE IF NOT EXISTS `authenticated_machines` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `authenticated_machines` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` int(11) DEFAULT NULL,
   `event` int(11) DEFAULT NULL,
@@ -49,19 +92,51 @@ CREATE TABLE IF NOT EXISTS `authenticated_machines` (
   `hostname` varchar(255) DEFAULT NULL,
   `mac` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `basket_items`
+--
 
 DROP TABLE IF EXISTS `basket_items`;
-CREATE TABLE IF NOT EXISTS `basket_items` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `basket_items` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `event` int(11) DEFAULT NULL,
   `user` int(11) DEFAULT NULL,
   `basketOwner` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `event_schedule`
+--
+
+DROP TABLE IF EXISTS `event_schedule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `event_schedule` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `start` datetime DEFAULT NULL,
+  `duration` tinyint(4) DEFAULT NULL,
+  `message` varchar(128) DEFAULT NULL,
+  `event` int(11) NOT NULL,
+  `icon` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `events`
+--
 
 DROP TABLE IF EXISTS `events`;
-CREATE TABLE IF NOT EXISTS `events` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `events` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `date` datetime DEFAULT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -77,37 +152,47 @@ CREATE TABLE IF NOT EXISTS `events` (
   `published` tinyint(4) DEFAULT '1',
   `seatingPlan` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-DROP TABLE IF EXISTS `event_schedule`;
-CREATE TABLE IF NOT EXISTS `event_schedule` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `start` datetime DEFAULT NULL,
-  `duration` tinyint(4) DEFAULT NULL,
-  `message` varchar(128) DEFAULT NULL,
-  `event` int(11) NOT NULL,
-  `icon` varchar(32) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
-
-DROP TABLE IF EXISTS `finance_accounts`;
-CREATE TABLE IF NOT EXISTS `finance_accounts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(32) DEFAULT NULL,
-  `assigned_to` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+--
+-- Table structure for table `finance_account_allocations`
+--
 
 DROP TABLE IF EXISTS `finance_account_allocations`;
-CREATE TABLE IF NOT EXISTS `finance_account_allocations` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `finance_account_allocations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `account` int(11) DEFAULT NULL,
   `identifier` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `finance_accounts`
+--
+
+DROP TABLE IF EXISTS `finance_accounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `finance_accounts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(32) DEFAULT NULL,
+  `assigned_to` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `finance_transactions`
+--
 
 DROP TABLE IF EXISTS `finance_transactions`;
-CREATE TABLE IF NOT EXISTS `finance_transactions` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `finance_transactions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `handledby` int(11) DEFAULT NULL,
   `amount` float(10,2) DEFAULT NULL,
@@ -115,10 +200,17 @@ CREATE TABLE IF NOT EXISTS `finance_transactions` (
   `description` varchar(1024) DEFAULT NULL,
   `account` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `galleries`
+--
 
 DROP TABLE IF EXISTS `galleries`;
-CREATE TABLE IF NOT EXISTS `galleries` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `galleries` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `folderName` varchar(255) DEFAULT NULL,
   `title` varchar(32) DEFAULT NULL,
@@ -127,27 +219,48 @@ CREATE TABLE IF NOT EXISTS `galleries` (
   `ordinal` int(11) NOT NULL,
   `description` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `group_memberships`
+--
+
+DROP TABLE IF EXISTS `group_memberships`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `group_memberships` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user` int(11) NOT NULL,
+  `group` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `groups`
+--
 
 DROP TABLE IF EXISTS `groups`;
-CREATE TABLE IF NOT EXISTS `groups` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   `css` varchar(64) DEFAULT NULL,
   `seatingPlanCss` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-DROP TABLE IF EXISTS `group_memberships`;
-CREATE TABLE IF NOT EXISTS `group_memberships` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user` int(11) NOT NULL,
-  `group` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+--
+-- Table structure for table `images`
+--
 
 DROP TABLE IF EXISTS `images`;
-CREATE TABLE IF NOT EXISTS `images` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `images` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   `caption` varchar(255) DEFAULT NULL,
@@ -157,11 +270,19 @@ CREATE TABLE IF NOT EXISTS `images` (
   `published` int(11) DEFAULT '1',
   `user_uploaded` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `gallery` (`gallery`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+  KEY `gallery` (`gallery`),
+  CONSTRAINT `images_ibfk_1` FOREIGN KEY (`gallery`) REFERENCES `galleries` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `log`
+--
 
 DROP TABLE IF EXISTS `log`;
-CREATE TABLE IF NOT EXISTS `log` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `log` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user` int(11) NOT NULL,
   `date` datetime NOT NULL,
@@ -170,10 +291,17 @@ CREATE TABLE IF NOT EXISTS `log` (
   `associatedUser` int(11) DEFAULT NULL,
   `associatedEvent` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `machine_authentications`
+--
 
 DROP TABLE IF EXISTS `machine_authentications`;
-CREATE TABLE IF NOT EXISTS `machine_authentications` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `machine_authentications` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` int(11) DEFAULT NULL,
   `event` int(11) DEFAULT NULL,
@@ -183,19 +311,33 @@ CREATE TABLE IF NOT EXISTS `machine_authentications` (
   `seat` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `news`
+--
 
 DROP TABLE IF EXISTS `news`;
-CREATE TABLE IF NOT EXISTS `news` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `news` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   `content` longtext,
   `date` date DEFAULT NULL,
   `author` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `page_content`
+--
 
 DROP TABLE IF EXISTS `page_content`;
-CREATE TABLE IF NOT EXISTS `page_content` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `page_content` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `page` varchar(255) DEFAULT NULL,
   `content` longtext,
@@ -203,86 +345,157 @@ CREATE TABLE IF NOT EXISTS `page_content` (
   `updatedBy` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `page` (`page`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `permissions`
+--
 
 DROP TABLE IF EXISTS `permissions`;
-CREATE TABLE IF NOT EXISTS `permissions` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `permissions` (
   `key` varchar(32) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`key`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `plugin_regulars`
+--
+
+DROP TABLE IF EXISTS `plugin_regulars`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `plugin_regulars` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `plugin_shoutbox`
+--
+
+DROP TABLE IF EXISTS `plugin_shoutbox`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `plugin_shoutbox` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user` int(10) unsigned DEFAULT NULL,
+  `content` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `plugins`
+--
 
 DROP TABLE IF EXISTS `plugins`;
-CREATE TABLE IF NOT EXISTS `plugins` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `plugins` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(64) DEFAULT NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT '0',
   `mobileNo` varchar(32) DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-DROP TABLE IF EXISTS `plugin_regulars`;
-CREATE TABLE IF NOT EXISTS `plugin_regulars` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
-DROP TABLE IF EXISTS `plugin_shoutbox`;
-CREATE TABLE IF NOT EXISTS `plugin_shoutbox` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user` int(10) unsigned DEFAULT NULL,
-  `content` varchar(64) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+--
+-- Table structure for table `privileges_g`
+--
 
 DROP TABLE IF EXISTS `privileges_g`;
-CREATE TABLE IF NOT EXISTS `privileges_g` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `privileges_g` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group` int(11) NOT NULL,
   `permission` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `permission` (`permission`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+  KEY `permission` (`permission`),
+  CONSTRAINT `privileges_g_ibfk_1` FOREIGN KEY (`permission`) REFERENCES `permissions` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `privileges_u`
+--
 
 DROP TABLE IF EXISTS `privileges_u`;
-CREATE TABLE IF NOT EXISTS `privileges_u` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `privileges_u` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `permission` int(11) NOT NULL,
   `user` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-DROP TABLE IF EXISTS `seatingplans`;
-CREATE TABLE IF NOT EXISTS `seatingplans` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `layout` longtext,
-  `seatCount` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+--
+-- Table structure for table `seatingplan_seat_selections`
+--
 
 DROP TABLE IF EXISTS `seatingplan_seat_selections`;
-CREATE TABLE IF NOT EXISTS `seatingplan_seat_selections` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `seatingplan_seat_selections` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `seat` int(11) NOT NULL,
   `user` int(11) NOT NULL,
   `event` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `seatingplans`
+--
+
+DROP TABLE IF EXISTS `seatingplans`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `seatingplans` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `layout` longtext,
+  `seatCount` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `settings`
+--
 
 DROP TABLE IF EXISTS `settings`;
-CREATE TABLE IF NOT EXISTS `settings` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `settings` (
   `key` varchar(32) NOT NULL,
   `value` text,
   PRIMARY KEY (`key`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `signups`
+--
 
 DROP TABLE IF EXISTS `signups`;
-CREATE TABLE IF NOT EXISTS `signups` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `signups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `event` int(11) DEFAULT NULL,
   `comments` longtext,
@@ -293,35 +506,63 @@ CREATE TABLE IF NOT EXISTS `signups` (
   `numberMachinesAllowed` int(11) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `event` (`event`,`user`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `survey_options`
+--
+
+DROP TABLE IF EXISTS `survey_options`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `survey_options` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `survey` int(10) unsigned NOT NULL,
+  `value` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `survey_votes`
+--
+
+DROP TABLE IF EXISTS `survey_votes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `survey_votes` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user` int(10) unsigned NOT NULL,
+  `opt` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `surveys`
+--
 
 DROP TABLE IF EXISTS `surveys`;
-CREATE TABLE IF NOT EXISTS `surveys` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `surveys` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   `active` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `count` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-DROP TABLE IF EXISTS `survey_options`;
-CREATE TABLE IF NOT EXISTS `survey_options` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `survey` int(10) unsigned NOT NULL,
-  `value` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
-
-DROP TABLE IF EXISTS `survey_votes`;
-CREATE TABLE IF NOT EXISTS `survey_votes` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user` int(10) unsigned NOT NULL,
-  `opt` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+--
+-- Table structure for table `users`
+--
 
 DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `username` varchar(32) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
@@ -339,22 +580,30 @@ CREATE TABLE IF NOT EXISTS `users` (
   `passwordResetSecret` varchar(128) DEFAULT NULL,
   `dateFormat` varchar(24) NOT NULL DEFAULT 'Y-m-d',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `venues`
+--
 
 DROP TABLE IF EXISTS `venues`;
-CREATE TABLE IF NOT EXISTS `venues` (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `venues` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-
-ALTER TABLE `images`
-  ADD CONSTRAINT `images_ibfk_1` FOREIGN KEY (`gallery`) REFERENCES `galleries` (`id`);
-
-ALTER TABLE `privileges_g`
-  ADD CONSTRAINT `privileges_g_ibfk_1` FOREIGN KEY (`permission`) REFERENCES `permissions` (`id`);
-
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2015-05-24 14:06:45
