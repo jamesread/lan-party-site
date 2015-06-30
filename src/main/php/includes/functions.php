@@ -494,7 +494,7 @@ function getSignupStatus($userId, $eventId) {
 	$stmt->execute();
 
 	if ($stmt->numRows() == 0) {
-		return '';
+		return null;
 	}
 
 	$result = $stmt->fetchRow();
