@@ -1,0 +1,13 @@
+{
+    "name": "jamesread/lan-party-site",
+    "description": "A LAN Party Website.",
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
+    },
+    "authors": [
+        {
+            "name": "xconspirisist",
+            "email": "xconspirisist@gmail.com"
+        }
+    ]
+}
