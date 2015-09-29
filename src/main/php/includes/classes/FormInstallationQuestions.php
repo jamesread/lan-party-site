@@ -12,7 +12,6 @@ class FormInstallationQuestions extends Form {
 
 		$this->addSection('Database');
 		$this->addElement(new ElementAlphaNumeric('dbName', 'Database name'));
-		$this->getElement('dbName')->setMinMaxLengths(0, 64);
 		$this->addElement(new ElementAlphaNumeric('dbUser', 'Database username'));
 		$this->addElement(new ElementPassword('dbPass', 'Database password'));
 		$this->getElement('dbPass')->setOptional(true);

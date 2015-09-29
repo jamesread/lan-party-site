@@ -40,6 +40,7 @@ $standardLinks = new HtmlLinksCollection();
 $standardLinks->addIf(Session::hasPriv('CHANGE_AVATAR'), 'updateAvatar.php', 'Avatar', 'avatar');
 $standardLinks->addIf(Session::hasPriv('VIEW_ATTENDANCE'), 'viewAttendance.php', 'Attendance');
 $standardLinks->addIfPriv('UPLOAD_GALLERY_IMAGE', 'formUploadImage.php', 'Upload gallery image');
+$standardLinks->addIfPriv('VIEW_SURVEYS', 'listSurveys.php', 'Survey', 'survey');
 
 $tpl->assign('standardLinks', $standardLinks);
 
@@ -52,7 +53,6 @@ $privilegedLinks->addIfPriv('VIEW_VENUES', 'listVenues.php', 'Venues');
 $privilegedLinks->addIfPriv('EDIT_CONTENT', 'listContent.php', 'Content blocks', 'contentBlocks');
 $privilegedLinks->addIfPriv('VIEW_LOG', 'listLogs.php', 'Log');
 $privilegedLinks->addIfPriv('MAILING_LIST', 'viewMailingList.php', 'Mailing list');
-$privilegedLinks->addIfPriv('ADMIN_SURVEYS', 'listSurveys.php', 'Survey', 'survey');
 $privilegedLinks->addIfPriv('SITE_SETTINGS', 'siteSettings.php', 'Site settings', 'siteSettings');
 $privilegedLinks->addIfPriv('ADMIN_PLUGINS', 'plugins.php', 'Plugins');
 $privilegedLinks->addIfPriv('ADDITIONAL_MENU_ITEMS', 'form.php?form=FormAdditionalMenuItems', 'Additional menu items');
@@ -63,6 +63,9 @@ $privilegedLinks->addIfPriv('MACHINE_AUTHENTICATIONS', 'listMachineAuthenticatio
 $privilegedLinks->addIfPriv('LIST_SEATINGPLANS', 'listSeatingPlans.php', 'Seating plans');
 $tpl->assign('privilegedLinks', $privilegedLinks);
 $tpl->display('account.tpl');
+
+$tpl->assign('acheivements', getAcheivements());
+$tpl->display('acheivements.tpl');
 
 $userEventSignups = getUserSignups();
 $userSignupStatistics = getSignupStatistics($userEventSignups);

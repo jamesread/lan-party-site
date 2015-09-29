@@ -4,6 +4,8 @@ use \libAllure\Database;
 use \libAllure\Session;
 use \libAllure\DatabaseFactory;
 use \libAllure\SimpleFatalError;
+use \libAllure\Inflector;
+use \libAllure\PermissionException;
 
 class Events {
 	public static function getSignupFinances($eventId) {
@@ -54,6 +56,12 @@ class Events {
 			$nextEvent['dateIso'] = formatDtIso($nextEvent['date']);
 			$nextEvent['dateUser'] = formatDtString($nextEvent['date']);
 			$nextEvent['date'] = formatDtString($nextEvent['date']); // deprecated
+
+			$diff = strtotime($nextEvent['dateIso']) - time();
+			$diff /= 86400;
+			$diff = floor($diff);
+			$nextEvent['countDays'] = $diff;
+			$nextEvent['stringDays'] = Inflector::quantify('day', $nextEvent['countDays']);
 
 			return $nextEvent;
 		}
@@ -159,12 +167,12 @@ class Events {
 			$signupId = $stmt->fetchRow();
 			$signupId = $signupId['id'];
 
-			self::signupUpdate($signupId, $status);
+			self::signupUpdate($signupId, $status, false);
 		}
 	}
 
-	private static function signupUpdate($signupId, $status) {
-		if ($status == 'PAID' && !Session::hasPriv('SIGNUPS_MODIFY')) {
+	private static function signupUpdate($signupId, $status, $permissionsCheck = true) {
+		if ($permissionsCheck && $status == 'PAID' && !Session::hasPriv('SIGNUPS_MODIFY')) {
 			throw new PermissionException();
 		}
 

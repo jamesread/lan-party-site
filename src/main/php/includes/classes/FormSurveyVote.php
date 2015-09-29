@@ -35,8 +35,8 @@ class FormSurveyVote extends Form {
 
 		$sql = 'DELETE FROM survey_votes WHERE opt IN (SELECT id FROM survey_options WHERE survey = :survey) AND user = :user ';
 		$stmt = $db->prepare($sql);
-		$stmt->bindValue(':survey', $this->survey['id'], Database::PARAM_INT);
-		$stmt->bindValue(':user', Session::getUser()->getId(), Database::PARAM_INT);
+		$stmt->bindValue(':survey', $this->survey['id']);
+		$stmt->bindValue(':user', Session::getUser()->getId());
 		$stmt->execute();
 
 		$sql = 'INSERT INTO survey_votes (user, opt) VALUES (:user, :option)';
@@ -50,8 +50,8 @@ class FormSurveyVote extends Form {
 				$count++;
 			}
 
-			$stmt->bindValue(':user', Session::getUser()->getId(), Database::PARAM_INT);
-			$stmt->bindValue(':option', $vote, Database::PARAM_INT);
+			$stmt->bindValue(':user', Session::getUser()->getId());
+			$stmt->bindValue(':option', $vote);
 			$stmt->execute();
 		}
 
