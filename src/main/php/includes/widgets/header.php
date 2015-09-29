@@ -33,6 +33,7 @@ if (!empty($_SESSION['userHidden'])) {
 	$tpl->assign('userHidden', $_SESSION['userHidden']->getUsername());
 }
 
+$tpl->assign('promo', 'resources/themes/westlan.ng/images/logo.png');
 $tpl->assign('IS_LOGGED_IN', Session::isLoggedIn());
 $tpl->assign('additionalLinks', $ll);
 $tpl->assign('globalAnnouncement', getSiteSetting('globalAnnouncement'));

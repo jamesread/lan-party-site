@@ -21,7 +21,7 @@
 	<script type = "text/javascript" src = "{$theme}/javascript/promo.js"></script>
 </head>
 
-<body class = "{if $isMobileBrowser}mobile{else}notmobile{/if}">
+<body class = "{if $isMobileBrowser}mobile{else}notmobile{/if}" style = "background-image: url('{$promo}'); ">
 
 <div id = "header">
 	<a href = "index.php"><img id = "headerLogo" src = "{$theme}/images/logo.png" alt = "Logo" title = "logo" style = "border:0" /></a>

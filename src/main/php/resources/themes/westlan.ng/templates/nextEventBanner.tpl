@@ -6,6 +6,6 @@
 	</div>
 
 	<button class = "bigSignup" style = "margin: 2em; text-align: center;">
-		Signup
+		Sign Up
 	</button>
 </div>
