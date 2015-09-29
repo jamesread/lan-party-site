@@ -3,8 +3,6 @@
 require_once 'includes/common.php';
 require_once 'libAllure/FormHandler.php';
 
-require_once 'includes/classes/FormEventCreate.php';
-
 use \libAllure\FormHandler;
 use \libAllure\DatabaseFactory;
 

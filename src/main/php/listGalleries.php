@@ -1,5 +1,8 @@
 <?php
 
+require_once 'includes/common.php';
+
+$tpl->assign('pageTitle', 'Photo Galleries');
 require_once 'includes/widgets/header.php';
 require_once 'includes/widgets/sidebar.php';
 

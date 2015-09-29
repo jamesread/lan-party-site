@@ -8,7 +8,6 @@ use \libAllure\Sanitizer;
 $sanitizer = new Sanitizer();
 
 $form = $sanitizer->filterAlphaNumeric('form');
-include_once 'includes/classes/' . $form . '.php';
 $form = new $form();
 $form->addElement(new ElementHidden('form', null, get_class($form)));
 

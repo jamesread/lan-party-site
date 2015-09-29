@@ -7,12 +7,7 @@ use \libAllure\Sanitizer;
 use \libAllure\Session;
 
 $gallery = Galleries::getById(Sanitizer::getInstance()->filterUint('id'));
-
-try {
 $files = $gallery->fetchImages();
-} catch (Exception $exception) {
-	$tpl->error($exception);
-}
 
 try {
 	$tpl->assign('event', Events::getByGalleryId($gallery['id']));

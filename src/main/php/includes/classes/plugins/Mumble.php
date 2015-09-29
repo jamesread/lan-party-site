@@ -3,8 +3,6 @@
 require_once 'includes/classes/Events.php';
 require_once 'includes/classes/Plugin.php';
 
-require_once 'libAllure/Form.php';
-
 use \libAllure\Form;
 use \libAllure\Inflector;
 use \libAllure\ElementTextbox;

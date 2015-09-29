@@ -22,10 +22,6 @@ if (isset($_REQUEST['user']) && $_REQUEST['user'] != Session::getUser()->getID()
 	$user = Session::getUser()->getId();
 }
 
-if (getSignupStatus($user, $event['id']) != null) {
-	redirect('viewEvent.php?id=' . $event['id'], 'You have already signed up.');
-}
-
 $f = new FormSignup($event, $user, 'SIGNEDUP');
 
 if ($f->validate()) {
@@ -35,11 +31,11 @@ if ($f->validate()) {
 	redirect('viewEvent.php?id=' . $event['id'], 'You have been signed up.');
 }
 
-if (isset($_REQUEST['status']) && $_REQUEST['status'] == 'cancelled') {
-	Events::setSignupStatus($user, $event['id'], 'CANCELLED');
-
-	redirect('viewEvent.php?id=' . $event['id'], 'Sorry that you cannot come. :(');
-}
+//if (isset($_REQUEST['status'])) {
+//	Events::setSignupStatus($user, $event['id'], $_REQUEST['status']);
+//
+//	redirect('viewEvent.php?id=' . $event['id'], 'Erm, thanks.');
+//}
 
 require_once 'includes/widgets/header.php';
 require_once 'includes/widgets/sidebar.php';

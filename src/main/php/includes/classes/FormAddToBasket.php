@@ -19,9 +19,12 @@ class FormAddToBasket extends \libAllure\Form {
 
 		$this->hasEvents = false;
 
+		$this->ticketCosts = $this->getTicketCosts();
+
 		foreach ($events as $event) {
 			$this->hasEvents = true;
-			$this->eventsSel->addOption($event['name'] . ' - ' . doubleToGbp($event['priceInAdv']), $event['id']);
+			
+			$this->eventsSel->addOption($event['name'] . ' - ' . doubleToGbp($this->ticketCosts[$event['id']]), $event['id']);
 		}
 
 		$this->addElement(new ElementHtml('desc', null, 'If you cannot see the event you want in the list, you need to sign up to it first!'));
@@ -29,6 +32,21 @@ class FormAddToBasket extends \libAllure\Form {
 		$this->addElement($this->eventsSel);
 		$this->addElement(new ElementHidden('action', null, 'add'));
 		$this->addDefaultButtons('Add ticket for myself to basket');
+	}
+
+	private function getTicketCosts() {
+		$sql = 'SELECT s.event, s.ticketCost FROM signups s WHERE s.user = :userId';
+		$stmt = DatabaseFactory::getInstance()->prepare($sql);
+		$stmt->bindValue(':userId', Session::getUser()->getId());
+		$stmt->execute();
+
+		$costs = array();
+
+		foreach ($stmt->fetchAll() as $signup) {
+			$costs[$signup['event']] = $signup['ticketCost'];
+		}
+
+		return $costs;
 	}
 
 	private function removeEventsAlreadyInBasket($events) {
@@ -64,7 +82,7 @@ class FormAddToBasket extends \libAllure\Form {
 	public function process() {
 		$event = Events::getById($this->getElementvalue('event'));
 
-		Basket::addEvent($event);
+		Basket::addEvent($event, $this->ticketCosts[$event['id']]);
 	}
 }
 
