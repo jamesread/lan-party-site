@@ -523,6 +523,14 @@ function logActivity($message, $userId = null, $metadata = array()) {
 		$userId = Session::getUser()->getId();
 	}
 
+	if (!isset($metadata['user'])) {
+		$metadata['user'] = null;
+	}
+
+	if (!isset($metadata['event'])) {
+		$metadata['event'] = null;
+	}
+
 	$clientIp = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'UNKNOWN';
 
 	$sql = 'INSERT INTO log (message, user, date, ipaddress, associatedUser, associatedEvent) VALUES (:message, :user, now(), :ipaddress, :associatedUser, :associatedEvent)';
@@ -530,8 +538,8 @@ function logActivity($message, $userId = null, $metadata = array()) {
 	$stmt->bindValue(':message', $message);
 	$stmt->bindValue(':user', $userId);
 	$stmt->bindValue(':ipaddress', $clientIp);
-	$stmt->bindValue(':associatedUser', &$metadata['user']);
-	$stmt->bindValue(':associatedEvent', &$metadata['event']);
+	$stmt->bindValue(':associatedUser', $metadata['user']);
+	$stmt->bindValue(':associatedEvent', $metadata['event']);
 	$stmt->execute();
 }
 
@@ -971,6 +979,19 @@ function checkNotificationNotGuarenteedSeats(&$notifications) {
 
 		$notifications[] = 'You are on the <strong>' . $list . ' LIST</strong> for <a href = "viewEvent.php?id=' . $waitingSignup['eventId'] . '">' . $waitingSignup['name'] . '</a>. This means you are <strong>not guarenteed a seat</strong> until you are <strong>PAID</strong> or are <strong>CONFIRMED</strong>.';
 	}
+}
+
+function getThemeDirectory() {
+	$installedThemes = 'resources/themes/';
+
+	if (Session::isLoggedIn()) {
+		$theme = Session::getUser()->getData('theme');
+		if (is_dir($installedThemes . $theme)) {
+			return $installedThemes . $theme;
+		}
+	}
+
+	return $installedThemes . getSiteSetting('theme', 'airdale');	
 }
 
 ?>
