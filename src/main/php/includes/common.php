@@ -38,6 +38,7 @@ require_once 'libAllure/Template.php';
 $tpl = new \libAllure\Template((defined('CFG_DIR_TEMPLATE_CACHE') ? CFG_DIR_TEMPLATE_CACHE : 'lps'));
 $tpl->addAutoClearVar('excludeBox');
 $tpl->registerFunction('hasPriv', '\libAllure\Session::hasPriv');
+$tpl->registerFunction('getContent', 'tplGetContent');
 
 if ((@include 'includes/config.php') !== false) {
 	require_once 'includes/config.php';
