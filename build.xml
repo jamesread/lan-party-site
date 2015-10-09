@@ -16,6 +16,7 @@
 		<xslt style = "var/phpcsReports.xslt" in = "doc/phpcs.xml" out = "doc/phpcs.html" />
 	</target>
 
+	<target name = "test" depends = "phpunit" />
 	<target name = "phpunit" depends = "mysql-restore">
 		<exec executable = "phpunit" failonerror = "true">
 			<arg value = "--no-globals-backup" />
