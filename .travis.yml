@@ -1,2 +1,2 @@
 language: php
-script: ant package -Ddb_user=travis -Ddb_pass=''
+script: ant package -Ddb_user=travis -Ddb_pass='""'
