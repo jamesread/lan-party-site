@@ -9,7 +9,7 @@ class BasketTest extends PHPUnit_Framework_Testcase {
 			'id' => 1,
 		);
 
-		Basket::addEvent($event);
+		Basket::addEvent($event, 1.99);
 	}
 }
 
