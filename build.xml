@@ -93,7 +93,7 @@
 		<echo>${db_user}:${db_pass} ${db_name}</echo>
 		<exec executable = "mysql" input = "./var/setup/databases/schema.sql" failonerror = "true">
 			<arg value = "-u${db_user}" />
-			<arg value = "-p${db_pass}" />
+			<arg value = "-plps_test" />
 			<arg value = "${db_name}" />
 		</exec>
 
