@@ -1,2 +1,4 @@
 language: php
-script: ant package -Ddb_user=travis -Ddb_pass="asdf"
+before_script:
+    - echo "UPDATE user SET password=password('lps_test') WHERE user = 'root'; FLUSH PRIVILEGES; \n | mysql -u travis mysql"
+script: ant package -Ddb_user=travis -Ddb_pass=lps_test
