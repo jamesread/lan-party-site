@@ -700,8 +700,7 @@ function flushOutputBuffers($leave = 0) {
 }
 
 function htmlify($content, $lineSpacing = 1) {
-	$content = strip_tags($content);
-	$content = htmlentities($content);
+	$content = htmlentities($content, null, null, false);
 	$content = stripslashes($content);
 
 	switch ($lineSpacing) {
