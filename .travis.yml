@@ -5,5 +5,6 @@ before_script:
     - wget https://github.com/jamesread/libAllure/archive/master.zip 
     - unzip -l master.zip
     - unzip -jo master.zip "libAllure-master/src/main/php/libAllure/" -d .
+    - find
     - phpunit --no-globals-backup src/test/php
 script: ant package -Ddb_user=travis -Ddb_pass=lps_test
