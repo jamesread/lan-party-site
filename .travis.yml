@@ -2,7 +2,7 @@ language: php
 before_script:
     - echo "SET password = password('lps_test'); \n FLUSH PRIVILEGES; \n | mysql -u travis mysql"
     - echo "CREATE DATABASE lps_test | mysql -utravis -plps_test"
-    - vendor/bin/phpunit --no-globals-backup tests
     - composer update
+    - vendor/bin/phpunit --no-globals-backup tests
     - find .
 script: ant package -Ddb_user=travis -Ddb_pass=lps_test
