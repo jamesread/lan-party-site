@@ -7,5 +7,5 @@ before_script:
     - unzip -jo master.zip "libAllure-master/src/main/php/libAllure/" -d /usr/share/php/libAllure/
     - find /usr/share/php
     - find .
-    - phpunit --no-globals-backup src/test/php
+    - vendor/bin/phpunit --no-globals-backup tests
 script: ant package -Ddb_user=travis -Ddb_pass=lps_test
