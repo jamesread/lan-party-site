@@ -5,7 +5,6 @@ before_script:
     - mysql -ulps_test -plps_test lps_test < var/setup/databases/schema.sql
     - mysql -ulps_test -plps_test lps_test < var/setup/databases/initialData.sql
     - composer update
-    - find .
 #script: ant package -Ddb_user=travis -Ddb_pass=lps_test
 script:
     - vendor/bin/phpunit --no-globals-backup tests
