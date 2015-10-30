@@ -1,7 +1,7 @@
 language: php
 before_script:
-    - echo "CREATE DATABASE lps_test" | mysql -u travis 
-    - echo "GRANT ALL PRIVILEGES ON lps_test.* TO 'lps_test'@'localhost' IDENTIFIED BY 'lps_test'; \n FLUSH PRIVILEGES;" | mysql -u travis
+    - echo "CREATE DATABASE lps_test" | mysql -u root -v 
+    - echo "GRANT ALL PRIVILEGES ON lps_test.* TO 'lps_test'@'localhost' IDENTIFIED BY 'lps_test'; \n FLUSH PRIVILEGES;" | mysql -u root -v 
     - composer update
     - vendor/bin/phpunit --no-globals-backup tests
     - find .
