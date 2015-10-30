@@ -2,10 +2,6 @@ language: php
 before_script:
     - echo "SET password = password('lps_test'); \n FLUSH PRIVILEGES; \n | mysql -u travis mysql"
     - echo "CREATE DATABASE lps_test | mysql -utravis -plps_test"
-    - wget https://github.com/jamesread/libAllure/archive/master.zip 
-    - mkdir /usr/share/php/libAllure/
-    - unzip -jo master.zip "libAllure-master/src/main/php/libAllure/" -d /usr/share/php/libAllure/
-    - find /usr/share/php
-    - find .
     - vendor/bin/phpunit --no-globals-backup tests
+    - find .
 script: ant package -Ddb_user=travis -Ddb_pass=lps_test
