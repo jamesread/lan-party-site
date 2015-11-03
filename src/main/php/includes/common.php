@@ -1,7 +1,8 @@
 <?php
 
-set_include_path(get_include_path() . PATH_SEPARATOR . (dirname(__FILE__) . '/../') . PATH_SEPARATOR . 'includes/classes/');
-date_default_timezone_set('Europe/London');
+function add_include_path($path) {
+	set_include_path(get_include_path() . PATH_SEPARATOR . $path);
+}
 
 function __autoload($class) {
 	$class = DIRECTORY_SEPARATOR . $class . '.php';
@@ -13,6 +14,13 @@ function __autoload($class) {
 		}
 	}
 }
+
+@include 'includes/bootstrap.php';
+
+add_include_path((dirname(__FILE__) . '/../'));
+add_include_path('includes/classes/');
+
+date_default_timezone_set('Europe/London');
 
 require_once 'libAllure/Exceptions.php';
 require_once 'libAllure/ErrorHandler.php';
