@@ -3,3 +3,6 @@ pkg/
 target/
 .settings
 **/*.swp
+**/bootstrap.php
+
+/vendor/

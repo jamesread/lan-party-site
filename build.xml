@@ -16,6 +16,7 @@
 		<xslt style = "var/phpcsReports.xslt" in = "doc/phpcs.xml" out = "doc/phpcs.html" />
 	</target>
 
+	<target name = "test" depends = "phpunit" />
 	<target name = "phpunit" depends = "mysql-restore">
 		<exec executable = "phpunit" failonerror = "true">
 			<arg value = "--no-globals-backup" />
@@ -89,9 +90,10 @@
 	</target>
 
 	<target name = "mysql-restore">
+		<echo>${db_user}:${db_pass} ${db_name}</echo>
 		<exec executable = "mysql" input = "./var/setup/databases/schema.sql" failonerror = "true">
 			<arg value = "-u${db_user}" />
-			<arg value = "-p${db_pass}" />
+			<arg value = "-plps_test" />
 			<arg value = "${db_name}" />
 		</exec>
 

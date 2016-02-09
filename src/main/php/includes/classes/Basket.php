@@ -5,7 +5,7 @@ use \libAllure\Session;
 
 class Basket {
 	public static function getContents() {
-		$sql = 'SELECT e.name AS title, u.username, e.priceInAdv AS cost, u.id AS userId, u.username, e.id AS eventId FROM basket_items bi JOIN events e ON bi.event = e.id JOIN users u ON bi.user = u.id WHERE bi.basketOwner = :userId ORDER BY e.id';
+		$sql = 'SELECT e.name AS title, u.username, bi.price AS cost, u.id AS userId, u.username, e.id AS eventId FROM basket_items bi JOIN events e ON bi.event = e.id JOIN users u ON bi.user = u.id WHERE bi.basketOwner = :userId ORDER BY e.id';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->bindValue(':userId', Session::getUser()->getId());
 		$stmt->execute();
@@ -21,7 +21,7 @@ class Basket {
 	}
 
 	public static function getTotal() {
-		$sql = 'SELECT e.priceInAdv AS cost FROM basket_items bi JOIN events e ON bi.event = e.id WHERE bi.basketOwner = :userId ';
+		$sql = 'SELECT bi.price AS cost FROM basket_items bi JOIN events e ON bi.event = e.id WHERE bi.basketOwner = :userId ';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->bindValue(':userId', Session::getUser()->getId());
 		$stmt->execute();
@@ -46,16 +46,17 @@ class Basket {
 		return ($stmt->numRows() > 0);
 	}
 
-	public static function addEvent(array $event, $userId = null) {
+	public static function addEvent(array $event, $ticketPrice, $userId = null) {
 		if ($userId == null) {
 			$userId = Session::getUser()->getId();
 		}
 
-		$sql = 'INSERT INTO basket_items (event, user, basketOwner) VALUES (:event, :user, :basketOwner) ';
+		$sql = 'INSERT INTO basket_items (event, user, basketOwner, price) VALUES (:event, :user, :basketOwner, :price) ';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->bindValue(':event', $event['id']);
 		$stmt->bindValue(':user', $userId);
 		$stmt->bindValue(':basketOwner', Session::getUser()->getId());
+		$stmt->bindValue(':price', $ticketPrice);
 		$stmt->execute();
 	}
 

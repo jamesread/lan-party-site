@@ -1,0 +1,10 @@
+language: php
+before_script:
+    - echo "CREATE DATABASE lps_test" | mysql -u root -v 
+    - echo "GRANT ALL PRIVILEGES ON lps_test.* TO 'lps_test'@'localhost' IDENTIFIED BY 'lps_test'; \n FLUSH PRIVILEGES;" | mysql -u root -v 
+    - mysql -ulps_test -plps_test lps_test < var/setup/databases/schema.sql
+    - mysql -ulps_test -plps_test lps_test < var/setup/databases/initialData.sql
+    - composer update
+#script: ant package -Ddb_user=travis -Ddb_pass=lps_test
+script:
+    - vendor/bin/phpunit --no-globals-backup tests

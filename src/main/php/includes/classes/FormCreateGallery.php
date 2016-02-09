@@ -22,13 +22,7 @@ class FormCreateGallery extends Form {
 		$folderPath = $this->getElementValue('folderPath');
 
 		if (!is_dir('resources/images/galleries/' . $folderPath)) {
-			$created = @mkdir('resources/images/galleries/' . $folderPath);
-			@mkdir('resources/images/galleries/' . $folderPath . '/full');
-			@mkdir('resources/images/galleries/' . $folderPath . '/thumbs');
-
-			if (!$created) {
-				$this->setElementError('folderPath', 'That directory does not exist (under resources/images/galleries/) and it could not be created.');
-			}
+			$this->setElementError('folderPath', 'That directory does not exist (under resources/images/galleries/).');
 		}
 	}
 

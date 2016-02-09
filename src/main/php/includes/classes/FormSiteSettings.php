@@ -58,7 +58,7 @@ class FormSiteSettings extends Form {
 		$this->addDefaultButtons();
 	}
 
-	public static function getElementSiteTheme($settingTheme = null) {
+	private function getElementSiteTheme($settingTheme) {
 		$el = new ElementSelect('theme', 'Theme', $settingTheme);
 
 		foreach (scandir('resources/themes/') as $theme) {

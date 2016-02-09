@@ -465,7 +465,7 @@ function formatDt(DateTime $date, $format = null) {
 		if (Session::isLoggedIn()) {
 			$dateFormat = Session::getUser()->getData('dateFormat');
 		} else {
-			$dateFormat = 'jS M Y';
+			$dateFormat = 'Y-m-d H:i';
 		}
 	} else {
 		$dateFormat = $format;
@@ -494,7 +494,7 @@ function getSignupStatus($userId, $eventId) {
 	$stmt->execute();
 
 	if ($stmt->numRows() == 0) {
-		return null;
+		return '';
 	}
 
 	$result = $stmt->fetchRow();
@@ -700,8 +700,7 @@ function flushOutputBuffers($leave = 0) {
 }
 
 function htmlify($content, $lineSpacing = 1) {
-	$content = strip_tags($content);
-	$content = htmlentities($content);
+	$content = htmlentities($content, null, null, false);
 	$content = stripslashes($content);
 
 	switch ($lineSpacing) {
@@ -986,13 +985,12 @@ function getThemeDirectory() {
 
 	if (Session::isLoggedIn()) {
 		$theme = Session::getUser()->getData('theme');
-
 		if (is_dir($installedThemes . $theme)) {
 			return $installedThemes . $theme;
 		}
 	}
 
-	return $installedThemes . getSiteSetting('theme', 'airdale');
+	return $installedThemes . getSiteSetting('theme', 'airdale');	
 }
 
 ?>

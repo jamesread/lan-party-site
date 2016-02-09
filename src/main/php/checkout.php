@@ -3,7 +3,6 @@
 require_once 'includes/common.php';
 require_once 'includes/classes/Basket.php';
 require_once 'includes/classes/Events.php';
-require_once 'includes/classes/FormPayTicketCash.php';
 
 use \libAllure\Session;
 use \libAllure\Sanitizer;
@@ -48,7 +47,11 @@ case 'cash':
 case 'bacs':
 	require_once 'includes/widgets/header.php';
 
-	$tpl->display('checkout.bacs.tpl');
+	echo '<div class = "box">';
+	echo getContent('bacs');
+	echo '</div>';
+
+	echo '<div class = "box">When you have done this, please <a href = "checkout.php?action=bacsComplete">click here to Confirm BACS payment</a></div>';
 
 	require_once 'includes/widgets/footer.php';
 
@@ -64,16 +67,22 @@ case 'bacsComplete':
 
 	break;
 case 'paypalFail':
-	redirect('account.php', 'Paypal transaction failed.');
+	logAndRedirect('account.php', 'Paypal transaction failed.');
 	break;
 case 'paypalComplete':
+	logActivity('Started processing PayPal payment notification');
+
 	foreach (Basket::getContents() as $ticket) {
-		Events::setSignupStatus(Session::getUser()->getId(), $ticket['eventId'], 'PAYPAL_WAITING');
+		logActivity('PayPal transaction processing - setting status to PAID for event. Ticket owner _u_, event _e_', $ticket['userId'], array('event' => $ticket['eventId'], 'user' => Session::getUser()->getId()));
+
+		Events::setSignupStatus($ticket['userId'], $ticket['eventId'], 'PAID');
 	}
+
+	logActivity('Finished processing PayPal payment notification.');
 
 	Basket::clear();
 
-	redirect('account.php', 'Thanks, you will be marked as PAID by an admin when they receive the transfer from paypal.');
+	redirect('account.php', 'Thanks, payment complete!');
 
 	break;
 default:

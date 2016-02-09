@@ -38,6 +38,7 @@ if ($loginForm->validate()) {
 		Session::checkCredentials($username, $password);
 		applyAchievements();
 
+		logActivity('Logged in');
 		redirect('index.php', 'You have sucessfully logged in.');
 	} catch (\libAllure\UserNotFoundException $e) {
 		$loginForm->setElementError('username', 'User not found.');

@@ -74,9 +74,15 @@ if (count($listOptions) == 0) {
 	$tpl->assign('survey', $survey);
 	$tpl->assign('listOptions', $options);
 	$tpl->display('viewSurvey.tpl');
-	
-	$tpl->assignForm($f);
-	$tpl->display('form.tpl');
+
+	if (Session::isLoggedIn()) {	
+		$tpl->assignForm($f);
+		$tpl->display('form.tpl');
+	} else {
+		$tpl->assign('title', 'Only logged in users can vote!');
+		$tpl->assign('message', 'To voew on this survey, you need to <a href = "login.php">login</a>!');
+		$tpl->display('notification.tpl');
+	}
 }
 
 require_once 'includes/widgets/footer.php';

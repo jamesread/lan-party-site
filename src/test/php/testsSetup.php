@@ -1,6 +1,11 @@
 <?php
 
-set_include_path(get_include_path() . PATH_SEPARATOR . 'src/main/php/' . PATH_SEPARATOR . '/usr/share/php/');
+set_include_path(get_include_path() 
+	. PATH_SEPARATOR . 'src/main/php/' 
+	. PATH_SEPARATOR . '/usr/share/php/' 
+	. PATH_SEPARATOR . 'vendor/jwread/lib-allure/src/main/php/'
+);
+
 date_default_timezone_set('Europe/London');
 
 function __autoload($class) {
