@@ -18,7 +18,7 @@
 
 	<target name = "test" depends = "phpunit" />
 	<target name = "phpunit" depends = "mysql-restore">
-		<exec executable = "phpunit" failonerror = "true">
+		<exec executable = "./vendor/phpunit/phpunit/phpunit" failonerror = "true">
 			<arg value = "--no-globals-backup" />
 			<!--<arg value = " - -coverage-html=doc/codeCoverage" />-->
 			<arg value = "src/test/php/" />
