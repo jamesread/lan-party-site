@@ -128,5 +128,3 @@ class FormPluginTeamspeak3Settings extends Form {
 
 
 ?>
-
-
