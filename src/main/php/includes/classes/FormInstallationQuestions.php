@@ -1,7 +1,6 @@
 <?php
 
 use \libAllure\Form;
-use \libAllure\ElementInput;
 use \libAllure\ElementAlphaNumeric;
 use \libAllure\ElementEmail;
 use \libAllure\ElementPassword;
@@ -12,7 +11,6 @@ class FormInstallationQuestions extends Form {
 		parent::__construct('formInstallation', 'Generate config.php - installation questions');
 
 		$this->addSection('Database');
-		$this->addElement(new ElementInput('dbHost', 'Database host'));
 		$this->addElement(new ElementAlphaNumeric('dbName', 'Database name'));
 		$this->addElement(new ElementAlphaNumeric('dbUser', 'Database username'));
 		$this->addElement(new ElementPassword('dbPass', 'Database password'));
@@ -23,7 +21,7 @@ class FormInstallationQuestions extends Form {
 		$this->addElement(new ElementPassword('adminPassword1', 'First Admin Password'));
 		$this->addElement(new ElementPassword('adminPassword2', 'First Admin Password (confirm)'));
 
-		$this->requireFields('dbHost', 'dbName', 'dbUser', 'adminUsername', 'adminPassword1', 'adminPassword2');
+		$this->requireFields('dbName', 'dbUser', 'adminUsername', 'adminPassword1', 'adminPassword2');
 
 		$this->addDefaultButtons();
 	}
@@ -61,7 +59,7 @@ class FormInstallationQuestions extends Form {
 	}
 
 	private function validateDatabaseConnection() {
-		$dsn = 'mysql:host=' . $this->getElementValue('dbHost') . ';dbname=' . $this->getElementValue('dbName');
+		$dsn = 'mysql:dbname=' . $this->getElementValue('dbName');
 		$dbUser = $this->getElementValue('dbUser');
 		$dbPass = $this->getElementValue('dbPass');
 
@@ -117,7 +115,7 @@ class FormInstallationQuestions extends Form {
 		$ret .= "date_default_timezone_set('" . date_default_timezone_get() . "');\n";
 		$ret .= "ini_set('display_errors', 'on');\n";
 		$ret .= "\n";
-		$ret .= "define('CFG_DB_DSN', 'mysql:host={$this->getElementValue('dbHost')};dbname={$this->getElementValue('dbName')}');\n";
+		$ret .= "define('CFG_DB_DSN', 'mysql:dbname={$this->getElementValue('dbName')}');\n";
 		$ret .= "define('CFG_DB_USER', '{$this->getElementValue('dbUser')}');\n";
 		$ret .= "define('CFG_DB_PASS', '{$this->getElementValue('dbPass')}');\n";
 		$ret .= "\n// The following is configuration for advanced users only.\n";
