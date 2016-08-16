@@ -17,7 +17,7 @@ if ($stmt->numRows() != 1) {
 
 $survey = $stmt->fetchRow();
 
-$stmt = $db->prepare('SELECT u.username, group_concat(so.value) AS value FROM survey_options so LEFT JOIN (surveys s) ON s.id = so.survey LEFT JOIN (survey_votes sv) ON so.id = sv.opt LEFT JOIN (users u) ON sv.user = u.id WHERE s.id = :surveyId GROUP BY u.id');
+$stmt = $db->prepare('SELECT u.username, group_concat(so.value) AS value FROM survey_options so LEFT JOIN (surveys s) ON s.id = so.survey LEFT JOIN (survey_votes sv) ON so.id = sv.opt LEFT JOIN (users u) ON sv.user = u.id WHERE s.id = :surveyId GROUP BY u.id ORDER BY so.value');
 $stmt->bindValue(':surveyId', $id);
 $stmt->execute();
 

@@ -8,7 +8,7 @@ use \libAllure\Sanitizer;
 $id = Sanitizer::getInstance()->filterUint('id');
 
 // Fetch the survey.
-$sql = 'SELECT id, title, count FROM surveys WHERE id = :id LIMIT 1';
+$sql = 'SELECT id, title, count, event FROM surveys WHERE id = :id LIMIT 1';
 $stmt = $db->prepare($sql);
 $stmt->bindValue(':id', $id);
 $stmt->execute();
@@ -48,6 +48,8 @@ if (count($listOptions) == 0) {
 	require_once 'includes/widgets/header.php';
 	require_once 'includes/widgets/sidebar.php';
 
+	$tpl->assign('currentChoice', getSurveyCurrentChoice($survey['id']));
+
 	// Fetch the votes for the survey.
 	$sql = 'SELECT sv.id, sv.user, u.username, so.id optionId FROM survey_votes sv, survey_options so, users u WHERE sv.user = u.id AND sv.opt = so.id AND so.survey = :id';
 	$stmt = $db->prepare($sql);
@@ -55,7 +57,7 @@ if (count($listOptions) == 0) {
 	$stmt->execute();
 	$totalVotes = $stmt->numRows();
 
-	$tpl->assign('totalVotes');
+	$tpl->assign('totalVotes', $totalVotes);
 
 	foreach ($stmt->fetchAll() as $vote) {
 		$options[$vote['optionId']]['voteCount']++;
@@ -75,12 +77,25 @@ if (count($listOptions) == 0) {
 	$tpl->assign('listOptions', $options);
 	$tpl->display('viewSurvey.tpl');
 
-	if (Session::isLoggedIn()) {	
-		$tpl->assignForm($f);
-		$tpl->display('form.tpl');
+	if (Session::isLoggedIn()) {
+		$signupStatus = getSignupStatus(Session::getUser()->getId(), $survey['event']);
+		$statusComment = '';
+
+		if (!empty($signupStatus)) {
+			$statusComment = 'Your status is:' . $signupStatus;
+		}
+
+		if (isset($survey['event']) && !($signupStatus == 'STAFF' || $signupStatus == 'PAID' || $signupStatus == 'ATTENDED' )) {
+			$tpl->assign('title', 'This survey is for PAID people only! ' . $statusComment);
+			$tpl->assign('message', getContent('noPayNoVote'));
+			$tpl->display('notification.tpl');
+		} else {
+			$tpl->assignForm($f);
+			$tpl->display('form.tpl');
+		}
 	} else {
 		$tpl->assign('title', 'Only logged in users can vote!');
-		$tpl->assign('message', 'To voew on this survey, you need to <a href = "login.php">login</a>!');
+		$tpl->assign('message', getContent('noVoteLogin'));
 		$tpl->display('notification.tpl');
 	}
 }

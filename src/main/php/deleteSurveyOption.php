@@ -2,6 +2,8 @@
 
 require_once 'includes/common.php';
 
+use \libAllure\Session;
+
 if (!Session::hasPriv('SURVEY_OPTION_DELETE')) {
 	throw new PermissionsException();
 }

@@ -5,7 +5,7 @@ require_once 'includes/common.php';
 use \libAllure\DatabaseFactory;
 use \libAllure\Database;
 
-$sql = 'SELECT id, title, active, count FROM surveys WHERE id = :id ';
+$sql = 'SELECT id, title, active, count, event FROM surveys WHERE id = :id ';
 $stmt = $db->prepare($sql);
 $stmt->bindValue(':id', $_REQUEST['id'], Database::PARAM_INT);
 $stmt->execute();

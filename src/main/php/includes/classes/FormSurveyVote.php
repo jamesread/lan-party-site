@@ -15,7 +15,7 @@ class FormSurveyVote extends Form {
 		$this->survey = $survey;
 		$this->addElement(new ElementHtml(null, 'desc', null, 'You may cast ' . $survey['count'] . ' vote(s), if you cast more votes the first valid options will be taken.'));
 
-		$elVote = new ElementMultiCheck('voteValue', 'Vote');
+		$elVote = new ElementMultiCheck('voteValue', '');
 
 		foreach ($options as $option) {
 			$elVote->addOption($option['id'], $option['value']);
@@ -26,6 +26,7 @@ class FormSurveyVote extends Form {
 		$this->addElement(new ElementHidden('action', null, 'view'));
 
 		$this->addButtons(Form::BTN_SUBMIT);
+		$this->getElement('submit')->setCaption('Vote');
 	}
 
 	public function process() {
