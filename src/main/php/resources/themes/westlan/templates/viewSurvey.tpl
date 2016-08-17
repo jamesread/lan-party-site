@@ -1,5 +1,11 @@
 <div class = "box">
 	<h2><a href = "listSurveys.php">Surveys</a> &raquo; {$survey.title}</h2>
+
+	{if $currentChoice}
+	<p>You selected: <strong>{$currentChoice}</strong></p>
+	{else}
+	<p>You haven't voted yet.</p>
+	{/if}
 <table>
 	<thead>
 		<tr>
@@ -26,4 +32,5 @@
 	</tbody>
 
 </table>
+		<p>There have been <strong>{$totalVotes}</strong> votes.</p>
 </div>

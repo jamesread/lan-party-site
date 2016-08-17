@@ -15,11 +15,11 @@
 				<th>Status</th>
 			</tr>
 
-		{foreach from = $attendance item = "signup"}
+		{foreach from = "$attendance" item = "signup"}
 		<tr>
 			<td><a href = "viewEvent.php?id={$signup.eventId}"><nobr>{$signup.eventName}</nobr></a></td>
 			<td>{$signup.date}</td>
-			<td>{$signup.priceOnDoor}</td>
+			<td>{$signup.actualTicketPrice}</td>
 			{if $privViewSignupComments}
 			<td>{$signup.comments}</td>
 			{/if}

@@ -99,12 +99,15 @@ div.seatingContainer {
 </div>
 
 {if isset($itemSeatingPlan.eventName)}
-<div class = "box" style = "columns: 100px 3; -webkit-columns: 100px 3; -o-columns: 100px 3; -moz-columns: 100px 3">
+<div class = "box">
 	<h2>List of people</h2>
+	<p>This event has {$itemSeatingPlan.seatCount} seats</p>
 
+	<div style = "columns: 100px 3; -webkit-columns: 100px 3; -o-columns: 100px 3; -moz-columns: 100px 3">
 	{section name = "seatLabel" loop = $itemSeatingPlan.seatCount}
 		<p>Seat {$smarty.section.seatLabel.iteration}: <span id = "seat{$smarty.section.seatLabel.iteration}label">empty</span></p>
 	{/section}
+	</div>
 </div>
 <script type = "text/javascript">
 loadInitialSeats({$itemSeatingPlan.event});

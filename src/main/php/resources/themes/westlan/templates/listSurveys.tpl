@@ -17,8 +17,8 @@
 			{foreach from = $listSurveys item = "itemSurvey"}
 			<tr>
 				<td><a href = "viewSurvey.php?id={$itemSurvey.id}">{$itemSurvey.id}</a></td>
-				<td>{$itemSurvey.title}</td>
-				<td>{$itemSurvey.active}</td>
+				<td><a href = "viewSurvey.php?id={$itemSurvey.id}">{$itemSurvey.title}</a></td>
+				<td>{if $itemSurvey.active}YES{else}NO{/if}</td>
 			</tr>
 			{/foreach}
 		</tbody>

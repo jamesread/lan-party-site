@@ -29,7 +29,7 @@
 							{else}
 								<a href = "viewAttendance.php?user={$signup.user}">
 								{$signup.countAttended}
-								<strong>{section name = countCancelled start = 0 loop = $signup.countCancelled}C{/section}</strong>
+								<strong>{section name = countCancelled start = 0 step = 1 loop=$signup.countCancelled}C{/section}</strong>
 							{/if}
 							</a>
 							<br /><br />
