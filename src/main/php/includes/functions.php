@@ -7,6 +7,10 @@ use \libAllure\Inflector;
 require_once 'includes/classes/plugins/Mumble.php';
 require_once 'includes/classes/Galleries.php';
 
+function atLan() {
+	return stripos($_SERVER['REMOTE_ADDR'], getSiteSetting('lanIp')) !== FALSE;
+}
+
 function getAcheivements() {
 	$sql = 'SELECT a.id, u.username, a.title, a.description FROM acheivments_earnt e LEFT JOIN achievements a ON e.acheiv = a.id LEFT JOIN users u ON e.user = u.id WHERE u.id = :userId ';
 	$stmt = DatabaseFactory::getInstance()->prepare($sql);
@@ -523,14 +527,6 @@ function logActivity($message, $userId = null, $metadata = array()) {
 		$userId = Session::getUser()->getId();
 	}
 
-	if (!isset($metadata['user'])) {
-		$metadata['user'] = null;
-	}
-
-	if (!isset($metadata['event'])) {
-		$metadata['event'] = null;
-	}
-
 	$clientIp = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'UNKNOWN';
 
 	$sql = 'INSERT INTO log (message, user, date, ipaddress, associatedUser, associatedEvent) VALUES (:message, :user, now(), :ipaddress, :associatedUser, :associatedEvent)';
@@ -538,8 +534,8 @@ function logActivity($message, $userId = null, $metadata = array()) {
 	$stmt->bindValue(':message', $message);
 	$stmt->bindValue(':user', $userId);
 	$stmt->bindValue(':ipaddress', $clientIp);
-	$stmt->bindValue(':associatedUser', $metadata['user']);
-	$stmt->bindValue(':associatedEvent', $metadata['event']);
+	$stmt->bindValue(':associatedUser', &$metadata['user']);
+	$stmt->bindValue(':associatedEvent', &$metadata['event']);
 	$stmt->execute();
 }
 
@@ -980,17 +976,23 @@ function checkNotificationNotGuarenteedSeats(&$notifications) {
 	}
 }
 
-function getThemeDirectory() {
-	$installedThemes = 'resources/themes/';
+function getSurveyCurrentChoice($surveyId) {
+	$currentChoice = null;
 
 	if (Session::isLoggedIn()) {
-		$theme = Session::getUser()->getData('theme');
-		if (is_dir($installedThemes . $theme)) {
-			return $installedThemes . $theme;
+		$sql = 'SELECT so.value FROM survey_votes sv LEFT JOIN survey_options so ON sv.opt = so.id AND sv.user = :username WHERE so.survey = :survey';
+		$stmt = DatabaseFactory::getInstance()->prepare($sql);
+		$stmt->bindValue(':username', Session::getUser()->getId());
+		$stmt->bindValue(':survey', $surveyId);
+		$stmt->execute();
+
+		if ($stmt->numRows() > 0) {
+			$vote = $stmt->fetchRow();
+			$currentChoice = $vote['value'];
 		}
 	}
 
-	return $installedThemes . getSiteSetting('theme', 'airdale');	
+	return $currentChoice;
 }
 
 ?>
