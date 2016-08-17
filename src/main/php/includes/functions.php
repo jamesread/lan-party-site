@@ -1006,17 +1006,15 @@ function getSurveyCurrentChoice($surveyId) {
 function getThemeDirectory() {
 	$installedThemes = 'resources/themes/';
 
- 	$theme = $installedThemes . getSiteSetting('theme', 'airdale');   
+ 	$theme = getSiteSetting('theme', 'airdale');   
 
 	if (Session::isLoggedIn()) {
-    	$theme = Session::getUser()->getData('theme');
-
         if (is_dir($installedThemes . $theme)) {
-			return $installedThemes . $theme;
+			$theme = Session::getUser()->getData('theme');
 		}
 	}
 	
-	return $theme;
+	return $installedThemes . $theme;
 }
 
 ?>

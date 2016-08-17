@@ -19,8 +19,8 @@ date_default_timezone_set('Europe/London');
 
 @include 'includes/bootstrap.php';
 
-add_include_path((dirname(__FILE__) . '/../'));
-add_include_path('includes/classes/');
+add_include_path(dirname(__FILE__) . '/../');
+add_include_path(dirname(__FILE__) . '/classes/');
 
 require_once 'libAllure/Exceptions.php';
 require_once 'libAllure/ErrorHandler.php';

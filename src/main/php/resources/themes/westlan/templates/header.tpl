@@ -14,7 +14,7 @@
 
 
 	<link rel = "shortcut icon" href = "resources/images/westlanFavicon.png" type = "image/png" />
-	<link rel = "stylesheet" href = "resources/themes/{$theme}/stylesheets/main.css" type = "text/css" />
+	<link rel = "stylesheet" href = "{$theme}/stylesheets/main.css" type = "text/css" />
 	<link rel = "stylesheet" href = "resources/javascript/jquery-ui.css" type = "text/css" />
 
 	<script type = "text/javascript" src = "resources/javascript/jquery.js"></script>
@@ -27,7 +27,7 @@
 <body class = "{if $isMobileBrowser}mobile{else}notmobile{/if}">
 
 <div id = "header">
-	<a href = "index.php"><img id = "headerLogo" src = "resources/themes/{$theme}/images/logo.png" alt = "Logo" title = "logo" style = "border:0" /></a>
+	<a href = "index.php"><img id = "headerLogo" src = "{$theme}/images/logo.png" alt = "Logo" title = "logo" style = "border:0" /></a>
 
 	<div id = "welcomeText">
 		{if $IS_LOGGED_IN}
