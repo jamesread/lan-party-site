@@ -12,6 +12,8 @@ class NextEventCountdown implements Plugin {
 	}
 
 	private function shouldNotDisplay() {
+		if (atLan()) return true;
+
 		$excludesPages = explode("\n", getSiteSetting('plugin.countdown.ignorePages'));
 
 		return in_array(basename($_SERVER['PHP_SELF']), $excludesPages); 

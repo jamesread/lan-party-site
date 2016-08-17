@@ -46,6 +46,14 @@ function renderSeatChange(seatChange) {
 			seat.addClass('spSelected');
 			seat.attr('title', seatChange.username);
 			seatLabel.html('<strong>' + seatChange.username + '</strong>');
+
+			if (typeof(seatChange.usernameCss) != "undefined") {
+				seatLabel.attr('style', seatChange.usernameCss)
+			}
+
+			if (typeof(seatChange.seatCss) != "undefined") {
+				seat.attr('style', seatChange.seatCss);
+			}
 		}
 	}
 }
@@ -59,6 +67,5 @@ function loadInitialSeats(eventId) {
 			dataType: 'json',
 		});
 	} catch (err) {
-		console.log(err);
 	}
 }

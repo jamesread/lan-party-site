@@ -4,8 +4,6 @@ set_include_path(get_include_path() . PATH_SEPARATOR . '../../');
 require_once 'includes/common.php';
 require_once 'includes/functions.seatingPlan.php';
 
-use \libAllure\Sanitizer;
-
 requirePrivOrRedirect('SUPERUSER');
 
 $eventId = Sanitizer::getInstance()->filterUint('event');

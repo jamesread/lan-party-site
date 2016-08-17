@@ -244,6 +244,16 @@ div.photoGalleryImageContainer {
 	text-align: center;
 }
 
+div.photoGalleryImageContainer a {
+	margin: .1em;
+	display: inline-block;
+}
+
+div.photoGalleryImageContainer a img {
+	vertical-align: top;
+	border: 1px solid black;
+}
+
 div.photoGallery a img {
 	border: 1px solid black; 
 	width: 100px;
@@ -608,3 +618,21 @@ div.centered * {
 .ui-slider { display: block }
 .ui-slider-handle { background-color: black } 
 .ui-datepicker-current-day { background-color: lightgreen !important }
+
+.channelList {
+	margin-left: 1.2em;
+}
+
+.user img, .channel img {
+	margin-right: .7em;
+}
+
+.user {
+	overflow: hidden;
+	margin: 0;
+	font-weight: bold;
+}
+
+.channel {
+	margin: 0;
+}

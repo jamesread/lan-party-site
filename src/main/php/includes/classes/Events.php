@@ -141,12 +141,14 @@ class Events {
 	/**
 	 * FIXME: Check they are actually allowed to set the status.
 	 */
-	public static function setSignupStatus($userId, $eventId, $status) {
+	public static function setSignupStatus($userId, $eventId, $status, $permissionsCheck = true) {
 		global $db;
 		$status = strtoupper($status);
 
-		if ($userId != Session::getUser()->getId() && !Session::hasPriv('SIGNUPS_MODIFY')) {
-			throw new PermissionException('You may only edit your own signup.');
+		if ($permissionsCheck) {
+			if ($userId != Session::getUser()->getId() && !Session::hasPriv('SIGNUPS_MODIFY')) {
+				throw new PermissionException('You may only edit your own signup.');
+			}
 		}
 
 		if ($status == 'DELETE') {
@@ -199,10 +201,63 @@ class Events {
 			$stmt->execute();
 	}
 
+	public static function getPayableEvents() {
+		$events = self::getSignupableEvents();
+		$events = self::removeEventsUnpayable($events);
+		$events = self::removeEventsAlreadyInBasket($events);
+		$events = self::removeEventsAlreadySignedupFor($events);
+
+		return $events;
+	}
+
+	private static function removeEventsUnpayable($events) {
+		foreach ($events as $key => $event) {
+			if ($event['signups'] == 'waitinglist') {
+				unset($events[$key]);	
+			}
+
+			if (getSignupStatus(Session::getUser()->getId(), $event['id']) == '') {
+				unset($events[$key]);	
+			}
+		}
+
+		return $events;
+	}
+
+	private static function removeEventsAlreadyInBasket($events) {
+		foreach ($events as $key => $event) {
+			if (Basket::containsEventId($event['id'])) {
+				unset($events[$key]);
+			}
+		}
+
+		return $events;
+	}
+
+	private static function removeEventsAlreadySignedupFor($events) {
+		$sql = 'SELECT s.event, s.status FROM signups s WHERE s.user = :user AND s.status != "SIGNEDUP" ';
+		$stmt = DatabaseFactory::getInstance()->prepare($sql);
+		$stmt->bindValue(':user', Session::getUser()->getId());
+		$stmt->execute();
+
+		$eventIds = array();
+		foreach ($stmt->fetchAll() as $event) {
+			$eventIds[] = $event['event'];
+		}
+
+		foreach ($events as $key => $event) {
+			if (in_array($event['id'], $eventIds)) {
+				unset($events[$key]);
+			}
+		}
+
+		return $events;
+	}
+
 	public static function getSignupableEvents() {
 		global $db;
 
-		$sql = 'SELECT id, name, priceInAdv FROM events WHERE date > curdate() AND signups = "punters" OR signups = "waitinglist" ';
+		$sql = 'SELECT id, name, priceInAdv, signups FROM events WHERE date > curdate() AND signups = "punters" OR signups = "waitinglist" ';
 		$result = $db->query($sql);
 
 		if ($result->numRows() == 0) {

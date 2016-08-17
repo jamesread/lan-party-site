@@ -33,9 +33,11 @@ if (isset($_REQUEST['event'])) {
 }
 
 $signupableEvents = Events::getSignupableEvents();
+$payableEvents = Events::getPayableEvents();
+
 $tpl->assign('signupableEvents', $signupableEvents);
 
-$formAddToBasket = new FormAddToBasket($signupableEvents);
+$formAddToBasket = new FormAddToBasket($payableEvents);
 
 if ($formAddToBasket->validate()) {
 	$formAddToBasket->process();

@@ -15,12 +15,12 @@ function __autoload($class) {
 	}
 }
 
+date_default_timezone_set('Europe/London');
+
 @include 'includes/bootstrap.php';
 
 add_include_path((dirname(__FILE__) . '/../'));
 add_include_path('includes/classes/');
-
-date_default_timezone_set('Europe/London');
 
 require_once 'libAllure/Exceptions.php';
 require_once 'libAllure/ErrorHandler.php';

@@ -61,6 +61,7 @@ $event = getEvent();
 $signupStatus = getSignupStatus($user->getId(), $event['id']);
 
 switch ($signupStatus) {
+	case 'ATTENDED':
 	case 'PAID':
 		$authenticatedMachines = getAuthenticatedMachines($user->getId(), $event['id']);
 

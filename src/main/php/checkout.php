@@ -47,6 +47,8 @@ case 'cash':
 case 'bacs':
 	require_once 'includes/widgets/header.php';
 
+	logActivity('Selected BACS at checkout.');
+
 	echo '<div class = "box">';
 	echo getContent('bacs');
 	echo '</div>';
@@ -57,6 +59,7 @@ case 'bacs':
 
 	break;
 case 'bacsComplete':
+
 	foreach (Basket::getContents() as $ticket) {
 		Events::setSignupStatus(Session::getUser()->getId(), $ticket['eventId'], 'BACS_WAITING');
 	}
@@ -75,7 +78,7 @@ case 'paypalComplete':
 	foreach (Basket::getContents() as $ticket) {
 		logActivity('PayPal transaction processing - setting status to PAID for event. Ticket owner _u_, event _e_', $ticket['userId'], array('event' => $ticket['eventId'], 'user' => Session::getUser()->getId()));
 
-		Events::setSignupStatus($ticket['userId'], $ticket['eventId'], 'PAID');
+		Events::setSignupStatus($ticket['userId'], $ticket['eventId'], 'PAID', false);
 	}
 
 	logActivity('Finished processing PayPal payment notification.');
@@ -92,6 +95,8 @@ default:
 	startBox();
 
 	echo str_replace('%BASKETTOTAL%', doubleToGbp($cost), getContent('selectPaymentMethod'));
+	
+	logActivity('Went to the checkout (but not clicked on anything yet), with ' . doubleToGbp($cost) . ' of stuff in the basket.');
 
 	$tpl->assign('cost', $cost);
 	$tpl->assign('costPaypal', getPaypalCommission($cost));

@@ -14,16 +14,13 @@ class FormAddToBasket extends \libAllure\Form {
 
 		$this->eventsSel = new ElementSelect('event', 'Event');
 
-		$events = $this->removeEventsAlreadyInBasket($events);
-		$events = $this->removeEventsAlreadySignedupFor($events);
-
 		$this->hasEvents = false;
 
 		$this->ticketCosts = $this->getTicketCosts();
 
 		foreach ($events as $event) {
 			$this->hasEvents = true;
-			
+
 			$this->eventsSel->addOption($event['name'] . ' - ' . doubleToGbp($this->ticketCosts[$event['id']]), $event['id']);
 		}
 
@@ -47,36 +44,6 @@ class FormAddToBasket extends \libAllure\Form {
 		}
 
 		return $costs;
-	}
-
-	private function removeEventsAlreadyInBasket($events) {
-		foreach ($events as $key => $event) {
-			if (Basket::containsEventId($event['id'])) {
-				unset($events[$key]);
-			}
-		}
-
-		return $events;
-	}
-
-	private function removeEventsAlreadySignedupFor($events) {
-		$sql = 'SELECT s.event, s.status FROM signups s WHERE s.user = :user AND s.status != "SIGNEDUP" ';
-		$stmt = DatabaseFactory::getInstance()->prepare($sql);
-		$stmt->bindValue(':user', Session::getUser()->getId());
-		$stmt->execute();
-
-		$eventIds = array();
-		foreach ($stmt->fetchAll() as $event) {
-			$eventIds[] = $event['event'];
-		}
-
-		foreach ($events as $key => $event) {
-			if (in_array($event['id'], $eventIds)) {
-				unset($events[$key]);
-			}
-		}
-
-		return $events;
 	}
 
 	public function process() {

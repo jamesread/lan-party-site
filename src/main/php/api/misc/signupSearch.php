@@ -11,9 +11,12 @@ if ($ipAddress == null) {
 	die ('ERROR:IP Address not specified');
 }
 
-$sql = 'SELECT u.username FROM authenticated_machines a JOIN events e ON a.event = e.id JOIN users u ON a.user = u.id WHERE a.ip = :ipAddress ORDER BY e.date DESC LIMIT 1';
+$event = Events::nextEvent();
+
+$sql = 'SELECT u.username FROM authenticated_machines a LEFT JOIN events e ON a.event = e.id JOIN users u ON a.user = u.id WHERE a.ip = :ipAddress AND e.id = :eventId ORDER BY e.date DESC LIMIT 1';
 $stmt = DatabaseFactory::getInstance()->prepare($sql);
 $stmt->bindValue(':ipAddress', $ipAddress);
+$stmt->bindValue(':eventId', $event['id']);
 $stmt->execute();
 
 if ($stmt->numRows() == 0) {

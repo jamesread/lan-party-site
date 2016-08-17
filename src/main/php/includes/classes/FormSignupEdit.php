@@ -24,7 +24,7 @@ class FormSignupEdit extends Form {
 		$this->addElement(new ElementHidden('id', null, $this->signup['id']));
 		$this->addElement($this->getStatusElement($this->signup['status']));
 		$this->addElement(new ElementTextbox('comments', 'Comments', ''));
-		$this->addElement(new ElementHtml('previousComments', 'Previous Comments', nl2br($this->signup['comments'])));
+		$this->addElement(new ElementHtml('previousComments', 'Previous Comments', htmlify($this->signup['comments'], 2)));
 		$this->addElement(new ElementCheckbox('gigabit', 'Gigabit', $this->signup['gigabit']));
 		$this->addElement(new ElementNumeric('ticketCost', 'Ticket cost', $this->signup['ticketCost']));
 		$this->addElement(new ElementNumeric('numberMachinesAllowed', 'Machines Allowed', $this->signup['numberMachinesAllowed']));

@@ -17,7 +17,7 @@ class FormRegistration extends Form {
 
 		$this->addSection('Personal stuff');
 		$this->addElement(new ElementEmail('email', 'Email Address', null, 'We will be really careful with your email address! '));
-		$this->addElement(new ElementAlphaNumeric('realName', 'Real Name', null, 'Your real name will be publicly displayed in the signups list.'));
+		$this->addElement(new ElementAlphaNumeric('realName', 'Real Name'));
 		$this->getElement('realName')->setMinMaxLengths(0, 32);
 
 		$this->addElement(new ElementAlphaNumeric('mobile', 'Mobile phone number', null, 'The reason we ask for your mobile phone number is to call you on the day if an event is cancelled, such as the hall flooding, burning down, zombie invasion, etc.'));

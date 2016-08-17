@@ -527,6 +527,14 @@ function logActivity($message, $userId = null, $metadata = array()) {
 		$userId = Session::getUser()->getId();
 	}
 
+	if (!isset($metadata['user'])) {
+		$metadata['user'] = null;
+	}
+
+	if (!isset($metadata['event'])) {
+		$metadata['event'] = null;
+	}
+
 	$clientIp = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'UNKNOWN';
 
 	$sql = 'INSERT INTO log (message, user, date, ipaddress, associatedUser, associatedEvent) VALUES (:message, :user, now(), :ipaddress, :associatedUser, :associatedEvent)';
@@ -534,8 +542,8 @@ function logActivity($message, $userId = null, $metadata = array()) {
 	$stmt->bindValue(':message', $message);
 	$stmt->bindValue(':user', $userId);
 	$stmt->bindValue(':ipaddress', $clientIp);
-	$stmt->bindValue(':associatedUser', &$metadata['user']);
-	$stmt->bindValue(':associatedEvent', &$metadata['event']);
+	$stmt->bindValue(':associatedUser', $metadata['user']);
+	$stmt->bindValue(':associatedEvent', $metadata['event']);
 	$stmt->execute();
 }
 
@@ -993,6 +1001,22 @@ function getSurveyCurrentChoice($surveyId) {
 	}
 
 	return $currentChoice;
+}
+
+function getThemeDirectory() {
+	$installedThemes = 'resources/themes/';
+
+ 	$theme = $installedThemes . getSiteSetting('theme', 'airdale');   
+
+	if (Session::isLoggedIn()) {
+    	$theme = Session::getUser()->getData('theme');
+
+        if (is_dir($installedThemes . $theme)) {
+			return $installedThemes . $theme;
+		}
+	}
+	
+	return $theme;
 }
 
 ?>

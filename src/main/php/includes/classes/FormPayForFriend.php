@@ -59,25 +59,32 @@ class FormPayForFriend extends Form {
 			return;
 		}
 
-		$sql = 'SELECT status FROM signups WHERE user = :user AND event = :event AND status != "SIGNEDUP" ';
+		$sql = 'SELECT ticketCost AS cost, status FROM signups WHERE user = :user AND event = :event ';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->bindValue(':user', $this->user->getId());
 		$stmt->bindValue(':event', $this->getElementValue('event'));
 		$stmt->execute();
 
-		if ($stmt->numRows() != 0) {
-			$user = $stmt->fetchRow();
-			$this->setElementError('username', 'This user is already signed up, with status ' . $user['status']);
-			return;
+		if ($stmt->numRows() == 0) {
+			$this->setElementError('username', 'Your friend needs to signup before you can buy them a ticket!');
+		} else {
+			$this->friendsSignup = $stmt->fetchRow();
+
+			if ($this->friendsSignup['status'] != 'SIGNEDUP') {
+				$this->setElementError('username', 'This user is already signed up, with status ' . $this->friendsSignup['status']);
+			}
 		}
 	}
 
 	public function process() {
-		$sql = 'INSERT INTO basket_items (user, event, basketOwner) VALUES (:user, :event, :basketOwner)';
+		logActivity('Added friend ticket to basket for _u_ to _e_', null, array('event' => $this->getElementValue('event'), 'user' => $this->user->getId()));
+
+		$sql = 'INSERT INTO basket_items (user, event, basketOwner, price) VALUES (:user, :event, :basketOwner, :cost)';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->bindValue(':user', $this->user->getId());
 		$stmt->bindValue(':event', $this->getElementValue('event'));
 		$stmt->bindValue(':basketOwner', Session::getUser()->getId());
+		$stmt->bindValue(':cost', $this->friendsSignup['cost']);
 		$stmt->execute();
 	}
 }
