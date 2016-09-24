@@ -3,6 +3,13 @@ pkg/
 target/
 .settings
 **/*.swp
+**/*.swo
+**/config.swp
 **/bootstrap.php
-
+**/error_log
 /vendor/
+src/main/php/*.co.uk
+src/main/php/wiki
+src/main/php/resources/images/
+src/main/php/photos
+src/main/php/includes/config.php
