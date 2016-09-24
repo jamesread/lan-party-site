@@ -10,7 +10,7 @@ class FormCreateGallery extends Form {
 		parent::__construct('createGallery', 'Create gallery');
 
 		$this->addElement(new ElementInput('title', 'Title'));
-		$this->addElement(new ElementAlphaNumeric('folderPath', 'Folder Path'));
+		$this->addElement(new ElementAlphaNumeric('folderPath', 'Folder Name', null, 'Letters and numbers only.'));
 		$this->getElement('folderPath')->setMinMaxLengths(1, 64);
 
 		$this->requireFields('title', 'folderPath');
@@ -21,8 +21,12 @@ class FormCreateGallery extends Form {
 	protected function validateExtended() {
 		$folderPath = $this->getElementValue('folderPath');
 
-		if (!is_dir('resources/images/galleries/' . $folderPath)) {
-			$this->setElementError('folderPath', 'That directory does not exist (under resources/images/galleries/).');
+		try {
+			mkdirOrException('resources/images/galleries/' . $folderPath);
+			mkdirOrException('resources/images/galleries/' . $folderPath . '/full/');
+			mkdirOrException('resources/images/galleries/' . $folderPath . '/thumb/');
+		} catch (Exception $e){ 
+			$this->setElementError('folderPath', 'Could not create directory: ' . $e->getMessage());
 		}
 	}
 

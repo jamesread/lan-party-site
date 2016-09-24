@@ -80,6 +80,22 @@ class ItemGallery extends DatabaseItem {
 		return $g;
 	}
 
+	public function getTitle() {
+		return $this->getField('title');
+	}
+
+	public function getId() {
+		return $this->getField('id');
+	}
+
+	public function getFullPath() {
+		return $this->getField('fullPath');
+	}
+
+	public function getThumbPath() {
+		return $this->getField('thumbPath');
+	}
+
 	public function getFields() {
 		return array(
 			'id' => $this->id,
