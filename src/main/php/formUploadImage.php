@@ -109,13 +109,7 @@ class FormUploadImage extends Form {
 		$gal = intval(str_replace('gallery', null, $this->getElementValue('dir')));
 
 		if ($gal != null) {
-				$sql = 'INSERT INTO images (filename, gallery, caption, published, user_uploaded) values (:filename, :gallery, :caption, 0, :user)';
-				$stmt = DatabaseFactory::getInstance()->prepare($sql);
-				$stmt->bindValue(':filename', $filename);
-				$stmt->bindValue(':gallery', $gal);
-				$stmt->bindValue(':caption', 'Uploaded by: ' . Session::getUser()->getUsername());
-				$stmt->bindValue(':user', Session::getUser()->getId());
-				$stmt->execute();
+			createGalleryDbEntry($filename, $gal);
 		}
 
 		logActivity(Session::getUser()->getUsername() . ' uploaded image ' . $filename . ' to gallery: ' . $this->getElement('file')->destinationDir);
