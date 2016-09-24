@@ -36,18 +36,18 @@ class Teamspeak3 implements Plugin {
 		startbox();
 		echo '<div class="teamspeak3ServerView"></div>';
 		echo '<script type="text/javascript">
-				function drawTree(data) {
-					data = JSON.parse(data);
-					if (data !== undefined && data !== "") {
-						if (data.result !== undefined && data.result.data !== undefined) {
-							console.log(data.result.data);
-							$.each(data.result.data, function( i, row ) { addRow(i, row, data.result.data); });
+				function drawTree(response) {
+					console.log(response);
+
+					if (response.content !== undefined && response.content !== "") {
+						if (response.content.result !== undefined && response.content.result.data !== undefined) {
+							$.each(response.content.result.data, function( i, row ) { addRow(i, row, response.content.result.data); });
 						}
 					}
-					console.log($(".teamspeak3ServerView"));
 				}
 				
 				function addRow(i, row, allRows) {
+					console.log(i, row, allRows);
 					var parent = $("." + row.parent);
 					var spacer = "&nbsp;&nbsp;";
 					
@@ -83,17 +83,10 @@ class Teamspeak3 implements Plugin {
 				}
 				
 				$(document).ready(function(){
-					$.ajax({
-						dataType: "json",
-						type: "POST",
-						url: "/api/misc/updateTeamspeak3.php",
-						data: {
-							host: "'.getSiteSetting('plugin.teamspeak3.host').'",
-							port: "'.getSiteSetting('plugin.teamspeak3.port').'",
-						},
-						success: drawTree
-					});
-					/*$.get("https://api.planetteamspeak.com/servernodes/' . getSiteSetting('plugin.teamspeak3.host') . ':' . getSiteSetting('plugin.teamspeak3.port') . '/", null, drawTree);*/
+					$.getJSON(
+						"/api/misc/updateTeamspeak3.php",
+						drawTree
+					);
 				});
 			</script>';
 		#echo '<script type = "text/javascript"></script>';
@@ -128,3 +121,5 @@ class FormPluginTeamspeak3Settings extends Form {
 
 
 ?>
+
+
