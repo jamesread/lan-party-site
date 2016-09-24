@@ -46,6 +46,7 @@ class FormUpdateProfile extends Form {
 
 		$this->addSection('Preferences');
 		$this->addElement(new ElementCheckbox('mailingList', 'Mailing list', $user->getData('mailingList')));
+		$this->addElement($this->getElementSiteTheme($user->getData('theme')));
 
 		$now = date_create();
 		$elementDateFormat = $this->addElement(new ElementSelect('dateFormat', 'Date format', $user->getData('dateFormat')));
@@ -75,6 +76,20 @@ class FormUpdateProfile extends Form {
 		}
 
 		$this->addButtons(Form::BTN_SUBMIT);
+	}
+
+	private function getElementSiteTheme($settingTheme) {
+		$el = new ElementSelect('theme', 'Theme', $settingTheme);
+
+		foreach (scandir('resources/themes/') as $theme) {
+			if ($theme[0] == '.') {
+				continue;
+			}
+
+			$el->addOption($theme);
+		}
+
+		return $el;
 	}
 
 	public function validateExtended() {
@@ -132,7 +147,7 @@ class FormUpdateProfile extends Form {
 		global $db;
 
 
-		$sql = 'UPDATE users SET dateFormat = :dateFormat, email = :email, real_name = :realName, location = :location, mobileNo = :mobileNo, emailFlagged = 0, mailingList = :mailingList WHERE id = :id LIMIT 1';
+		$sql = 'UPDATE users SET dateFormat = :dateFormat, email = :email, real_name = :realName, location = :location, mobileNo = :mobileNo, emailFlagged = 0, mailingList = :mailingList, theme = :theme WHERE id = :id LIMIT 1';
 		$stmt = $db->prepare($sql);
 		$stmt->bindValue(':dateFormat', $this->getElementValue('dateFormat'));
 		$stmt->bindValue(':email', $this->getElementValue('email'));
@@ -140,6 +155,7 @@ class FormUpdateProfile extends Form {
 		$stmt->bindValue(':location', $this->getElementValue('location'));
 		$stmt->bindValue(':mobileNo', $this->getElementValue('mobileNo'));
 		$stmt->bindValue(':mailingList', $this->getElementValue('mailingList'));
+		$stmt->bindValue(':theme', $this->getElementValue('theme'));
 		$this->bindUser($stmt);
 
 		$stmt->execute();
