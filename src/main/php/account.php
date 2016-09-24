@@ -39,7 +39,7 @@ $tpl->assign('username', Session::getUser()->getUsername());
 $standardLinks = new HtmlLinksCollection();
 $standardLinks->addIf(Session::hasPriv('CHANGE_AVATAR'), 'updateAvatar.php', 'Avatar', 'avatar');
 $standardLinks->addIf(Session::hasPriv('VIEW_ATTENDANCE'), 'viewAttendance.php', 'Attendance');
-$standardLinks->addIfPriv('UPLOAD_GALLERY_IMAGE', 'formUploadImage.php', 'Upload gallery image');
+$standardLinks->addIfPriv('UPLOAD_GALLERY_IMAGE', 'listGalleries.php', 'Upload gallery image');
 $standardLinks->addIfPriv('VIEW_SURVEYS', 'listSurveys.php', 'Survey', 'survey');
 
 $tpl->assign('standardLinks', $standardLinks);
