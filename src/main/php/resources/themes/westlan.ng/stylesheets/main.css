@@ -23,8 +23,6 @@ body {
 }
 
 div#footer {
-	clear: both;
-	width: 30%;
 	margin: 5em auto;   
 	text-align: center;
 	font-size: small;
@@ -50,27 +48,13 @@ div#welcomeText {
 }
 
 div#torso {
-	padding-top: 5em;
+	padding-top: 10em;
 	margin: auto;
+	display: flex;
 }
 
 div.header a img {
 	border: 0;
-}
-
-div#sidebar {
-	width: 20%;
-	float: left;
-}
-
-div#content {
-	margin-left: 20%;
-	padding: 0;
-} 
-
-div#contentStruct {
-	width: 80%;
-	margin: auto;
 }
 
 h1 {
@@ -178,7 +162,6 @@ h2 {
 
 img#headerLogo {
 	float: right;
-	height: 2.5em;
 	text-align: center;
 	padding-right: 1em;
 }
@@ -659,8 +642,6 @@ div.centered * {
 
 #contentStruct {
 	width: 100%;
-	perspective: 1px;
-	transform: translateZ(-1px);
 }
 
 #content {
