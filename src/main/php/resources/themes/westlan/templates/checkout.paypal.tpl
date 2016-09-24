@@ -9,17 +9,21 @@
 			<input type="hidden" name="business" value = "{$paypalEmail}" />
 			<input type="hidden" name="currency_code" value = "{$currency}" />
 
+			<input type="hidden" name="custom" value="{$userId}" />
+
 			<input type="hidden" name="cancel_return" value = "{$baseUrl}/checkout.php?action=paypalFail" />
 			<input type="hidden" name="return" value = "{$baseUrl}/checkout.php?action=paypalComplete" />
 			<input type="hidden" name="shopping_url" value = "{$baseUrl}/basket.php" />
 
 			<input type="hidden" name="amount_1" value = "{$costPaypal}" />
 			<input type="hidden" name="item_name_1" value = "Paypal Commission" />
+			<input type="hidden" name="item_number_1" value = "paypalcomp" />
 
 			{foreach from = $listBasketContents item = "itemProduct" key = "ordinal"}
 				{math equation = "$ordinal + 2" assign = "ordinalUsable"}
 				<input type="hidden" name="amount_{$ordinalUsable}" value = "{$itemProduct.cost}" />
 				<input type="hidden" name="item_name_{$ordinalUsable}" value = "{$itemProduct.title} - {$itemProduct.username}" />
+				<input type="hidden" name="item_number_{$ordinalUsable}" value = "{$itemProduct.id}" />
 			{/foreach}
 
 			<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_buynow_LG.gif" name="submit" alt="PayPal. The safer, easier way to pay online." style = "background-color: white; min-width: 107px; width: 107px; height: 26px; border: 0;"/>

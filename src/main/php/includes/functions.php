@@ -524,7 +524,11 @@ function logActivity($message, $userId = null, $metadata = array()) {
 	global $db;
 
 	if ($userId == null) {
-		$userId = Session::getUser()->getId();
+		if (Session::isLoggedIn()) {
+			$userId = Session::getUser()->getId();
+		} else {
+			$userId = 0;
+		}
 	}
 
 	if (!isset($metadata['user'])) {
@@ -1015,6 +1019,49 @@ function getThemeDirectory() {
 	}
 	
 	return $installedThemes . $theme;
+}
+
+function mkdirOrException($folderPath) {
+		if (preg_match('/a-zA-Z0-9/', $folderPath)) {
+			throw new Exception('Invalid directory name. Must be letters and numbers only: ' . $folderPath);
+		}
+
+		if (is_dir($folderPath)) {
+			return;	
+		}
+
+		$res = @mkdir('resources/images/galleries/' . $folderPath);
+
+		if (!$res) {
+			throw new Exception('Could not create directory: ' . $folderPath);
+		}
+}
+
+function createGalleryDbEntry($filename, $gal) {
+	$sql = 'INSERT INTO images (filename, gallery, caption, published, user_uploaded) values (:filename, :gallery, :caption, 0, :user)';
+	$stmt = DatabaseFactory::getInstance()->prepare($sql);
+	$stmt->bindValue(':filename', $filename);
+	$stmt->bindValue(':gallery', $gal);
+	$stmt->bindValue(':caption', 'Uploaded by: ' . Session::getUser()->getUsername());
+	$stmt->bindValue(':user', Session::getUser()->getId());
+	$stmt->execute();
+}
+
+function markBasketAsPaidForUser($userId) {
+	$basketContents = Basket::getContents($userId);
+
+	logActivity('Processing site basket, which has ' . count($basketContents) . ' items: ' . print_r($basketContents, true), $userId);
+
+	foreach ($basketContents as $ticket) {
+		logActivity('Basket processing - setting status to PAID for event. Ticket owner _u_, event _e_', $ticket['userId'], array('event' => $ticket['eventId'], 'user' => $ticket['userId']));
+
+		Events::setSignupStatus($ticket['userId'], $ticket['eventId'], 'PAID', false);
+		Events::appendSignupComment($ticket['userId'], $ticket['eventId'], 'Marked PAID when processing basket.');
+	}
+
+	logActivity('Finished processing basket.', $userId);
+
+	Basket::clear($userId);
 }
 
 ?>

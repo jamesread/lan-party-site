@@ -70,22 +70,12 @@ case 'bacsComplete':
 
 	break;
 case 'paypalFail':
-	logAndRedirect('account.php', 'Paypal transaction failed.');
+	logAndRedirect('account.php', 'User has cancelled from the PayPal website or their payment was declined.');
 	break;
 case 'paypalComplete':
-	logActivity('Started processing PayPal payment notification');
+	logActivity('User has returned to our site after PayPal, it completed okay. Will wait for notification');
 
-	foreach (Basket::getContents() as $ticket) {
-		logActivity('PayPal transaction processing - setting status to PAID for event. Ticket owner _u_, event _e_', $ticket['userId'], array('event' => $ticket['eventId'], 'user' => Session::getUser()->getId()));
-
-		Events::setSignupStatus($ticket['userId'], $ticket['eventId'], 'PAID', false);
-	}
-
-	logActivity('Finished processing PayPal payment notification.');
-
-	Basket::clear();
-
-	redirect('account.php', 'Thanks, payment complete!');
+	redirect('account.php', 'Thanks, you will soon be marked as paid!');
 
 	break;
 default:
@@ -104,6 +94,7 @@ default:
 	$tpl->assign('listBasketContents', Basket::getContents());
 	$tpl->assign('baseUrl', getSiteSetting('baseUrl'));
 	$tpl->assign('currency', getSiteSetting('currency'));
+	$tpl->assign('userId', Session::getUser()->getId());
 	$tpl->display('checkout.tpl');
 
 	echo getContent('commissionDisclaimer');
