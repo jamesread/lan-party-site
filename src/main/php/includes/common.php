@@ -37,6 +37,8 @@ require_once 'includes/classes/Plugin.php';
 require_once 'includes/classes/SessionBasedNotifications.php';
 require_once 'includes/functions.php';
 
+redirectHttpToHttps();
+
 \libAllure\Form::$fullyQualifiedElementNames = false;
 //\libAllure\ElementDate::$js = "<script type = \"text/javascript\">$('#NAME').datetimepicker({ dateFormat: 'yy-mm-dd', firstDay: 1, hour: 19, changeYear: true, changeMonth: true }); </script>";
 \libAllure\ErrorHandler::getInstance()->beGreedy();
