@@ -4,35 +4,22 @@ function add_include_path($path) {
 	set_include_path(get_include_path() . PATH_SEPARATOR . $path);
 }
 
-function __autoload($class) {
-	$class = DIRECTORY_SEPARATOR . $class . '.php';
-
-	foreach (explode(PATH_SEPARATOR, get_include_path()) as $path) {
-		if (file_exists($path . $class)) {
-			require_once $path . $class;
-			return;
-		}
-	}
-}
-
 date_default_timezone_set('Europe/London');
 
 @include 'includes/bootstrap.php';
 
-add_include_path(dirname(__FILE__) . '/../');
-add_include_path(dirname(__FILE__) . '/classes/');
+require_once dirname(__FILE__) . '/libraries/autoload.php';
 
-require_once 'libAllure/Exceptions.php';
-require_once 'libAllure/ErrorHandler.php';
-require_once 'libAllure/Database.php';
-require_once 'libAllure/Form.php';
-require_once 'libAllure/Logger.php';
-require_once 'libAllure/User.php';
-require_once 'libAllure/Inflector.php';
-require_once 'libAllure/Session.php';
-require_once 'libAllure/HtmlLinksCollection.php';
-require_once 'libAllure/Sanitizer.php';
-require_once 'libAllure/FormHandler.php';
+use \libAllure\IncludePath;
+
+IncludePath::add('/../');
+IncludePath::add('/classes/');
+IncludePath::add_libAllure();
+
+if (!interface_exists('\JsonSerializable')) {
+	interface JsonSerializable {}
+}
+
 require_once 'includes/classes/Plugin.php';
 require_once 'includes/classes/SessionBasedNotifications.php';
 require_once 'includes/functions.php';
