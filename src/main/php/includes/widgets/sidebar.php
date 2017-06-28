@@ -1,4 +1,5 @@
 <div id = "torso">
+<div id = "torsoInnards">
 
 <div id = "sidebarStruct">
 <div id = "sidebar">
