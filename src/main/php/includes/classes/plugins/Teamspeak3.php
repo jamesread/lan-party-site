@@ -64,11 +64,11 @@ class Teamspeak3 implements Plugin {
 						
 						if (row.class === "channel") {
 							html.addClass("channel");
-							html.append($("<img src=\"http://tydus.net/MumPI/viewer/resources/images/channel_12.png\" alt=\"channel icon\" />"));
+							html.append($("<img src=\"resources/images/channel_12.png\" alt=\"channel icon\" />"));
 						}
 						else if (row.class === "client") {
 							html.addClass("user");
-							html.append($("<img src=\"http://tydus.net/MumPI/viewer/resources/images/talking_off_12.png\" alt=\"channel icon\" />"));
+							html.append($("<img src=\"//resources/images/talking_off_12.png\" alt=\"channel icon\" />"));
 						}
 						
 						for (var i = 2; i < row.level; i++) {

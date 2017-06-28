@@ -1,6 +1,0 @@
-Options -Indexes
-
-ErrorDocument 404 /error.php?error=404
-ErrorDocument 403 /error.php?error=403
-
-Allow From All
