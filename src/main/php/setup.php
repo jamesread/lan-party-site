@@ -15,7 +15,7 @@ $countUsers = $stmt->fetchRow();
 $countUsers = $countUsers['count'];
 
 $setupLinks = new HtmlLinksCollection();
-if ($countUsers == 1 || isset($_REQUEST['recreate'])) {
+if ($countUsers == 1 && isset($_REQUEST['recreate'])) {
     $sql = 'DELETE FROM users WHERE username = "admin"';
 	$stmt = $db->prepare($sql)->execute();
 	$adminPassword = uniqid();
@@ -29,10 +29,14 @@ if ($countUsers == 1 || isset($_REQUEST['recreate'])) {
     $tpl->assign('message', 'User account created. Your username is <strong>admin</strong> and your password is <strong>' . $adminPassword . '</strong>');
 	$setupLinks->add('login.php', 'Login');
 } else {
-
-	$tpl->assign('message', 'Admin account already exists.');
-	$setupLinks->add('login.php', 'Login');
-	$setupLinks->add('?recreate', 'Recreate');
+	if ($countUsers > 1) {
+		$tpl->assign('message', 'Setup cannot be re-run as multiple user accounts exist.');
+		$setupLinks->add('login.php', 'Login');
+	} else {
+		$tpl->assign('message', 'Admin account already exists, but you can reset it as there are no other users.');
+		$setupLinks->add('login.php', 'Login');
+		$setupLinks->add('?recreate', 'Recreate');
+	}
 }
 
 $tpl->assign('links', $setupLinks);
