@@ -33,23 +33,32 @@ div.box *:first-child {
 }
 
 div#header {
+	text-align: center;
 	background-color: #fafafa;
 	background-repeat: repeat-x;
 	vertical-align: top;
 	border-bottom: 1px solid #bbb;
 	text-transform: uppercase;
-	position: fixed;
+	top: 0;
 	z-index: 1;
-	width: 100vw;
+	font-size: 1vw;
+	display: flex;
 }
 
 div#welcomeText {
 	padding-left: 1em;
+	padding-right: 1em;
+	margin: 0;
+	text-align: right;
+	flex: 1 0 auto;
 }
 
 div#torso {
-	padding-top: 10em;
 	margin: auto;
+	max-width: 1024px;
+}
+
+div#torsoInnards {
 	display: flex;
 }
 
@@ -59,7 +68,7 @@ div.header a img {
 
 h1 {
 	margin: 0;
-	font-size: 26pt;
+	font-size: 16pt;
 }
 
 .box  {
@@ -83,15 +92,15 @@ ul.navigation, ul.navigation li ul {
 
 ul.navigation {
 	margin: 0;
-	width: 1000px;
+	padding: 0;
 	text-align: center;
 	margin: auto;
 }
 
 ul.navigation li {
 	padding: 0;
-	display: inline-block;
 	text-align: left;
+	display: inline-block;
 }
 
 ul.navigation li ul li {
@@ -143,7 +152,7 @@ ul.navigation li ul {
 
 ul.navigation li:hover ul {
 	left: auto; 
-	display: inline;
+	display: block;
 	cursor: pointer;
 	border-top: 1px solid #eee;
 	border-radius: 0 0 .3em .3em;
@@ -161,9 +170,9 @@ h2 {
 }
 
 img#headerLogo {
-	float: right;
 	text-align: center;
 	padding-right: 1em;
+	height: 3em;
 }
 
 a:focus img#headerLogo {
@@ -175,7 +184,7 @@ body.mobile img#headerLogo {
 }
 
 body.mobile ul.navigation li {
-	display: block;
+	display: inline-block;
 }
 
 body.mobile ul.navigation ul {
@@ -640,8 +649,16 @@ div.centered * {
 	border-style: dashed;
 }
 
+#sidebarStruct {
+	flex: 1 1 auto;
+	flex-grow: 1;
+	flex-shrink: 10;
+}
+
 #contentStruct {
-	width: 100%;
+	flex: 1 1 auto;
+	flex-grow: 5;
+	flex-shrink: 1;
 }
 
 #content {
@@ -649,6 +666,12 @@ div.centered * {
 
 .box {
 	border: 2px solid #3e7ac2;
+}
+
+.currentlyPlayingGame {
+	display: inline-block;
+	margin-left: 1em;
+	margin-right: 1em;
 }
 
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
@@ -667,3 +690,30 @@ div.centered * {
 .ui-slider { display: block }
 .ui-slider-handle { background-color: black } 
 .ui-datepicker-current-day { background-color: lightgreen !important }
+
+@media screen and (max-width: 1024px) {
+	body {
+	}
+
+	div#torsoInnards {
+		flex-wrap: wrap;
+	}
+
+	div#sidebarStruct {
+		order: 2;
+	}
+
+	div#footer {
+		flex-wrap: wrap;
+		order: 5;
+	}
+
+	div#torso {
+		padding-top: auto;
+	}
+
+	div#header {
+		position: inherit;
+	}
+
+}
