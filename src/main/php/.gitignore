@@ -1,3 +1,4 @@
 .htaccess
 includes/libraries/
 **/*.json
+tools/
