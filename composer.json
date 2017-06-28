@@ -11,6 +11,10 @@
         }
     ],
     "require": {
-        "jwread/lib-allure": "^1.0"
-    }
+        "jwread/lib-allure": "^1.0",
+		"smarty/smarty": "^3.1.31"
+    },
+	"config": {
+		"vendor-dir": "src/main/php/includes/libraries"
+	}
 }
