@@ -28,6 +28,7 @@ class FormSiteSettings extends Form {
 		$this->addElement($this->getElementSiteTheme($this->settings['theme']));
 		$this->addElement(new ElementInput('globalAnnouncement', 'Global Announcement', $this->settings['globalAnnouncement'], 'An announcement displayed on every page of the site'))->setMinMaxLengths(0, 256);
 		$this->addElement(new ElementInput('cookieDomain', 'Cookie Domain', &$this->settings['cookieDomain']));
+		$this->addElement(new ElementCheckbox('forceHttps', 'Force HTTPS', $this->settings['forceHttps']));
 
 		$this->addSection('Enabled site features');
 		$this->addElement(new ElementCheckbox('newsFeature', 'News feature', $this->settings['newsFeature']));
