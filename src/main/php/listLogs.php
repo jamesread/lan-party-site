@@ -2,6 +2,7 @@
 
 require_once 'includes/common.php';
 require_once 'includes/widgets/header.php';
+require_once 'includes/widgets/sidebar.php';
 
 requirePrivOrRedirect('LIST_LOGS');
 
