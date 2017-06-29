@@ -8,6 +8,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 	<meta name = "description" content = "{$siteDescription}" />
 
+	<meta name = "viewport" content = "width=device-width, initial-scale: 1.0" />
 
 	<link rel = "shortcut icon" href = "resources/images/westlanFavicon.png" type = "image/png" />
 	<link rel = "stylesheet" href = "{$theme}/stylesheets/main.css" type = "text/css" />
@@ -18,13 +19,20 @@
 	<script type = "text/javascript" src = "resources/javascript/jquery.dataTables.min.js"></script>
 	<script type = "text/javascript" src = "resources/javascript/jquery-ui-timepicker-addon.js"></script>
 	<script type = "text/javascript" src = "resources/javascript/common.js"></script>
-	<script type = "text/javascript" src = "{$theme}/javascript/promo.js"></script>
 </head>
 
-<body class = "{if $isMobileBrowser}mobile{else}notmobile{/if}" style = "background-image: url('{$promo}'); ">
+<body>
+
+<a class = "skipToContent" href = "#contentStruct">Skip To Content</a>
 
 <div id = "header">
+	<div id = "headerTorso">
 	<a href = "index.php"><img id = "headerLogo" src = "{$theme}/images/logo.png" alt = "Logo" title = "logo" style = "border:0" /></a>
+
+	<label class = "menuToggle" for = "menuToggleCheckbox">
+		<hr /><hr /><hr />
+	</label>
+	<input class = "menuToggle" type = "checkbox" id = "menuToggleCheckbox" />
 
 	<ul class = "navigation">
 		<li><a href = "home.php">Home
@@ -79,6 +87,7 @@
 		NOTIFICATION {$notification.message}
 		</div>
 	{/if}
+	</div>
 </div>
 
 {if not empty($globalAnnouncement)}
