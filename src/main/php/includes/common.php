@@ -3,7 +3,7 @@
 date_default_timezone_set('Europe/London');
 define('LPS_ROOT', dirname(dirname(__FILE__)) . '/');
 
-@include 'includes/bootstrap.php';
+@include 'bootstrap.php';
 
 $loader = require_once LPS_ROOT . 'includes/libraries/autoload.php';
 $loader->addPsr4('', LPS_ROOT . 'includes/classes/');
