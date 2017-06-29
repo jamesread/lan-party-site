@@ -1,27 +1,17 @@
 <?php
 
-function add_include_path($path) {
-	set_include_path(get_include_path() . PATH_SEPARATOR . $path);
-}
-
 date_default_timezone_set('Europe/London');
+define('LPS_ROOT', dirname(dirname(__FILE__)) . '/');
 
 @include 'includes/bootstrap.php';
 
-require_once dirname(__FILE__) . '/libraries/autoload.php';
+$loader = require_once LPS_ROOT . 'includes/libraries/autoload.php';
+$loader->addPsr4('', LPS_ROOT . 'includes/classes/');
 
 use \libAllure\IncludePath;
-
-IncludePath::add('/../');
-IncludePath::add('/classes/');
+IncludePath::add(LPS_ROOT);
 IncludePath::add_libAllure();
 
-if (!interface_exists('\JsonSerializable')) {
-	interface JsonSerializable {}
-}
-
-require_once 'includes/classes/Plugin.php';
-require_once 'includes/classes/SessionBasedNotifications.php';
 require_once 'includes/functions.php';
 
 if (getSiteSetting('forceHttps')) {
@@ -35,6 +25,7 @@ if (getSiteSetting('forceHttps')) {
 require_once 'libAllure/Template.php';
 
 $tpl = new \libAllure\Template((defined('CFG_DIR_TEMPLATE_CACHE') ? CFG_DIR_TEMPLATE_CACHE : 'lps'));
+$tpl->template_dir = getThemeDirectory() . '/templates';
 $tpl->addAutoClearVar('excludeBox');
 $tpl->registerFunction('hasPriv', '\libAllure\Session::hasPriv');
 $tpl->registerFunction('getContent', 'tplGetContent');
