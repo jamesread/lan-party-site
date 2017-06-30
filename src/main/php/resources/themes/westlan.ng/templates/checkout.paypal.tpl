@@ -9,6 +9,8 @@
 			<input type="hidden" name="business" value = "{$paypalEmail}" />
 			<input type="hidden" name="currency_code" value = "{$currency}" />
 
+			<input type="hidden" name="custom" value="{$userId}" />
+
 			<input type="hidden" name="cancel_return" value = "{$baseUrl}/checkout.php?action=paypalFail" />
 			<input type="hidden" name="return" value = "{$baseUrl}/checkout.php?action=paypalComplete" />
 			<input type="hidden" name="shopping_url" value = "{$baseUrl}/basket.php" />
