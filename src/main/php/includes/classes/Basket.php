@@ -9,6 +9,10 @@ class Basket {
 			$userId = Session::getUser()->getId();
 		}
 
+		$sql = 'DELETE bi FROM basket_items bi LEFT JOIN events e ON bi.event = e.id WHERE e.date < now()';
+		$stmt = DatabaseFactory::getInstance()->prepare($sql);
+		$stmt->execute();		
+
 		$sql = 'SELECT bi.id, e.name AS title, u.username, bi.price AS cost, u.id AS userId, u.username, e.id AS eventId FROM basket_items bi JOIN events e ON bi.event = e.id JOIN users u ON bi.user = u.id WHERE bi.basketOwner = :userId ORDER BY e.id';
 		$stmt = DatabaseFactory::getInstance()->prepare($sql);
 		$stmt->bindValue(':userId', $userId);
