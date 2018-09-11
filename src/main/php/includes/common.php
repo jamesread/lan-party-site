@@ -5,7 +5,12 @@ define('LPS_ROOT', dirname(dirname(__FILE__)) . '/');
 
 @include 'bootstrap.php';
 
-$loader = require_once LPS_ROOT . 'includes/libraries/autoload.php';
+$loader = @include_once LPS_ROOT . 'includes/libraries/autoload.php';
+
+if (!$loader) {
+	die("Could not load the autoloader! This probably means you don't have any composer libraries installed. Run a `composer update`.");
+}
+
 $loader->addPsr4('', LPS_ROOT . 'includes/classes/');
 
 use \libAllure\IncludePath;
