@@ -967,10 +967,10 @@ function addQuotes(&$i) {
     $i = '"' . $i . '"';
 }
 
-function getSingleUserSignupsWithStatuses($statuses, $user = null) {
-    if ($user == null) {
-        $user = Session::getUser()->getId();
-    }
+function getSingleUserSignupsWithStatuses($statuses, $user = null, $includePast = true) {
+	if ($user == null) {
+		$user = Session::getUser()->getId();
+	}
 
     array_walk($statuses, array(DatabaseFactory::getInstance(), 'quote'));
     array_walk($statuses, 'addQuotes');
@@ -981,11 +981,21 @@ function getSingleUserSignupsWithStatuses($statuses, $user = null) {
     $stmt->bindValue(':user', $user);
     $stmt->execute();
 
+	if ($includePast) {
+		$sql = 'SELECT s.id, e.id AS eventId, e.name, s.status FROM signups s LEFT JOIN events e ON s.event = e.id WHERE s.user = :user AND s.status IN (' . $statusString . ')';
+	} else {
+		$sql = 'SELECT s.id, e.id AS eventId, e.name, s.status FROM signups s LEFT JOIN events e ON s.event = e.id WHERE s.user = :user AND s.status IN (' . $statusString . ') AND s.date > now() ';
+	}
+
+	$stmt = DatabaseFactory::getInstance()->prepare($sql);
+	$stmt->bindValue(':user', $user);
+	$stmt->execute();
+
     return $stmt->fetchAll();
 }
 
 function checkNotificationNotGuarenteedSeats(&$notifications) {
-    foreach (getSingleUserSignupsWithStatuses(array('SIGNEDUP', 'WAITING_LIST')) as $waitingSignup) {
+    foreach (getSingleUserSignupsWithStatuses(array('SIGNEDUP', 'WAITING_LIST'), null, false) as $waitingSignup) {
         $list = str_replace('_LIST', '', $waitingSignup['status']);
 
         $notifications[] = 'You are on the <strong>' . $list . ' LIST</strong> for <a href = "viewEvent.php?id=' . $waitingSignup['eventId'] . '">' . $waitingSignup['name'] . '</a>. This means you are <strong>not guarenteed a seat</strong> until you are <strong>PAID</strong> or are <strong>CONFIRMED</strong>.';
