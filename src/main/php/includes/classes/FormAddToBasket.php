@@ -9,48 +9,52 @@ use \libAllure\ElementHidden;
 use \libAllure\ElementButton;
 
 class FormAddToBasket extends \libAllure\Form {
-	public function __construct($events) {
-		parent::__construct('addToBasket', 'Add event to Basket');
+    private $eventsSel = null;
+    public $hasEvents = false;
+    private $ticketCosts = null;
 
-		$this->eventsSel = new ElementSelect('event', 'Event');
+    public function __construct($events) {
+        parent::__construct('addToBasket', 'Add event to Basket');
 
-		$this->hasEvents = false;
+        $this->eventsSel = new ElementSelect('event', 'Event');
 
-		$this->ticketCosts = $this->getTicketCosts();
+        $this->hasEvents = false;
 
-		foreach ($events as $event) {
-			$this->hasEvents = true;
+        $this->ticketCosts = $this->getTicketCosts();
 
-			$this->eventsSel->addOption($event['name'] . ' - ' . doubleToGbp($this->ticketCosts[$event['id']]), $event['id']);
-		}
+        foreach ($events as $event) {
+            $this->hasEvents = true;
 
-		$this->addElement(new ElementHtml('desc', null, 'If you cannot see the event you want in the list, you need to sign up to it first!'));
+            $this->eventsSel->addOption($event['name'] . ' - ' . doubleToGbp($this->ticketCosts[$event['id']]), $event['id']);
+        }
 
-		$this->addElement($this->eventsSel);
-		$this->addElement(new ElementHidden('action', null, 'add'));
-		$this->addDefaultButtons('Add ticket for myself to basket');
-	}
+        $this->addElement(new ElementHtml('desc', null, 'If you cannot see the event you want in the list, you need to sign up to it first!'));
 
-	private function getTicketCosts() {
-		$sql = 'SELECT s.event, s.ticketCost FROM signups s WHERE s.user = :userId';
-		$stmt = DatabaseFactory::getInstance()->prepare($sql);
-		$stmt->bindValue(':userId', Session::getUser()->getId());
-		$stmt->execute();
+        $this->addElement($this->eventsSel);
+        $this->addElement(new ElementHidden('action', null, 'add'));
+        $this->addDefaultButtons('Add ticket for myself to basket');
+    }
 
-		$costs = array();
+    private function getTicketCosts() {
+        $sql = 'SELECT s.event, s.ticketCost FROM signups s WHERE s.user = :userId';
+        $stmt = DatabaseFactory::getInstance()->prepare($sql);
+        $stmt->bindValue(':userId', Session::getUser()->getId());
+        $stmt->execute();
 
-		foreach ($stmt->fetchAll() as $signup) {
-			$costs[$signup['event']] = $signup['ticketCost'];
-		}
+        $costs = array();
 
-		return $costs;
-	}
+        foreach ($stmt->fetchAll() as $signup) {
+            $costs[$signup['event']] = $signup['ticketCost'];
+        }
 
-	public function process() {
-		$event = Events::getById($this->getElementvalue('event'));
+        return $costs;
+    }
 
-		Basket::addEvent($event, $this->ticketCosts[$event['id']]);
-	}
+    public function process() {
+        $event = Events::getById($this->getElementvalue('event'));
+
+        Basket::addEvent($event, $this->ticketCosts[$event['id']]);
+    }
 }
 
 ?>

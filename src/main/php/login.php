@@ -4,6 +4,8 @@ require_once 'includes/common.php';
 require_once 'libAllure/Form.php';
 require_once 'libAllure/Session.php';
 
+use \libAllure\Logger;
+
 require_once 'includes/classes/FormLogin.php';
 
 $loginForm = new FormLogin();
@@ -27,7 +29,7 @@ if (Session::isLoggedIn()) {
 
 
 if (isset($_REQUEST['username'])) {
-	$loginForm->getElement('username')->setValue(filter_var($_REQUEST['username'], FILTER_SANITIZE_STRING));
+	$loginForm->getElement('username')->setValue(filter_var($_REQUEST['username'], FILTER_DEFAULT));
 }
 
 if ($loginForm->validate()) {
@@ -45,7 +47,8 @@ if ($loginForm->validate()) {
 	} catch (\libAllure\IncorrectPasswordException $e) {
 		$loginForm->setElementError('password', 'Incorrect password.');
 	} catch (Exception $e) {
-		$loginForm->setGeneralError('Failed to login because of a system problem.');
+            var_dump($e);
+		$loginForm->getElement('username')->setValidationError('Failed to login because of a system problem.');
 		Logger::messageException($e);
 	}
 }

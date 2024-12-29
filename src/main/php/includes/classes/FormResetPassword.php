@@ -11,149 +11,151 @@ use \libAllure\ElementHidden;
 Passwords can be reset in a few ways;
 
 User: Provide email (1), we email them, they enter secret (2)
-*/
+ */
 class FormResetPassword extends Form {
-	const STATE_USER_PROVIDE_EMAIL = 1;
-	const STATE_USER_PROVIDE_SECRET = 2;
+    const STATE_USER_PROVIDE_EMAIL = 1;
+    const STATE_USER_PROVIDE_SECRET = 2;
 
-	private $state;
+    private $userThatWillBeReset = null;
 
-	public function __construct($state = null) {
-		parent::__construct('forgotPasswordForm', 'Reset password');
-	
-		if ($state == null) {
-			$this->state = Sanitizer::getInstance()->filterUint('state');
-		} else {
-			$this->state = $state;
-		}
+    private $state;
 
-		$this->addElement(new ElementHidden('state', null, $this->state));
+    public function __construct($state = null) {
+        parent::__construct('forgotPasswordForm', 'Reset password');
 
-		switch ($this->state) {
-			case self::STATE_USER_PROVIDE_EMAIL: 
-				$this->constructUserProvideEmail(); 
-				break;
-			case self::STATE_USER_PROVIDE_SECRET: 
-				$this->constructUserProvideSecret(); 
-				break;
-			default: throw new InvalidArgumentException('Unknown form state: ' . $this->state);	
-		}
+        if ($state == null) {
+            $this->state = Sanitizer::getInstance()->filterUint('state');
+        } else {
+            $this->state = $state;
+        }
 
-		$this->addButtons(Form::BTN_SUBMIT);
-	}
+        $this->addElement(new ElementHidden('state', null, $this->state));
 
-	public function constructUserProvideEmail() {
-		$this->addElement(new ElementHtml('html', null, 'Please enter the email address that you used to register an account. An email will be sent to you that contains a URL to reset your password.'));
-		$this->addElement(new ElementEmail('email', 'Email'));
+        switch ($this->state) {
+        case self::STATE_USER_PROVIDE_EMAIL: 
+            $this->constructUserProvideEmail(); 
+            break;
+        case self::STATE_USER_PROVIDE_SECRET: 
+            $this->constructUserProvideSecret(); 
+            break;
+        default: throw new InvalidArgumentException('Unknown form state: ' . $this->state);	
+        }
 
-		$this->requireFields(array('email'));
-	}
+        $this->addButtons(Form::BTN_SUBMIT);
+    }
 
-	public function constructUserProvideSecret() {
-		$this->addElement(new ElementInput('secret', 'Secret code'));
-		$this->addElement(new ElementPassword('password1', 'New password'));
-		$this->addElement(new ElementPassword('password2', 'New password (confirm)'));
+    public function constructUserProvideEmail() {
+        $this->addElement(new ElementHtml('html', null, 'Please enter the email address that you used to register an account. An email will be sent to you that contains a URL to reset your password.'));
+        $this->addElement(new ElementEmail('email', 'Email'));
 
-		$this->requireFields(array('secret'));
-	}
+        $this->requireFields(array('email'));
+    }
 
-	public function process() {
-		switch ($this->state) {
-			case self::STATE_USER_PROVIDE_EMAIL: 
-				$this->processUserProvideEmail(); 
-				break;
-			case self::STATE_USER_PROVIDE_SECRET: 
-				$this->processUserProvideSecret(); 
-				break;
-			default: 
-				throw new InvalidArgumentException('Unknown form state');
-		}
+    public function constructUserProvideSecret() {
+        $this->addElement(new ElementInput('secret', 'Secret code'));
+        $this->addElement(new ElementPassword('password1', 'New password'));
+        $this->addElement(new ElementPassword('password2', 'New password (confirm)'));
 
-		throw new Exception('FormResetPassword::process() did not self terminate');
-	}
+        $this->requireFields(array('secret'));
+    }
 
-	public function validateExtended() {
-		global $db;
+    public function process() {
+        switch ($this->state) {
+        case self::STATE_USER_PROVIDE_EMAIL: 
+            $this->processUserProvideEmail(); 
+            break;
+        case self::STATE_USER_PROVIDE_SECRET: 
+            $this->processUserProvideSecret(); 
+            break;
+        default: 
+            throw new InvalidArgumentException('Unknown form state');
+        }
 
-		switch ($this->state) {
-			case self::STATE_USER_PROVIDE_EMAIL:
-				$this->validateEmailAddressRegistered();
-				break;
-			case self::STATE_USER_PROVIDE_SECRET:
-				$this->validateSecretCodeExists();
-				$this->validateNewPasswordValid();
-				break;		
-		}
-	}
+        throw new Exception('FormResetPassword::process() did not self terminate');
+    }
 
-	private function validateNewPasswordValid() {
-		if ($this->getElementValue('password1') != $this->getElementValue('password2')) {
-			$this->setElementError('password2', 'This password does not match the first.');
-		}
-	}
+    public function validateExtended() {
+        global $db;
 
-	private function validateEmailAddressRegistered() {
-		global $db;
+        switch ($this->state) {
+        case self::STATE_USER_PROVIDE_EMAIL:
+            $this->validateEmailAddressRegistered();
+            break;
+        case self::STATE_USER_PROVIDE_SECRET:
+            $this->validateSecretCodeExists();
+            $this->validateNewPasswordValid();
+            break;		
+        }
+    }
 
-		$sql = 'SELECT u.username FROM users u WHERE u.email = :email ';
-		$stmt = $db->prepare($sql);
-		$stmt->bindValue(':email', $this->getElementValue('email'));
-		$stmt->execute();
+    private function validateNewPasswordValid() {
+        if ($this->getElementValue('password1') != $this->getElementValue('password2')) {
+            $this->setElementError('password2', 'This password does not match the first.');
+        }
+    }
 
-		if ($stmt->numRows() == 0) {
-			$this->setElementError('email', 'This email address is not used by any user of the site.');
-		}
-	}
+    private function validateEmailAddressRegistered() {
+        global $db;
 
-	private function validateSecretCodeExists() {
-		global $db;
+        $sql = 'SELECT u.username FROM users u WHERE u.email = :email ';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':email', $this->getElementValue('email'));
+        $stmt->execute();
 
-		$sql = 'SELECT u.username, u.id FROM users u WHERE u.passwordResetSecret = :secret';
-		$stmt = $db->prepare($sql);
-		$stmt->bindValue(':secret', $this->getElementValue('secret'));
-		$stmt->execute();
+        if ($stmt->numRows() == 0) {
+            $this->setElementError('email', 'This email address is not used by any user of the site.');
+        }
+    }
 
-		if ($stmt->numRows() == 0) {
-			$this->setElementError('secret', 'That secret code is invalid.');
-		} else {
-			$this->userThatWillBeReset = $stmt->fetchRow();
-		}
-	}
+    private function validateSecretCodeExists() {
+        global $db;
 
-	private function processUserProvideEmail() {
-		global $db;
+        $sql = 'SELECT u.username, u.id FROM users u WHERE u.passwordResetSecret = :secret';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':secret', $this->getElementValue('secret'));
+        $stmt->execute();
 
-		$resetCode = uniqid();
+        if ($stmt->numRows() == 0) {
+            $this->setElementError('secret', 'That secret code is invalid.');
+        } else {
+            $this->userThatWillBeReset = $stmt->fetchRow();
+        }
+    }
 
-		$sql = 'UPDATE users u SET u.passwordResetSecret = :resetCode WHERE u.email = :email LIMIT 1';
-		$stmt = $db->prepare($sql);
-		$stmt->bindValue(':resetCode', $resetCode);
-		$stmt->bindValue(':email', $this->getElementValue('email'));
-		$stmt->execute();
+    private function processUserProvideEmail() {
+        global $db;
 
-		$content = "Hey,\n\nYou asked for your password to be reset. Your reset code is: {$resetCode} \n\nGo to this page to complete the reset: " . getSiteSetting('baseUrl') . "/forgotPassword.php?state=2 \n\nIf you have any problems, contact us. Do not reply to this email.\n\n";
+        $resetCode = uniqid();
 
-		sendEmail($this->getElementValue('email'), 'Password reset code', $content);
+        $sql = 'UPDATE users u SET u.passwordResetSecret = :resetCode WHERE u.email = :email LIMIT 1';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':resetCode', $resetCode);
+        $stmt->bindValue(':email', $this->getElementValue('email'));
+        $stmt->execute();
 
-		echo '<div class = "box"><h2>Password reset email has been sent.</h2><p>Check your email.</p><a href = "forgotPassword.php?state=2">I have the secret code!</a></div>';
-		require_once 'includes/widgets/footer.php';
-	}
+        $content = "Hey,\n\nYou asked for your password to be reset. Your reset code is: {$resetCode} \n\nGo to this page to complete the reset: " . getSiteSetting('baseUrl') . "/forgotPassword.php?state=2 \n\nIf you have any problems, contact us. Do not reply to this email.\n\n";
 
-	private function processUserProvideSecret() {
-		global $db;
+        sendEmail($this->getElementValue('email'), 'Password reset code', $content);
 
-		$sql = 'UPDATE users u SET u.password = :newPassword, u.passwordResetSecret = NULL WHERE u.passwordResetSecret = :secret LIMIT 1';
-		$stmt = $db->prepare($sql);
+        echo '<div class = "box"><h2>Password reset email has been sent.</h2><p>Check your email.</p><a href = "forgotPassword.php?state=2">I have the secret code!</a></div>';
+        require_once 'includes/widgets/footer.php';
+    }
 
-		$password = sha1($this->getElementValue('password1') . CFG_PASSWORD_SALT);
-		$stmt->bindValue(':newPassword', $password);
-		$stmt->bindValue(':secret', $this->getElementValue('secret'));
-		$stmt->execute();
+    private function processUserProvideSecret() {
+        global $db;
 
-		
+        $sql = 'UPDATE users u SET u.password = :newPassword, u.passwordResetSecret = NULL WHERE u.passwordResetSecret = :secret LIMIT 1';
+        $stmt = $db->prepare($sql);
 
-		redirect('login.php?username=' . $this->userThatWillBeReset['username'], 'Password reset! You can now login.');
-	}
+        $password = sha1($this->getElementValue('password1') . CFG_PASSWORD_SALT);
+        $stmt->bindValue(':newPassword', $password);
+        $stmt->bindValue(':secret', $this->getElementValue('secret'));
+        $stmt->execute();
+
+
+
+        redirect('login.php?username=' . $this->userThatWillBeReset['username'], 'Password reset! You can now login.');
+    }
 
 }
 

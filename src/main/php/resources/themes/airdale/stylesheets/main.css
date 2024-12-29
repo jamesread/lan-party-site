@@ -5,6 +5,7 @@ html, body, input, button, textarea, select, option {
 	color: #787878;
 	color: black;
 	line-height: 1.5;
+  background-color: #f0f0f0;
 }
 
 body.notmobile {
@@ -23,7 +24,6 @@ div#footer {
 	width: 30%;
 	margin: 5em auto;   
 	text-align: center;
-	background-color: white;
 	font-size: x-small; 
 } 
 
@@ -40,6 +40,7 @@ div#header {
 	border-bottom: 1px solid #bbb;
 	border-left: 1px solid #bbb;
 	border-right: 1px solid #bbb;
+  box-shadow: 1px 1px 1px #ccc;
 }
 
 div#welcomeText {
@@ -75,6 +76,7 @@ h1 {
 	-moz-border-radius: .5em;
 	-o-radius: 5em; 
 	border-radius: .5em;
+  box-shadow: 1px 1px 1px #ccc;
 }
 
 ul.navigation, ul.navigation li ul {
@@ -336,13 +338,20 @@ fieldset ul li label {
 	}
  
 button, input[type = "submit"] {
-	padding: .2em;
+	padding: .4em;
 	min-width: 6em;
 	background-color: lightgreen;
-	text-align: left; 
+	text-align: center;
 	color: black;
-	border: 1px outset black; 
 	margin-right: 1em;
+  cursor: pointer;
+  border-radius: .5em;
+  border: 0;
+  box-shadow: 1px 1px 1px #ccc;
+}
+
+button:hover, input[type = "submit"]:hover {
+  background-color: #8bdd8b;
 }
 
 button[type = "reset"], input[type = "reset"] {

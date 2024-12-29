@@ -8,6 +8,8 @@ use \libAllure\User;
 use \libAllure\ElementTextbox;
 
 class FormSendEmail extends Form {
+    private $email = null;
+
 	public function __construct($email) {
 		parent::__construct('sendEmail', 'Send Email to user');
 

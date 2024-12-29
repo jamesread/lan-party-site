@@ -10,6 +10,8 @@ use \libAllure\ElementAlphaNumeric;
 use \libAllure\ElementHtml;
 
 class FormSiteSettings extends Form {
+    private $settings = null;
+
 	public function __construct() {
 		$this->settings = $this->getSettings();
 
@@ -18,16 +20,16 @@ class FormSiteSettings extends Form {
 		$this->addSection('General');
 		$this->addElement(new ElementCheckbox('maintenanceMode', 'Maintenance Mode', $this->settings['maintenanceMode'], 'Prevesnts user logins, allowing you to quiesse the site.'));
 		$this->addElement(new ElementCheckbox('lanMode', 'LAN Mode', $this->settings['lanMode'], 'Makes this copy of the site a simplified version for the intranet at a LAN.'));
-		$this->addElement(new ElementInput('lanIp', 'LAN IP', &$this->settings['lanIp'], 'So the site knows when to enable "only at LAN" features and plugins. At LAN now?: ' . atLan()));
+		$this->addElement(new ElementInput('lanIp', 'LAN IP', $this->settings['lanIp'], 'So the site knows when to enable "only at LAN" features and plugins. At LAN now?: ' . atLan()));
 		$this->addElement(new ElementCheckbox('masterConnectionAvailable', 'Master connection available', $this->settings['masterConnectionAvailable'], 'When the site is in LAN mode, can it connect to the master site?'));
 		$this->addElement(new ElementInput('masterConnectionUrl', 'Master connection URL', $this->settings['masterConnectionUrl'], 'When the site is in LAN mode, where is the master site?'));
 		$this->addElement(new ElementInput('baseUrl', 'Base URL', $this->settings['baseUrl']));
 		$this->addElement(new ElementInput('siteTitle', 'Site title', $this->settings['siteTitle']));
-		$this->addElement(new ElementInput('siteDescription', 'Site description (for META tags)', &$this->settings['siteDescription']));
+		$this->addElement(new ElementInput('siteDescription', 'Site description (for META tags)', $this->settings['siteDescription']));
 		$this->addElement(new ElementAlphaNumeric('copyright', 'Copyright', $this->settings['copyright']));
 		$this->addElement($this->getElementSiteTheme($this->settings['theme']));
 		$this->addElement(new ElementInput('globalAnnouncement', 'Global Announcement', $this->settings['globalAnnouncement'], 'An announcement displayed on every page of the site'))->setMinMaxLengths(0, 256);
-		$this->addElement(new ElementInput('cookieDomain', 'Cookie Domain', &$this->settings['cookieDomain']));
+		$this->addElement(new ElementInput('cookieDomain', 'Cookie Domain', $this->settings['cookieDomain']));
 		$this->addElement(new ElementCheckbox('forceHttps', 'Force HTTPS', $this->settings['forceHttps']));
 
 		$this->addSection('Enabled site features');

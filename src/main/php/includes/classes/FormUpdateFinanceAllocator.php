@@ -5,6 +5,9 @@ use \libAllure\ElementSelect;
 use \libAllure\DatabaseFactory;
 
 class FormUpdateFinanceAllocator extends Form {
+    private $availableAccounts = array();
+    private $allocatedPaymentTypes = array();
+
 	public function __construct() {
 		parent::__construct('formUpdateFinanceAllocator', 'Update allocator');	
 

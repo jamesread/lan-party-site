@@ -7,9 +7,14 @@ require_once 'includes/classes/Galleries.php';
 
 $nextEvent = Events::nextEvent();
 
-$tpl->assign('nextEvent', $nextEvent);
-$tpl->assign('signupLinks', signupLinks($nextEvent['id'], $nextEvent['signups'], null));
-$tpl->assign('signups', getSignupStatistics(Events::getSignupsForEvent($nextEvent['id'])));
+if ($nextEvent === null) {
+    $tpl->assign('nextEvent', null);
+    $tpl->assign('signupLinks', null);
+} else {
+    $tpl->assign('nextEvent', $nextEvent);
+    $tpl->assign('signupLinks', signupLinks($nextEvent['id'], $nextEvent['signups'], null));
+    $tpl->assign('signups', getSignupStatistics(Events::getSignupsForEvent($nextEvent['id'])));
+}
 $tpl->display('home.tpl');
 
 require_once 'includes/widgets/footer.php';

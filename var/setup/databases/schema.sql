@@ -249,7 +249,7 @@ CREATE TABLE `groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   `css` varchar(64) DEFAULT NULL,
-  `seatingPlanCss` longtext NOT NULL,
+  `seatingPlanCss` longtext DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -569,14 +569,14 @@ CREATE TABLE `users` (
   `password` varchar(255) DEFAULT NULL,
   `group` int(11) NOT NULL DEFAULT '2',
   `lastLogin` datetime DEFAULT NULL,
-  `email` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `real_name` varchar(64) DEFAULT NULL,
   `selectsAsLists` tinyint(4) DEFAULT NULL,
   `mailingList` tinyint(4) DEFAULT '1',
   `location` varchar(64) DEFAULT NULL,
   `mobileNo` varchar(64) DEFAULT NULL,
   `emailFlagged` tinyint(4) DEFAULT '0',
-  `registered` datetime NOT NULL,
+  `registered` datetime DEFAULT NULL,
   `bannedReason` varchar(256) DEFAULT NULL,
   `passwordResetSecret` varchar(128) DEFAULT NULL,
   `dateFormat` varchar(24) NOT NULL DEFAULT 'Y-m-d',

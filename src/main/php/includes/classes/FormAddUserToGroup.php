@@ -7,53 +7,53 @@ use \libAllure\ElementSelect;
 use \libAllure\User;
 
 class FormAddUserToGroup extends Form {
-	public function __construct($userId) {
-		parent::__construct('addUserToGroup', 'Add user to group');
+    public function __construct($userId) {
+        parent::__construct('addUserToGroup', 'Add user to group');
 
-		Session::requirePriv('GROUP_EDIT');
+        Session::requirePriv('GROUP_EDIT');
 
-		$this->addElement(new ElementHidden('id', 'User', $userId));
-		$elGroup = $this->getGroupSelection();
-		$this->addElement($elGroup);
-		$this->addDefaultButtons();
-	}
+        $this->addElement(new ElementHidden('id', 'User', $userId));
+        $elGroup = $this->getGroupSelection();
+        $this->addElement($elGroup);
+        $this->addDefaultButtons('Add user to group');
+    }
 
-	private function getGroupSelection() {
-		$el = new ElementSelect('selectedGroup', 'Group');
-	
-		foreach ($this->getAvailableGroups() as $group) {
-			$el->addOption($group['title'], $group['id']);
-		}
+    private function getGroupSelection() {
+        $el = new ElementSelect('selectedGroup', 'Group');
 
-		return $el;		
-	}
+        foreach ($this->getAvailableGroups() as $group) {
+            $el->addOption($group['title'], $group['id']);
+        }
 
-	private function getAvailableGroups() {
-		global $db;
+        return $el;		
+    }
 
-		$user = User::getUserById($this->getElementValue('id'));
+    private function getAvailableGroups() {
+        global $db;
 
-		$sql = 'SELECT g.id, g.title FROM groups g WHERE id NOT IN (SELECT gm.id FROM group_memberships gm WHERE gm.user = :userId) AND g.id != :userPrimaryGroup';
-		$stmt = $db->prepare($sql);
-		$stmt->bindValue(':userId', $user->getId());
-		$stmt->bindValue(':userPrimaryGroup', $user->getData('group'));
-		$stmt->execute();
+        $user = User::getUserById($this->getElementValue('id'));
 
-		return $stmt->fetchAll();
-	}
+        $sql = 'SELECT g.id, g.title FROM groups g WHERE id NOT IN (SELECT gm.id FROM group_memberships gm WHERE gm.user = :userId) AND g.id != :userPrimaryGroup';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $user->getId());
+        $stmt->bindValue(':userPrimaryGroup', $user->getData('group'));
+        $stmt->execute();
 
-	public function process() {
-		global $db;
+        return $stmt->fetchAll();
+    }
 
-		$sql = 'INSERT INTO group_memberships (user, `group`) VALUES (:user, :group) ';
-		$stmt = $db->prepare($sql);
+    public function process() {
+        global $db;
 
-		$stmt->bindValue(':user', $this->getElementValue('id'));
-		$stmt->bindValue(':group', $this->getElementValue('selectedGroup'));
-		$stmt->execute();
+        $sql = 'INSERT INTO group_memberships (user, `group`) VALUES (:user, :group) ';
+        $stmt = $db->prepare($sql);
 
-		redirect('profile.php?id=' . $this->getElementValue('id'), 'User added to group');
-	}
+        $stmt->bindValue(':user', $this->getElementValue('id'));
+        $stmt->bindValue(':group', $this->getElementValue('selectedGroup'));
+        $stmt->execute();
+
+        redirect('profile.php?id=' . $this->getElementValue('id'), 'User added to group');
+    }
 }
 
 ?>

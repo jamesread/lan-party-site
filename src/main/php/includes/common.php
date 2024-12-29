@@ -8,19 +8,19 @@ define('LPS_ROOT', dirname(dirname(__FILE__)) . '/');
 $loader = @include_once LPS_ROOT . 'includes/libraries/autoload.php';
 
 if (!$loader) {
-	die("Could not load the autoloader! This probably means you don't have any composer libraries installed. Run a `composer update`.");
+    die("Could not load the autoloader! This probably means you don't have any composer libraries installed. Run a `composer update`.");
 }
 
 $loader->addPsr4('', LPS_ROOT . 'includes/classes/');
 
 use \libAllure\IncludePath;
 IncludePath::add(LPS_ROOT);
-IncludePath::add_libAllure();
+IncludePath::addLibAllure();
 
 require_once 'includes/functions.php';
 
 if (getSiteSetting('forceHttps')) {
-	redirectHttpToHttps();
+    redirectHttpToHttps();
 }
 
 \libAllure\Form::$fullyQualifiedElementNames = false;
@@ -34,28 +34,30 @@ $tpl->template_dir = getThemeDirectory() . '/templates';
 $tpl->addAutoClearVar('excludeBox');
 $tpl->registerFunction('hasPriv', '\libAllure\Session::hasPriv');
 $tpl->registerFunction('getContent', 'tplGetContent');
+$tpl->registerFunction('formatDt', 'formatDt');
+$tpl->registerPlugin('modifier', 'doubleToGbp', 'doubleToGbp');
 
 if ((@include 'includes/config.php') !== false) {
-	require_once 'includes/config.php';
-	$db = new \libAllure\Database(CFG_DB_DSN, CFG_DB_USER, CFG_DB_PASS);
+    require_once 'includes/config.php';
+    $db = new \libAllure\Database(CFG_DB_DSN, CFG_DB_USER, CFG_DB_PASS);
 
-	\libAllure\DatabaseFactory::registerInstance($db);
+    \libAllure\DatabaseFactory::registerInstance($db);
 
-	require_once 'libAllure/AuthBackend.php';
-	require_once 'libAllure/AuthBackendDatabase.php';
+    require_once 'libAllure/AuthBackend.php';
+    require_once 'libAllure/AuthBackendDatabase.php';
 
-	$backend = new \libAllure\AuthBackendDatabase();
-	$backend->setSalt(null, CFG_PASSWORD_SALT);
-	$backend->registerAsDefault();
+    $backend = new \libAllure\AuthBackendDatabase();
+    $backend->setSalt(null, CFG_PASSWORD_SALT);
+    $backend->registerAsDefault();
 
-	\libAllure\Session::$cookieDomain = getSiteSetting('cookieDomain');
-	\libAllure\Session::setSessionName('westlanUser');
-	\libAllure\Session::setCookieLifetimeInSeconds(604800);
-	\libAllure\Session::start();
+    \libAllure\Session::$cookieDomain = getSiteSetting('cookieDomain');
+    \libAllure\Session::setSessionName('westlanUser');
+    \libAllure\Session::setCookieLifetimeInSeconds(604800);
+    \libAllure\Session::start();
 
-	$tpl->template_dir = getThemeDirectory() . '/templates';
+    $tpl->template_dir = getThemeDirectory() . '/templates';
 } else if (!defined('INSTALLATION_IN_PROGRESS')) {
-	redirect('installer.php', 'No config file found, assuming installation.');
+    redirect('installer.php', 'No config file found, assuming installation.');
 }
 
 ?>
